@@ -431,7 +431,7 @@
                                     <span t-field="l.name"/>
                                 </t>
                                 <!-- Circumvent migrated orderline with non ccommunicatable info by composing info-->
-                                <t t-if="'Afas id:' in l.name">
+                                <t t-if="'Afas id' in l.name">
                                     <span t-field="l.product_id.name"/>
                                     <span t-esc="str(' van ')"/>
                                     <span t-field="l.start_date"/>
