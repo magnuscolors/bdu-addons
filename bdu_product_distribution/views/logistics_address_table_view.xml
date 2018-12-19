@@ -15,6 +15,9 @@
                     <field name="municipality" />
                     <field name="city" />
                     <field name="zip" />
+                    <field name="zip_2"    />
+                    <field name="nr_from"  />
+                    <field name="nr_until" />
                     <field name="title_id" />
                     <field name="distribution_area" />
                     <field name="total_addresses" />
@@ -70,6 +73,9 @@
                             <group>
                                 <field name="city" />
                                 <field name="zip" />
+                                <field name="zip_2"    />
+                                <field name="nr_from"  />
+                                <field name="nr_until" />
                                 <field name="title_id" options="{'no_create': True, 'no_create_edit':True}"/>
                                 <field name="distribution_area" />
                             </group>

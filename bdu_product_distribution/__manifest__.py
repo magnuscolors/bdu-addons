@@ -33,8 +33,8 @@
                  'reports/appendix_distribution.xml',
                  'reports/list_for_distributors.xml',
                  'views/orderline_adaptions.xml',
-                 'views/distribution.xml'
-                 'views/logistics_addres_table_view.xml',
+                 'views/distribution.xml',
+                 'views/logistics_address_table_view.xml',
                  'security/security.xml',
                  'security/ir.model.access.csv',
                 ],
