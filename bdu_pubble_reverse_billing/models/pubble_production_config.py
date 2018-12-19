@@ -67,6 +67,18 @@ class PubbleProductionConfig(models.Model):
         date       = datetime.date.fromtimestamp(local_secs)
         return date
 
+    @api.multi
+    @api.onchange('begin')
+    def onchange_begin(self):
+        if self.begin>self.end :
+            self.end = self.begin
+
+    @api.multi
+    @api.onchange('end')
+    def onchange_end(self):
+        if self.end<self.begin :
+            self.begin = self.end
+
 
     @api.multi
     def automated_do_collect(self):
@@ -336,13 +348,21 @@ class PubbleProductionConfig(models.Model):
         result={'issue_id':False, 'company_id':False, 'analytic_account_id':False, 'operating_unit_id':False}
         issues = adv_issues.search([('parent_id', '=', title),
                                     ('issue_date','=', issue_date.strftime('%Y-%m-%d') )
-                                   ])    
+                                   ])  
+
+        #if no match, then check for internet title/issue  
+        if len(issues)==0 :
+            issues = adv_issues.search([('parent_id', '=', title),
+                                        ('issue_date','=', issue_date.strftime('%Y-12-31') )
+                                      ])
+        #prep answer when single match
         if len(issues)==1:
             result['issue_id']            = issues[0]['id']
             result['company_id']          = issues[0].analytic_account_id.company_id.id
             result['analytic_account_id'] = issues[0].analytic_account_id.id
             ou_ids = self.env['account.analytic.account'].search([('id','=',result['analytic_account_id'])])
             result['operating_unit_id']   = ou_ids.operating_unit_ids.id
+
         return result
 
     @api.multi
