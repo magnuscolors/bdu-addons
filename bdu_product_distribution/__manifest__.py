@@ -8,6 +8,7 @@
 
     'description': """
         Product distribution enhancements include:\n
+        - valid distribution addresses, linked to titles and distributors\n
         - custom handling on orderline form\n
         - selected area(s) and distributor added to sale orderline\n
         - quantity ordered calculated on logistics table, divided by 1000\n
@@ -20,22 +21,22 @@
         - custom fields will show on orderline after selection of product
     """,
 
-    'author'  : "D. Prosee",
-    'website' : "http://www.bdu.nl",
+    'author'  : "Magnus - Willem Hulshof and BDU - D. Prosee",
+    'website' : "http://www.magnus.nl",
     'license' : "LGPL-3", 
     'category': 'sale',
     'version' : '10.0',
     'depends' : [
-                 'bdu_product_base',
-                 'folders',
+                 'bdu_product_base', 'sale', 
                 ],
     'data'    : [
-                 #'security/security.xml',             #no additional models
-                 #'security/ir.model.access.csv',      #no additional models
                  'reports/appendix_distribution.xml',
                  'reports/list_for_distributors.xml',
                  'views/orderline_adaptions.xml',
                  'views/distribution.xml'
+                 'views/logistics_addres_table_view.xml',
+                 'security/security.xml',
+                 'security/ir.model.access.csv',
                 ],
     'demo'    : [
                 ],

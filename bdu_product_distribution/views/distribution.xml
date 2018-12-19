@@ -5,7 +5,7 @@
   <record id="distribution_areas_tree_view" model="ir.ui.view"> 
     <field name="name">Distribution areas</field> 
     <field name="model">logistics.address.table</field> 
-    <field name="priority" eval="99999"/>
+    <field name="priority">99999</field>>
     <field name="arch" type="xml"> 
       <tree string="Distribution areas" toolbar="1"> 
           <field name="distribution_area" string="Area"/> 
