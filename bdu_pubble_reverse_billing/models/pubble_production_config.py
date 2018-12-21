@@ -352,7 +352,7 @@ class PubbleProductionConfig(models.Model):
 
         #if no match, then check for internet title/issue  
         if len(issues)==0 :
-            issues = adv_issues.search([('parent_id', '=', title),
+            issues = adv_issues.search([('code', '=', title),
                                         ('issue_date','=', issue_date.strftime('%Y-12-31') )
                                       ])
         #prep answer when single match
