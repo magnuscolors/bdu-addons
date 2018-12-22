@@ -118,6 +118,7 @@ class PubbleProductionConfig(models.Model):
 
             #lookup values and other init
             adv_issues   = self.env['sale.advertising.issue'].search([('parent_id','!=', False)])
+            websites     = self.env['sale.advertising.issue'].search([('parent_id','=', 'Online')])
             current_data = self.env['pubble.production.data'].search([])
             conversions  = self.env['pubble.product.conversion'].search([])
 
@@ -182,7 +183,7 @@ class PubbleProductionConfig(models.Model):
 
                 #get accounting info
                 if (title) :
-                    ids = self.ids_by_issue_and_date(adv_issues, title, issue_date)
+                    ids = self.ids_by_issue_and_date(adv_issues, websites, title, issue_date)
                 else :
                     ids = {}
 
@@ -343,7 +344,7 @@ class PubbleProductionConfig(models.Model):
 
 
     @api.multi
-    def ids_by_issue_and_date(self, adv_issues, title, issue_date) :
+    def ids_by_issue_and_date(self, adv_issues, websites, title, issue_date) :
         #analytic account and company via sale.advertising.issue
         result={'issue_id':False, 'company_id':False, 'analytic_account_id':False, 'operating_unit_id':False}
         issues = adv_issues.search([('parent_id', '=', title),
@@ -352,8 +353,8 @@ class PubbleProductionConfig(models.Model):
 
         #if no match, then check for internet title/issue  
         if len(issues)==0 :
-            issues = adv_issues.search([('parent_id', '=', title),
-                                        ('issue_date','=', issue_date.strftime('%Y-12-31') )
+            issues = websites.search([('code', '=', title),
+                                      ('issue_date','=', issue_date.strftime('%Y-12-31') )
                                       ])
         #prep answer when single match
         if len(issues)==1:
