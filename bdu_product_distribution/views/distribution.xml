@@ -21,7 +21,7 @@
           <field name="number_no_no"      string="No No"    invisible="1"/> 
           <field name="number_yes_no"     string="Yes No"   invisible="1"/> 
           <field name="title_id"             string="Title"/> 
-          <field name="user_id"           string="Distributor"/> 
+          <field name="partner_id"           string="Distributor"/> 
       </tree> 
     </field> 
   </record> 
@@ -46,7 +46,7 @@
           </group>   
           <group>
               <field name="distribution_area"/> 
-              <field name="user_id"/> 
+              <field name="partner_id"/> 
               <field name="total_addresses"/> 
               <field name="folder_addresses"/> 
               <field name="number_no_no"/> 
@@ -73,9 +73,9 @@
           <field name="distribution_area"/>
           <field name="zip"/>
           <field name="title_id"/>
-          <field name="user_id"/>
+          <field name="partner_id"/>
 
-          <filter string="Distributors only" domain="[('user_id','!=',False)]"/>
+          <filter string="Distributors only" domain="[('partner_id','!=',False)]"/>
    
           <group expand="0" string="Group By">
               <filter string="Region" domain="[]" context="{'group_by':'region'}"/>
@@ -84,7 +84,7 @@
               <filter string="Distribution area" domain="[]" context="{'group_by':'distribution_area'}"/>
               <filter string="Zip" domain="[]" context="{'group_by':'zip'}"/>
               <filter string="Title" domain="[]" context="{'group_by':'title_id'}"/>
-              <filter string="Distributor" domain="[]" context="{'group_by':'user_id'}"/>
+              <filter string="Distributor" domain="[]" context="{'group_by':'partner_id'}"/>
           </group>
       </search>
 
