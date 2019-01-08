@@ -24,7 +24,7 @@
                     <field name="folder_addresses" />
                     <field name="number_no_no" />
                     <field name="number_yes_no" />
-                    <field name="user_id" />
+                    <field name="partner_id" />
                 </tree>
             </field>
         </record>
@@ -88,7 +88,7 @@
                             <group>
                                 <field name="number_no_no" />
                                 <field name="number_yes_no" />
-                                <field name="user_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="partner_id" options="{'no_create': True, 'no_create_edit':True}"/>
                             </group>
                         </group>
                     </sheet>
@@ -106,13 +106,13 @@
                     <field name="city" />
                     <field name="municipality" />
                     <field name="title_id" />
-                    <field name="user_id" />
+                    <field name="partner_id" />
                    <group expand="0" string="Group By...">
                        <filter string="Zip" context="{'group_by' : 'zip'}" />
                        <filter string="City" context="{'group_by' : 'city'}" />
                        <filter string="Municipality" context="{'group_by' : 'municipality'}" />
                        <filter string="Title" context="{'group_by' : 'title_id'}" />
-                       <filter string="Logistics Service Provider" context="{'group_by': 'user_id'}"/>
+                       <filter string="Logistics Service Provider" context="{'group_by': 'partner_id'}"/>
                    </group>
                </search>
             </field>
