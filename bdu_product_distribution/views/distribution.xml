@@ -1,11 +1,11 @@
 <?xml version="1.0"?> 
 <odoo>
-
+  <data>
   <!-- List view  --> 
   <record id="distribution_areas_tree_view" model="ir.ui.view"> 
     <field name="name">Distribution areas</field> 
     <field name="model">logistics.address.table</field> 
-    <field name="priority" eval="99999"/>
+    <field name="priority">99999</field>
     <field name="arch" type="xml"> 
       <tree string="Distribution areas" toolbar="1"> 
           <field name="distribution_area" string="Area"/> 
@@ -21,7 +21,7 @@
           <field name="number_no_no"      string="No No"    invisible="1"/> 
           <field name="number_yes_no"     string="Yes No"   invisible="1"/> 
           <field name="title_id"             string="Title"/> 
-          <field name="user_id"           string="Distributor"/> 
+          <field name="partner_id"           string="Distributor"/> 
       </tree> 
     </field> 
   </record> 
@@ -46,7 +46,7 @@
           </group>   
           <group>
               <field name="distribution_area"/> 
-              <field name="user_id"/> 
+              <field name="partner_id"/> 
               <field name="total_addresses"/> 
               <field name="folder_addresses"/> 
               <field name="number_no_no"/> 
@@ -73,9 +73,9 @@
           <field name="distribution_area"/>
           <field name="zip"/>
           <field name="title_id"/>
-          <field name="user_id"/>
+          <field name="partner_id"/>
 
-          <filter string="Distributors only" domain="[('user_id','!=',False)]"/>
+          <filter string="Distributors only" domain="[('partner_id','!=',False)]"/>
    
           <group expand="0" string="Group By">
               <filter string="Region" domain="[]" context="{'group_by':'region'}"/>
@@ -84,43 +84,12 @@
               <filter string="Distribution area" domain="[]" context="{'group_by':'distribution_area'}"/>
               <filter string="Zip" domain="[]" context="{'group_by':'zip'}"/>
               <filter string="Title" domain="[]" context="{'group_by':'title_id'}"/>
-              <filter string="Distributor" domain="[]" context="{'group_by':'user_id'}"/>
+              <filter string="Distributor" domain="[]" context="{'group_by':'partner_id'}"/>
           </group>
       </search>
 
     </field>                             
   </record>
 
-
-  <!-- additional fields in standard logistics table tree  -->
-  <record model="ir.ui.view" id="folders.view_logistics_address_table_tree_inherited">
-      <field name="name">Logistics Address Table Tree</field>
-      <field name="model">logistics.address.table</field>
-      <field name="inherit_id" ref="folders.view_logistics_address_table_tree" />
-      <field name="priority" eval="40"/>
-      <field name="arch" type="xml">
-          <xpath expr="//field[@name='zip']" position="after">
-                      <field name="zip_2"    />
-                      <field name="nr_from"  />
-                      <field name="nr_until" />
-          </xpath>  
-      </field>                               
-  </record>
-
-  <!-- additional fields in standard logistics table form -->
-  <record model="ir.ui.view" id="folders.view_logistics_address_table_form_inherited">
-      <field name="name">Logistics Address Table Form</field>
-      <field name="model">logistics.address.table</field>
-      <field name="inherit_id" ref="folders.view_logistics_address_table_form" />
-      <field name="priority" eval="40"/>
-      <field name="arch" type="xml">
-          <xpath expr="//field[@name='zip']" position="after">
-                      <field name="zip_2"    />
-                      <field name="nr_from"  />
-                      <field name="nr_until" />
-          </xpath>  
-      </field>                               
-  </record>
-
-
+  </data>
 </odoo>

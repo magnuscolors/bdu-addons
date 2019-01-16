@@ -145,7 +145,7 @@ class DigitalSubscribersConfig(models.Model):
 
         for dc in digital_subscriptions :
             #skip if cancelled (temp cancel is neglected)
-            if date_cancel and date.cancel <= self.active_date :
+            if dc.date_cancel and dc.date_cancel <= self.active_date :
                 continue
             #calc reference according configuration
             s_nr = dc.order_id.partner_shipping_id.ref

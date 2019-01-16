@@ -67,6 +67,18 @@ class PubbleProductionConfig(models.Model):
         date       = datetime.date.fromtimestamp(local_secs)
         return date
 
+    @api.multi
+    @api.onchange('begin')
+    def onchange_begin(self):
+        if self.begin>self.end :
+            self.end = self.begin
+
+    @api.multi
+    @api.onchange('end')
+    def onchange_end(self):
+        if self.end<self.begin :
+            self.begin = self.end
+
 
     @api.multi
     def automated_do_collect(self):
@@ -106,6 +118,7 @@ class PubbleProductionConfig(models.Model):
 
             #lookup values and other init
             adv_issues   = self.env['sale.advertising.issue'].search([('parent_id','!=', False)])
+            websites     = self.env['sale.advertising.issue'].search([('parent_id','=', 'Online')])
             current_data = self.env['pubble.production.data'].search([])
             conversions  = self.env['pubble.product.conversion'].search([])
 
@@ -170,7 +183,7 @@ class PubbleProductionConfig(models.Model):
 
                 #get accounting info
                 if (title) :
-                    ids = self.ids_by_issue_and_date(adv_issues, title, issue_date)
+                    ids = self.ids_by_issue_and_date(adv_issues, websites, title, issue_date)
                 else :
                     ids = {}
 
@@ -331,18 +344,26 @@ class PubbleProductionConfig(models.Model):
 
 
     @api.multi
-    def ids_by_issue_and_date(self, adv_issues, title, issue_date) :
+    def ids_by_issue_and_date(self, adv_issues, websites, title, issue_date) :
         #analytic account and company via sale.advertising.issue
         result={'issue_id':False, 'company_id':False, 'analytic_account_id':False, 'operating_unit_id':False}
         issues = adv_issues.search([('parent_id', '=', title),
                                     ('issue_date','=', issue_date.strftime('%Y-%m-%d') )
-                                   ])    
+                                   ])  
+
+        #if no match, then check for internet title/issue  
+        if len(issues)==0 :
+            issues = websites.search([('code', '=', title),
+                                      ('issue_date','=', issue_date.strftime('%Y-12-31') )
+                                      ])
+        #prep answer when single match
         if len(issues)==1:
             result['issue_id']            = issues[0]['id']
             result['company_id']          = issues[0].analytic_account_id.company_id.id
             result['analytic_account_id'] = issues[0].analytic_account_id.id
             ou_ids = self.env['account.analytic.account'].search([('id','=',result['analytic_account_id'])])
             result['operating_unit_id']   = ou_ids.operating_unit_ids.id
+
         return result
 
     @api.multi

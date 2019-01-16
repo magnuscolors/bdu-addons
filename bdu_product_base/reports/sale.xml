@@ -152,9 +152,9 @@
             </div>
 
             <p t-field="doc.note" style="padding-left:20px;"/>
-            <p t-if="doc.payment_term_id.note">
-                <span t-field="doc.payment_term_id.note" style="padding-left:20px;"/>
-            </p>
+            <p/>
+            
+
             <p id="fiscal_position_remark" t-if="doc.fiscal_position_id and doc.fiscal_position_id.note" style="padding-left:20px;">
                 <strong>Fiscal Position Remark:</strong>
                 <span t-field="doc.fiscal_position_id.note"/>
@@ -162,6 +162,7 @@
             <div class="oe_structure"/>
 
             <!-- appendix identification(s) on the quotation/order page -->
+            <p/>
             <span vertical-align="bottom"  style="padding-left:20px;" class="fluid">Bijlagen : </span>
             <t id="appendix_notification" t-foreach="doc.order_line" t-as="line">
             </t>
