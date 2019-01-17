@@ -30,7 +30,7 @@ class sale_order_line_create_multi_lines(models.TransientModel):
 
 
     @api.multi
-    def create_multi_from_order_lines_sql(self, orderlines=[]):
+    def create_multi_from_order_lines(self, orderlines=[]):
         sol_obj = self.env['sale.order.line']
         olines = sol_obj.browse(orderlines)
         for ol in olines:
@@ -45,7 +45,41 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                         'The number of Lines is different from the number of Issues in the multi line.'))
 
         query =("""
-        INSERT INTO sale_order_line (
+        INSERT INTO sale_order_line 
+                       (product_uom,
+                        product_uom_qty,
+                        currency_id,
+                        price_reduce_taxexcl,
+                        price_tax,
+                        qty_to_invoice,
+                        customer_lead,
+                        company_id,
+                        state,
+                        order_partner_id,
+                        qty_invoiced,
+                        sequence,
+                        discount,
+                        price_reduce,
+                        qty_delivered,
+                        invoice_status,
+                        salesman_id,
+                        is_delivery,
+                        ad_class,
+                        product_template_id,
+                        deadline_offset, 
+                        layout_remark,
+                        discount_reason_id,
+                        color_surcharge,
+                        advertising,
+                        nett_nett,
+                        to_date,
+                        computed_discount,
+                        from_date,
+                        medium,
+                        partner_acc_mgr,
+                        issue_date,
+                        order_advertiser_id,
+                        order_agency_id,
                         title,
                         adv_issue,
                         product_id,
@@ -64,47 +98,10 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                         create_uid,
                         create_date,
                         write_uid,
-                        write_date
+                        write_date,
                         price_subtotal,
                         price_total,
-                        line_pubble_allow,            
-                        product_uom,
-                        product_uom_qty,
-                        currency_id,
-                        price_reduce_taxexcl,
-                        price_tax,
-                        qty_to_invoice,
-                        customer_lead,
-                        company_id,
-                        state,
-                        order_partner_id,
-                        qty_invoiced,
-                        sequence,
-                        discount,
-                        price_reduce,
-                        qty_delivered,
-                        price_reduce_taxincl,
-                        invoice_status,
-                        salesman_id,
-                        is_delivery,
-                        ad_class,
-                        product_template_id,
-                        deadline_offset,
-                        partner_id, 
-                        layout_remark,
-                        discount_reason_id,
-                        color_surcharge,
-                        advertising,
-                        nett_nett,
-                        to_date,
-                        computed_discount,
-                        from_date,
-                        medium,
-                        partner_acc_mgr,
-                        issue_date,
-                        order_advertiser_id,
-                        order_agency_id,     
-                )
+                        line_pubble_allow )
                 SELECT
                 sol.product_uom AS product_uom,
                 sol.product_uom_qty AS product_uom_qty,
@@ -121,14 +118,12 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 sol.discount AS discount,
                 sol.price_reduce AS price_reduce,
                 sol.qty_delivered AS qty_delivered,
-                sol.price_reduce_taxincl AS price_reduce_taxincl,
                 sol.invoice_status AS invoice_status,
                 sol.salesman_id AS salesman_id,
                 sol.is_delivery AS is_delivery,
                 sol.ad_class AS ad_class,
                 sol.product_template_id AS product_template_id,
-                sol.deadline_offset AS deadline_offset,
-                sol.partner_id AS partner_id, 
+                sol.deadline_offset AS deadline_offset, 
                 sol.layout_remark AS layout_remark,
                 sol.discount_reason_id AS discount_reason_id,
                 sol.color_surcharge AS color_surcharge,
@@ -139,50 +134,44 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 sol.from_date AS from_date,
                 sol.medium AS medium,
                 sol.partner_acc_mgr AS partner_acc_mgr,
-                sol.issue_date AS issue_date,
+                issue.issue_date AS issue_date,
                 sol.order_advertiser_id AS order_advertiser_id,
                 sol.order_agency_id AS order_agency_id,
                 title.id AS title,
                 issue.id AS adv_issue, 
                 solip.product_id AS product_id, 
                 so.name AS name,
-                solip.price_unit AS price_unit, 
-                (sol.color_surcharge_amount * 
-                                solip.price / 
-                                sol.comb_list_price) / 
-                                (CASE WHEN sol.color_surcharge = true
-                                THEN sol.product_uom_qty 
-                                ELSE 0.0 END)  
-                                AS color_surcharge_amount, 
+                solip.price_unit AS price_unit,  
                 (solip.price_unit + 
-                                (sol.color_surcharge_amount * 
-                                solip.price / 
-                                sol.comb_list_price) / 
-                                (CASE WHEN sol.color_surcharge = true
-                                THEN sol.product_uom_qty 
-                                ELSE 0.0 END)) * 
+                                CASE 
+                                WHEN sol.color_surcharge = true
+                                THEN sol.color_surcharge_amount * 
+                                    solip.price_unit / 
+                                    sol.comb_list_price  
+                                ELSE 0.0 
+                                END) * 
                                 sol.product_uom_qty * 
                                 (1 - sol.computed_discount / 100.0) 
                                 AS subtotal_before_agency_disc, 
-                (sol.color_surcharge_amount * 
-                                solip.price / 
-                                sol.comb_list_price) / 
-                                (CASE WHEN sol.color_surcharge = true
-                                THEN sol.product_uom_qty 
-                                ELSE 0.0 END)  
+                CASE 
+                                WHEN sol.color_surcharge = true
+                                THEN sol.color_surcharge_amount * 
+                                    solip.price_unit / 
+                                    sol.comb_list_price 
+                                ELSE 0.0 
+                                END 
                                 AS color_surcharge_amount, 
                 (solip.price_unit + 
-                                (sol.color_surcharge_amount * 
-                                solip.price / 
-                                sol.comb_list_price) / 
-                                (CASE WHEN sol.color_surcharge = true
-                                THEN sol.product_uom_qty 
-                                ELSE 0.0 END)) * 
-                                sol.product_uom_qty * 
-                                (1 - sol.computed_discount / 100.0)/
-                                sol.product_uom_qty 
+                                CASE 
+                                WHEN sol.color_surcharge = true
+                                THEN sol.color_surcharge_amount * 
+                                    solip.price_unit /
+                                    sol.comb_list_price 
+                                ELSE 0.0 
+                                END) *
+                                (1 - sol.computed_discount / 100.0)
                                 AS actual_unit_price,
-                so.id AS order_id, 
+                sol.order_id AS order_id, 
                 0.0 AS comb_list_price, 
                 1 AS multi_line_number, 
                 'false' AS multi_line, 
@@ -210,49 +199,49 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 {0} AS create_uid,
                 {1} AS create_date,
                 {0} AS write_uid,
-                {1} AS write_date
+                {1} AS write_date,
                 (solip.price_unit + 
-                             (sol.color_surcharge_amount * 
-                             solip.price / 
-                             sol.comb_list_price) / 
-                             (CASE WHEN sol.color_surcharge = true
-                             THEN sol.product_uom_qty 
-                             ELSE 0.0 END)) * 
+                             CASE 
+                             WHEN sol.color_surcharge = true
+                             THEN sol.color_surcharge_amount * 
+                                 solip.price_unit / 
+                                 sol.comb_list_price
+                             ELSE 0.0 
+                             END) * 
                              sol.product_uom_qty * 
                              (1 - sol.computed_discount / 100.0) *
-                             (1 - sol.discount / 100) AS price_subtotal,
+                             (1 - sol.discount / 100) 
+                             AS price_subtotal,
                 (solip.price_unit + 
-                             (sol.color_surcharge_amount * 
-                             solip.price / 
-                             sol.comb_list_price) / 
-                             (CASE WHEN sol.color_surcharge = true
-                             THEN sol.product_uom_qty 
-                             ELSE 0.0 END)) * 
+                             CASE 
+                             WHEN sol.color_surcharge = true
+                             THEN sol.color_surcharge_amount * 
+                                 solip.price_unit / 
+                                 sol.comb_list_price 
+                             ELSE 0.0 
+                             END) * 
                              sol.product_uom_qty * 
                              (1 - sol.computed_discount / 100.0) *
-                             (1 - sol.discount / 100) AS price_total,
-                'false' AS line_pubble_allow,
-                FROM 
-                sale_order_line_issues_products solip
-                JOIN 
-                sale_order_line sol
+                             (1 - sol.discount / 100) 
+                             AS price_total,
+                'false' AS line_pubble_allow
+                FROM sale_order_line_issues_products solip
+                JOIN sale_order_line sol
                 ON (sol.id = solip.order_line_id)
-                LEFT JOIN
-                sale_advertising_issue issue
+                LEFT JOIN sale_advertising_issue issue
                 ON (issue.id = solip.adv_issue_id)
-                LEFT JOIN
-                sale_advertising_issue title
+                LEFT JOIN sale_advertising_issue title
                 ON (title.id = issue.parent_id)
                 LEFT JOIN sale_order so
                 ON (so.id = sol.order_id)
                 WHERE
-                sol.id IN ({2})
+                sol.id {2} '{3}'
                 RETURNING id
-                ;
-                )""".format(
+                ;""".format(
         self._uid,
         "'%s'" % str(fields.Datetime.to_string(fields.datetime.now())),
-        orderlines
+        'IN' if len(orderlines) > 1 else '=',
+        tuple(orderlines) if len(orderlines) > 1 else orderlines[0]
         ))
         self.env.cr.execute(query )
         lines = [r[0] for r in self.env.cr.fetchall()]
@@ -264,9 +253,10 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 JOIN sale_order_line_issues_products solip
                 ON (sol.id = solip.order_line_id)
                 WHERE
-                sol.id IN ({0})
+                sol.id {0} '{1}')
                 ;""".format(
-        orderlines
+        'IN' if len(orderlines) > 1 else '=',
+        tuple(orderlines) if len(orderlines) > 1 else orderlines[0]
         ))
         ## m2m:tax_ids and analytic_tag_ids still to update
         ## o2m: nothing
