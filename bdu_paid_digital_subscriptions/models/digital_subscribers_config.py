@@ -26,7 +26,14 @@ class DigitalSubscribersConfig(models.Model):
     latest_run     = fields.Char(string='Latest run',     help="Date of latest run of Announcement connector")
     latest_status  = fields.Char(string='Latest status',  help="Log of latest run")
     
-    active_date	   = fields.Date(string='Active on',    help="Date for which subscribers should be active in format yyyy-mm-dd")
+    active_date	   = fields.Date(string='Active on',      help="Date for which subscribers should be active in format yyyy-mm-dd")
+    
+    api_server     = fields.Char(string='API host')
+    api_method     = fields.Char(string='Method',         help="Method starting with slash, e.g. /api/v1, or empty")
+    api_user       = fields.Char(string='API user')
+    api_password   = fields.Char(string='API password')
+    api_active     = fields.Boolean(string='Realtime updates', help="Check to activate realtime updates. Otherwise only FTP updates are active.")
+    api_last_msg   = fields.Char(string='Latest answer',  help="Result of latest API call")
     
     #show only first record to configure, no options to create an additional one
     @api.multi
@@ -115,7 +122,7 @@ class DigitalSubscribersConfig(models.Model):
         #calc begin and end date
         active_date   = datetime.datetime.strptime(config.active_date,DEFAULT_SERVER_DATE_FORMAT).date()
 
-        #eligeble titles
+        #eligible titles
         titles = self.env['sale.advertising.issue'].search([('parent_id','=',False),('digital_paywall','=',True)])
         if len(titles)==0 :
             self.log_exception(msg, "No titles with a paywall. Program terminated.")
