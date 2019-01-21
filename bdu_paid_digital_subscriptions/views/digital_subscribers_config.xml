@@ -12,28 +12,39 @@
         </header>
 
           <br/>
-          <group name="connector_config" string="Connector configuration">
-            <field name="server"/> 
-            <field name="directory"/>  
-            <field name="user"/> 
-            <field name="password"/>  
-            <field name="offset_days"/>  
-            <field name="subscriber_ref"/>  
-            <field name="tempdir"/> 
+          <group>
+              <group name="connector_config" string="FTP configuration">
+                <field name="server"/> 
+                <field name="directory"/>  
+                <field name="user"/> 
+                <field name="password"/>  
+                <field name="offset_days"/>  
+                <field name="subscriber_ref"/>  
+                <field name="tempdir"/> 
+              </group>
+
+              <group name="api_connector_config" string="API configuration">
+                <field name="api_server"/> 
+                <field name="api_method"/>  
+                <field name="api_user"/> 
+                <field name="api_password"/> 
+                <field name="api_active"/> 
+                <field name="api_last_msg"/> 
+              </group>
           </group>
           <button name="save_config" type="object" 
             string="Save" class="oe_highlight" /> 
           <br/>
           <br/>
 
-          <group name="production_status" string="Production status" col="2">
+          <group name="production_status" string="FTP production status" col="2">
               <field name="latest_run"        readonly="1" widget="html"/> 
               <field name="latest_status"     readonly="1" widget="html"/> 
           </group>
           <br/>
           <br/>
 
-          <group name="manual_send" string="Manual send" >
+          <group name="manual_send" string="Manual FTP" >
             <div colspan="2">
               <p>Enter the date for which subscriptions should be active and press "Send" to send subscription update to website.</p>
             </div>
@@ -43,10 +54,9 @@
             <group>
             </group>
           </group>
-          <button string="Send" name="do_send" type="object" class="oe_highlight"/>
+          <button string="Send by FTP" name="do_send" type="object" class="oe_highlight"/>
           <br/>
           <br/>
-
 
           <group name="documentation" string="Summary" col="1">
               <p>This connector collects active subscriptions for either the given date (manual send) or system date + offset in days (automated run).</p>
@@ -55,6 +65,8 @@
               <p>Shipping can be done manually using the Send-button above, or automatically via scheduled actions calling the automated_run method of the digital.subscribers.config object.</p>  
               <p>The websites are currently hosted by Yourhosting and supported by Dutch Open Projects (DOP).</p>
               <p/>
+              <p>The API configuration supports realtime updates of subscription orders and can be triggered by an order update, providing it is a confirmed sale. An inactive period will render a count of 0.  
+              </p>
               <a href="https://yourhosting.nl" target="_blank"> More about Yourhosting</a>
               <a href="https://dop.net" target="_blank"> More about DOP</a>
           </group>
