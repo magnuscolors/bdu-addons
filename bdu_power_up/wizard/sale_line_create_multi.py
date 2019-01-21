@@ -49,7 +49,9 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                        (product_uom,
                         product_uom_qty,
                         currency_id,
+                        price_reduce,
                         price_reduce_taxexcl,
+                        price_reduce_taxinc,
                         price_tax,
                         qty_to_invoice,
                         customer_lead,
@@ -59,7 +61,6 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                         qty_invoiced,
                         sequence,
                         discount,
-                        price_reduce,
                         qty_delivered,
                         invoice_status,
                         salesman_id,
@@ -85,9 +86,8 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                         product_id,
                         name,
                         price_unit,
-                        color_surcharge_amount,
                         subtotal_before_agency_disc,
-                        actual_unit_price,
+                        color_surcharge_amount,
                         order_id,
                         comb_list_price, 
                         multi_line_number, 
@@ -106,8 +106,18 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 sol.product_uom AS product_uom,
                 sol.product_uom_qty AS product_uom_qty,
                 sol.currency_id AS currency_id,
-                sol.price_reduce_taxexcl AS price_reduce_taxexcl,
-                sol.price_tax AS price_tax,
+                sol.subtotal_before_agency_disc * solip.price_unit / 
+                         sol.comb_list_price / sol.product_uom_qty
+                AS price_reduce,
+                sol.price_subtotal * solip.price_unit / 
+                         sol.comb_list_price / sol.product_uom_qty
+                AS price_reduce_taxexcl,
+                sol.price_total * solip.price_unit / 
+                         sol.comb_list_price / sol.product_uom_qty
+                AS price_reduce_taxinc,
+                sol.price_tax * solip.price_unit / 
+                         sol.comb_list_price
+                AS price_tax,
                 sol.qty_to_invoice AS qty_to_invoice,
                 sol.customer_lead AS customer_lead,
                 sol.company_id AS company_id,
@@ -116,7 +126,6 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 sol.qty_invoiced AS qty_invoiced,
                 sol.sequence AS sequence,
                 sol.discount AS discount,
-                sol.price_reduce AS price_reduce,
                 sol.qty_delivered AS qty_delivered,
                 sol.invoice_status AS invoice_status,
                 sol.salesman_id AS salesman_id,
@@ -142,91 +151,48 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 solip.product_id AS product_id, 
                 so.name AS name,
                 solip.price_unit AS price_unit,  
-                (solip.price_unit + 
-                                CASE 
-                                WHEN sol.color_surcharge = true
-                                THEN sol.color_surcharge_amount * 
-                                    solip.price_unit / 
-                                    sol.comb_list_price  
-                                ELSE 0.0 
-                                END) * 
-                                sol.product_uom_qty * 
-                                (1 - sol.computed_discount / 100.0) 
-                                AS subtotal_before_agency_disc, 
-                CASE 
-                                WHEN sol.color_surcharge = true
-                                THEN sol.color_surcharge_amount * 
-                                    solip.price_unit / 
-                                    sol.comb_list_price 
-                                ELSE 0.0 
-                                END 
-                                AS color_surcharge_amount, 
-                (solip.price_unit + 
-                                CASE 
-                                WHEN sol.color_surcharge = true
-                                THEN sol.color_surcharge_amount * 
-                                    solip.price_unit /
-                                    sol.comb_list_price 
-                                ELSE 0.0 
-                                END) *
-                                (1 - sol.computed_discount / 100.0)
-                                AS actual_unit_price,
+                sol.subtotal_before_agency_disc * solip.price_unit / 
+                         sol.comb_list_price
+                AS subtotal_before_agency_disc, 
+                sol.color_surcharge_amount * solip.price_unit / 
+                         sol.comb_list_price
+                AS color_surcharge_amount, 
                 sol.order_id AS order_id, 
                 0.0 AS comb_list_price, 
                 1 AS multi_line_number, 
                 'false' AS multi_line, 
                 CASE
-                 WHEN solip.ad_number is not NULL
-                    THEN solip.ad_number
-                        WHEN sol.ad_number is not NULL
-                            THEN sol.ad_number
-                 ELSE NULL
+                    WHEN solip.ad_number is not NULL THEN solip.ad_number
+                    WHEN sol.ad_number is not NULL THEN sol.ad_number
+                    ELSE NULL
                 END AS ad_number,
                 CASE
-                 WHEN solip.page_reference is not NULL
-                    THEN solip.page_reference
-                        WHEN sol.page_reference is not NULL
-                            THEN sol.page_reference
-                 ELSE NULL
-                END AS page_reference,
+                    WHEN solip.page_reference is not NULL
+                    THEN solip.page_reference  
+                    WHEN sol.page_reference is not NULL
+                    THEN sol.page_reference
+                    ELSE NULL
+                END 
+                AS page_reference,
                 CASE
-                 WHEN solip.url_to_material is not NULL
+                    WHEN solip.url_to_material is not NULL
                     THEN solip.url_to_material
-                        WHEN sol.url_to_material is not NULL
-                            THEN sol.url_to_material
-                 ELSE NULL
-                END AS url_to_material,
+                    WHEN sol.url_to_material is not NULL
+                    THEN sol.url_to_material
+                    ELSE NULL
+                END 
+                AS url_to_material,
                 {0} AS create_uid,
                 {1} AS create_date,
                 {0} AS write_uid,
                 {1} AS write_date,
-                (solip.price_unit + 
-                             CASE 
-                             WHEN sol.color_surcharge = true
-                             THEN sol.color_surcharge_amount * 
-                                 solip.price_unit / 
-                                 sol.comb_list_price
-                             ELSE 0.0 
-                             END) * 
-                             sol.product_uom_qty * 
-                             (1 - sol.computed_discount / 100.0) *
-                             (1 - sol.discount / 100) 
-                             AS price_subtotal,
-                (solip.price_unit + 
-                             CASE 
-                             WHEN sol.color_surcharge = true
-                             THEN sol.color_surcharge_amount * 
-                                 solip.price_unit / 
-                                 sol.comb_list_price 
-                             ELSE 0.0 
-                             END) * 
-                             sol.product_uom_qty * 
-                             (1 - sol.computed_discount / 100.0) *
-                             (1 - sol.discount / 100) 
-                             AS price_total,
+                sol.price_subtotal * solip.price_unit / sol.comb_list_price
+                AS price_subtotal,
+                sol.price_total * solip.price_unit / sol.comb_list_price
+                AS price_total,
                 'false' AS line_pubble_allow
-                FROM sale_order_line_issues_products solip
-                JOIN sale_order_line sol
+                FROM sale_order_line sol
+                LEFT JOIN sale_order_line_issues_products solip
                 ON (sol.id = solip.order_line_id)
                 LEFT JOIN sale_advertising_issue issue
                 ON (issue.id = solip.adv_issue_id)
