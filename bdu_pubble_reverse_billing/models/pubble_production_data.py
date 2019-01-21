@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import datetime, pdb
+import datetime
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
@@ -82,8 +82,8 @@ class PubbleProductionData(models.Model):
 
     @api.multi
     def push_to_sow(self) :
-        pdb.set_trace()
-        selection=self.env['pubble.production.data'].browse(self.env.context.get('active_ids'))
+        checked=self.env.context.get('active_ids')
+        selection=self.env['pubble.production.data'].browse(checked)
         already_processed     = 0
         not_accepted          = 0
         not_operating_unit_id = 0
@@ -109,7 +109,7 @@ class PubbleProductionData(models.Model):
                 not_issue_id += 1
             if not line.product_id.categ_id :
                 not_product_categ += 1
-            if not line.product_id.property_account_expense_id :
+            if not line.product_id.property_account_expense_id.id :
                 not_product_expense_account += 1
         
         if (already_processed + not_accepted + not_operating_unit_id + not_freelancer + not_product_id + not_issue_id + not_product_categ + not_product_expense_account) > 0 :
@@ -133,20 +133,20 @@ class PubbleProductionData(models.Model):
             raise ValidationError(message)
             return False
         
-        #al ok, then we process per OU (can be different company, depending on user's authorizations)
-        operating_units=selection.read_group([('operating_unit_id','!=',False)],{'operating_unit_id'},{'operating_unit_id'})
+        #all ok, then we process per OU (can be different company, depending on user's authorizations)
+        operating_units=selection.mapped('operating_unit_id')
         for operating_unit in operating_units :
             
-            ou_id = operating_unit['operating_unit_id'][0]
+            ou_id = operating_unit.id
             ou    = self.env['operating.unit'].browse(ou_id)
             c_id  = ou.company_id.id
-            ou_selection = selection.search([('operating_unit_id','=', ou_id)])
-            
+            ou_selection = selection.filtered(lambda r: r.operating_unit_id.id == ou_id)
+
             #create batch            
             batch={}
             batch['name']       = "Freelancers_redactie_"+ou.name
-            batch['name']      += "_"+str( (datetime.datetime.today()-timedelta(weeks=1)).isocalendar()[0])
-            batch['name']      += "_"+str( (datetime.datetime.today()-timedelta(weeks=1)).isocalendar()[1])
+            batch['name']      += "_"+str( (datetime.datetime.today()-datetime.timedelta(weeks=1)).isocalendar()[0])
+            batch['name']      += "_"+str( (datetime.datetime.today()-datetime.timedelta(weeks=1)).isocalendar()[1])
             batch['date_batch'] = datetime.datetime.today().strftime("%Y-%m-%d")
             batch['company_id'] = c_id
             batch['comment']    = "Pushed from Pubble admittance"
