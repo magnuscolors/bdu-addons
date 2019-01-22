@@ -13,8 +13,8 @@
         Collected info will be presented together with commissioning, publication and sibling work to facilitate easy auditing by content manager.\n
         Several filters and grouping options added as well as a pivot view to check against budgets.\n
         Accepted work, indicated by a checkbox, will not accept additional updates. Unchecking makes updating available again.\n
-        Accepted work may be selected and push to Finance as a SOW batch (action from the action menu).After pushing to SOW batch one cannot uncheck anymore.\n
-        Separate security groups support editors and application managers without the need for access to reverse_billing.\n
+        Accepted work may be selected and pushed to Finance as a SOW batch (action from the action menu). After pushing to SOW batch one cannot uncheck anymore.\n
+        Separate security groups support editors and application managers without the need for access to the reverse_billing base module.\n
     """,
 
     'author'  : "D. Prosee",

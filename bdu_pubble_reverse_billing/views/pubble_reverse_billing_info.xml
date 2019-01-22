@@ -60,32 +60,32 @@
 
         <group>
           <group>
-            <field name="count"/>  
-            <field name="product_id"/> 
-          </group>
-          <group>
             <field name="pubble_count" widget="char"/>  
             <field name="pubble_product"/> 
+          </group>
+          <group>
+            <field name="count"/>  
+            <field name="product_id"/> 
           </group>
         </group>
 
         <group>
           <group>
             <field name="remark"/> 
-            <field name="commissioned_by_xxl"/> 
+            <field name="commissioned_by_xxl" widget="html"/> 
           </group>
           <group>
-            <field name="name"/> 
-            <field name="url" widget="html"/> 
+            <field name="related_costs" widget="html"/>
           </group>
         </group>
 
         <group>
+          <group>
+            <field name="name"/> 
+            <field name="url" widget="url"/> 
+          </group>
           <group> 
             <field name="publications" widget="html"/>
-          </group>
-          <group>
-            <field name="related_costs" widget="html"/>
           </group>
         </group> 
 
