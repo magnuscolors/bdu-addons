@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="wave2.class" id="wave2_class_te_koop_aangeboden">
+        <field name="class_id">3</field>
+        <field name="name">Te koop aangeboden</field>
+    </record>
+    <record model="wave2.class" id="wave2_class_bekendmaking">
+        <field name="class_id">4</field>
+        <field name="name">Bekendmaking</field>
+    </record>
+    <record model="wave2.class" id="wave2_class_dieren">
+        <field name="class_id">5</field>
+        <field name="name">Dieren</field>
+    </record>
+    <record model="wave2.class" id="wave2_class_personeel_gevraagd">
+        <field name="class_id">6</field>
+        <field name="name">Personeel gevraagd</field>
+    </record>
+    <record model="wave2.class" id="wave2_class_biedt_zich aan">
+        <field name="class_id">7</field>
+        <field name="name">Biedt zich aan</field>
+    </record>
+    <record model="wave2.class" id="wave2_class_autos">
+        <field name="class_id">9</field>
+        <field name="name">Auto's</field>
+    </record>
+    <record model="wave2.class" id="wave2_class_lessen">
+        <field name="class_id">11</field>
+        <field name="name">Lessen</field>
+    </record>
+    <record model="wave2.class" id="wave2_class_te_koop_gevraagd">
+        <field name="class_id">12</field>
+        <field name="name">Te koop gevraagd</field>
+    </record>
+    <record model="wave2.class" id="wave2_class_te_huur_gevraagd">
+        <field name="class_id">13</field>
+        <field name="name">Te huur gevraagd</field>
+    </record>
+    <record model="wave2.class" id="wave2_class_te_huur_aangeboden">
+        <field name="class_id">14</field>
+        <field name="name">Te huur aangeboden</field>
+    </record>
+    <record model="wave2.class" id="wave2_class_land_en_tuinbouw">
+        <field name="class_id">18</field>
+        <field name="name">Land- en tuinbouw</field>
+    </record>
+    <record model="wave2.class" id="wave2_class_kennismaking">
+        <field name="class_id">19</field>
+        <field name="name">Kennismaking</field>
+    </record>
+    <record model="wave2.class" id="wave2_class_evenementen">
+        <field name="class_id">69</field>
+        <field name="name">Evenementen</field>
+    </record>
+    <record model="wave2.class" id="wave2_class_wonen">
+        <field name="class_id">1037</field>
+        <field name="name">Wonen</field>
+    </record>
+</odoo>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?> 
+<odoo>
+
+  <!-- List view  --> 
+  <record id="view_tree_wave2_regions" model="ir.ui.view"> 
+    <field name="name">Wave2 regions</field> 
+    <field name="model">wave2.region</field> 
+    <field name="arch" type="xml"> 
+      <tree string="Wave2 regions" editable="bottom"> 
+          <field name="wave2_id" /> 
+          <field name="name"/>
+          <field name="remark"/>
+      </tree> 
+    </field> 
+  </record> 
+
+  <!-- No Form view because of editable tree view -->
+
+  <!-- No Search filter -->
+ 
+  <!-- Action  --> 
+  <act_window id="wave2_edit_regions" 
+              name="Wave2 regions" 
+              res_model="wave2.region" 
+              view_mode="tree" 
+  /> 
+  
+  <!-- Menu item --> 
+  <menuitem id="wave2_regions_menuitem" 
+            name="Regions" 
+            action="wave2_edit_regions"
+            sequence="236"
+            parent="wave2_menu" 
+  /> 
+
+
+</odoo>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?> 
+<odoo>
+ 
+
+  <!-- Wave2  menu--> 
+  <menuitem id="wave2_menu" 
+    name="Wave2 interface" 
+    sequence="230"
+    parent="sales_team.menu_sale_config" 
+     /> 
+
+</odoo>
