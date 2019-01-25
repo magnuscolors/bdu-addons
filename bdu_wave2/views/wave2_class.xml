@@ -1,0 +1,37 @@
+<?xml version="1.0"?> 
+<odoo>
+
+  <!-- List view  --> 
+  <record id="view_tree_wave2_classes" model="ir.ui.view"> 
+    <field name="name">Wave2 classified classes</field> 
+    <field name="model">wave2.class</field> 
+    <field name="arch" type="xml"> 
+      <tree string="Wave2 classified classes" editable="bottom"> 
+          <field name="class_id" /> 
+          <field name="name"/>
+          <field name="remark"/>
+      </tree> 
+    </field> 
+  </record> 
+
+  <!-- No Form view because of editable tree view -->
+
+  <!-- No Search filter -->
+ 
+  <!-- Action  --> 
+  <act_window id="wave2_edit_classes" 
+              name="Wave2 classified classes" 
+              res_model="wave2.class" 
+              view_mode="tree" 
+  /> 
+  
+  <!-- Menu item --> 
+  <menuitem id="wave2_class_menuitem" 
+            name="Classified classes" 
+            action="wave2_edit_classes"
+            sequence="239"
+            parent="wave2_menu" 
+  /> 
+
+
+</odoo>

@@ -23,7 +23,8 @@
                  'sale',
                  'product',
                  'sale_advertising_order',
-                 'bdu_account'
+                 'bdu_account',
+                 'bdu_sale_advertising_order',  #boolean magazine is needed for reports
                 ],
     'data'    : [
                  'views/sale.xml',
