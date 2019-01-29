@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-wave2_connector,wave2_connector,model_wave2_config,wave2_connector,1,1,1,1
+access_wave2_connector,access_wave2_connector,model_wave2_config,wave2_connector,1,1,1,1
