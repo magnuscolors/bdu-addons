@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Wave2 order interface",
+    'name': "BDU Wave2",
 
     'summary': """
         Collect orders from Wave2""",
@@ -38,16 +38,17 @@
 
     # always loaded
     'data': [
-        #'security/ir.model.access.csv',
-        'views/wave2_menu.xml',
-        'views/wave2_class.xml',
-        'views/wave2_config.xml',
-        'views/wave2_order.xml',
-        'views/wave2_alternative_dates.xml',
-        'views/wave2_region.xml',
-        'views/wave2_region_titles.xml',
-        'data/wave2_class.xml',
-    ],
+            'security/security.xml',
+            'security/ir.model.access.csv',
+            'views/wave2_menu.xml',
+            'views/wave2_class.xml',
+            'views/wave2_config.xml',
+            'views/wave2_order.xml',
+            'views/wave2_alternative_dates.xml',
+            'views/wave2_region.xml',
+            'views/wave2_region_titles.xml',
+            'data/wave2_class.xml',
+            ],
     # only loaded in demonstration mode
     #'demo': [
     #   'demo/config.xml',
