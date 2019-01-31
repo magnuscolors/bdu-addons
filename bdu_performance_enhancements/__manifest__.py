@@ -17,7 +17,10 @@
     'version': '10.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': [
+                'base', 
+                'contacts',
+                ],
 
     # always loaded
     'data': [
