@@ -50,6 +50,7 @@ class SaleOrder(models.Model):
         payload['street']        = subscriber.street
         payload['zip']           = subscriber.zip
         payload['city']          = subscriber.city
+        payload['email']         = subscriber.email
 
         #eligible titles
         titles = self.env['sale.advertising.issue'].search([('parent_id','=',False),('digital_paywall','=',True)])

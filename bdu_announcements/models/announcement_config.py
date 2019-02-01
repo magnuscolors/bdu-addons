@@ -66,8 +66,8 @@ class AnnouncementConfig(models.Model):
         else :
             #start with previous end
             self = configurations[0]
-            if not config.oldest_synced :
-                 oldest_synced = datetime.datetime(1970,1,1,0,0)
+            if not self.oldest_synced :
+                 self.oldest_synced = datetime.datetime(1970,1,1,0,0)
             self.begin = datetime.datetime.strptime(config.oldest_synced,DEFAULT_SERVER_DATETIME_FORMAT).date()
             self.write({})
             return self.do_send()
