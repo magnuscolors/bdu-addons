@@ -17,7 +17,7 @@
     'version': '10.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base','bdu_paid_digital_subscriptions'],
 
     # always loaded
     'data': [
