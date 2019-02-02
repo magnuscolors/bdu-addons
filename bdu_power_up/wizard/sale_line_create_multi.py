@@ -106,18 +106,33 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 sol.product_uom AS product_uom,
                 sol.product_uom_qty AS product_uom_qty,
                 sol.currency_id AS currency_id,
-                sol.subtotal_before_agency_disc * solip.price_unit / 
+                CASE
+                    WHEN sol.comb_list_price > 0.0 
+                        AND sol.product_uom_qty > 0.0 
+                    THEN sol.subtotal_before_agency_disc * solip.price_unit / 
                          sol.comb_list_price / sol.product_uom_qty
-                AS price_reduce,
-                sol.price_subtotal * solip.price_unit / 
+                    ELSE 0.0
+                END AS price_reduce,
+                CASE
+                    WHEN sol.comb_list_price > 0.0 
+                        AND sol.product_uom_qty > 0.0 
+                    THEN sol.price_subtotal * solip.price_unit / 
                          sol.comb_list_price / sol.product_uom_qty
-                AS price_reduce_taxexcl,
-                sol.price_total * solip.price_unit / 
+                    ELSE 0.0
+                END AS price_reduce_taxexcl,
+                CASE
+                    WHEN sol.comb_list_price > 0.0 
+                        AND sol.product_uom_qty > 0.0 
+                    THEN sol.price_total * solip.price_unit / 
                          sol.comb_list_price / sol.product_uom_qty
-                AS price_reduce_taxinc,
-                sol.price_tax * solip.price_unit / 
+                    ELSE 0.0
+                END AS price_reduce_taxinc,
+                CASE
+                    WHEN sol.comb_list_price > 0.0 
+                    THEN sol.price_tax * solip.price_unit / 
                          sol.comb_list_price
-                AS price_tax,
+                    ELSE 0.0
+                END AS price_tax,
                 sol.qty_to_invoice AS qty_to_invoice,
                 sol.customer_lead AS customer_lead,
                 sol.company_id AS company_id,
@@ -150,13 +165,19 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 issue.id AS adv_issue, 
                 solip.product_id AS product_id, 
                 so.name AS name,
-                solip.price_unit AS price_unit,  
-                sol.subtotal_before_agency_disc * solip.price_unit / 
+                solip.price_unit AS price_unit,
+                CASE
+                    WHEN sol.comb_list_price > 0.0
+                    THEN sol.subtotal_before_agency_disc * solip.price_unit / 
                          sol.comb_list_price
-                AS subtotal_before_agency_disc, 
-                sol.color_surcharge_amount * solip.price_unit / 
+                    ELSE 0.0
+                END AS subtotal_before_agency_disc, 
+                CASE
+                    WHEN sol.comb_list_price > 0.0
+                    THEN sol.color_surcharge_amount * solip.price_unit / 
                          sol.comb_list_price
-                AS color_surcharge_amount, 
+                    ELSE 0.0
+                END AS color_surcharge_amount, 
                 sol.order_id AS order_id, 
                 0.0 AS comb_list_price, 
                 1 AS multi_line_number, 
@@ -186,10 +207,18 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 {1} AS create_date,
                 {0} AS write_uid,
                 {1} AS write_date,
-                sol.price_subtotal * solip.price_unit / sol.comb_list_price
-                AS price_subtotal,
-                sol.price_total * solip.price_unit / sol.comb_list_price
-                AS price_total,
+                CASE
+                    WHEN sol.comb_list_price > 0.0 
+                    THEN sol.price_subtotal * solip.price_unit / 
+                         sol.comb_list_price
+                    ELSE 0.0
+                END AS price_subtotal,
+                CASE
+                    WHEN sol.comb_list_price > 0.0 
+                    THEN sol.price_total * solip.price_unit / 
+                         sol.comb_list_price
+                    ELSE 0.0
+                END AS price_total,
                 'false' AS line_pubble_allow
                 FROM sale_order_line sol
                 LEFT JOIN sale_order_line_issues_products solip
