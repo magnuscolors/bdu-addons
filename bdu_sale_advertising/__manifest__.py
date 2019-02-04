@@ -34,6 +34,7 @@ BDU specific modifications:
 a) filters and grouping in sale advertising: complete replacement of standard set\n
 b) title grouping by primary salesteam added to facilitate filtering based on titles\n
 c) future edition filter on issues
+d) additional selection "Exception" for invoicing frequency
 The latter based on sales teams to circumvent additional administration\n
 Note that by using sales teams only direct sales teams should be used (i.e. one channel)\n
 Note that results from title based filtering may differ from salesteam filter as salesperson might sell titles belonging to other teams. 
@@ -44,7 +45,7 @@ Note that results from title based filtering may differ from salesteam filter as
     'website' 	 : 'http://www.bdu.nl',
     'depends' 	 : [
     				'sale_advertising_order',
-                    #'bdu_crm',
+                    'orderline_invoicing_frequency',           
     			   ],
     'data'    	 : [
 		            "data/mail_template_data.xml",
