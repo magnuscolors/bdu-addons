@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+
+
+        <record id="view_advertising_issue_filter" model="ir.ui.view">
+            <field name="name">sale.advertising.issue.tree.subscr</field>
+            <field name="model">sale.advertising.issue</field>
+            <field name="inherit_id" ref="sale_advertising_order.view_advertising_issue_filter"/>
+            <field name="arch" type="xml">
+                
+                <xpath expr="filter[4]"  position="after">
+                    <separator/>
+                    <filter name="future" string="Future Issues" 
+                            domain="[('issue_date','&gt;=', datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))]"/>
+                </xpath>
+
+
+            </field>
+        </record>
+
+
+       
+    </data>
+</openerp>       
+ 
