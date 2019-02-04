@@ -25,6 +25,9 @@
     # always loaded
     'data': [
         'views/contacts.xml',
+        'views/standard_sales_customer.xml',
+        'views/finance_customer.xml',
+        'views/finance_supplier.xml',
     ],
 
 }

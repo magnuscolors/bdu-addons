@@ -60,18 +60,6 @@
     </record>
 
 
-    <!-- removing sale order count (that leaves only sale order value) 
-    <record id="remove_slow_saleorder_count_query_from_kanban_view_inherited" model="ir.ui.view">
-      <field name="name">bdu_performance_enhancements.remove_slow_saleorder_count_query_from_kanban_view_inherited</field>
-      <field name="model">res.partner</field>
-      <field name="inherit_id" ref="sale.crm_lead_partner_kanban_view"/>
-      <field name="arch" type="xml">
-        <field name="sale_order_count" position="replace">
-        </field>
-        <xpath expr="//div[@class='oe_kanban_partner_links']/span[@t-if='record.sale_order_count.value&gt;0']" position="replace">
-        </xpath>
-      </field>
-    </record>
-    needs adjustments in vertical publishing -->
+    <!-- sale order count is removed in sale_advertising_order  -->
 
 </odoo>
