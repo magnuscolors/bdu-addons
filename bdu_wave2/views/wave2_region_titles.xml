@@ -1,0 +1,38 @@
+<?xml version="1.0"?> 
+<odoo>
+
+  <!-- List view  --> 
+  <record id="view_tree_wave2_region_titles" model="ir.ui.view"> 
+    <field name="name">Wave2 titles per region</field> 
+    <field name="model">wave2.region.titles</field> 
+    <field name="arch" type="xml"> 
+      <tree string="Wave2 titles per region" editable="bottom"> 
+          <field name="name"/> 
+          <field name="weekday"/>
+          <field name="title" />
+          <field name="remark"/>
+      </tree> 
+    </field> 
+  </record> 
+
+  <!-- No Form view because of editable tree view -->
+
+  <!-- No Search filter -->
+ 
+  <!-- Action  --> 
+  <act_window id="wave2_edit_region_titles" 
+              name="Wave2 titles per region" 
+              res_model="wave2.region.titles" 
+              view_mode="tree" 
+  /> 
+  
+  <!-- Menu item --> 
+  <menuitem id="wave2_region_titles_menuitem" 
+            name="Titles per region" 
+            action="wave2_edit_region_titles"
+            sequence="238"
+            parent="wave2_menu" 
+  /> 
+
+
+</odoo>

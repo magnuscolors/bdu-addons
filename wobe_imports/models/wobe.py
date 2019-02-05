@@ -960,6 +960,7 @@ class Job(models.Model):
 
                 # Net Production: (in Kg)
                 # if tot_width and tot_width > 0:
+
                 NetMass = massPerKG.get(str(mass), 0)
                 Qty = (NetMass / num_mass * num_width)
                 if roll.product_id in NetRollProducts:
@@ -969,6 +970,7 @@ class Job(models.Model):
 
                 # Waste Production: (in Kg)
                 # if tot_width and tot_width > 0:
+
                 WasteMass = wastePerKG.get(str(mass), 0)
                 Qty = (WasteMass / num_mass * num_width)
                 if roll.product_id in WasteRollProducts:

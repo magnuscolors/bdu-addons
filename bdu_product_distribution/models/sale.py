@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
-import datetime, pdb
+    # -*- coding: utf-8 -*-
+
+import datetime
 from odoo import api, fields, models
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 
@@ -40,23 +41,21 @@ class ProductDistributionOrderLine(models.Model):
     #data input help when accessed for first time
     @api.onchange('distribution_from_date') 
     def distribution_from_date_onchange(self) :
-        if self.distribution_from_date and self.distribution_to_date == False :
+        if self.distribution_from_date :
             from_date=datetime.datetime.strptime(self.distribution_from_date,DEFAULT_SERVER_DATE_FORMAT).date()
-            self.distribution_to_date = from_date+datetime.timedelta(days=7)
+            self.distribution_to_date = from_date+datetime.timedelta(days=6)
         return
 
     #helper for appendix report
     @api.model
     def sum_by_distributor(self):
-        summary = self.distribution_area_ids.read_group([('id','in',self.distribution_area_ids.ids)],['user_id','user_id.street','folder_addresses','total_addresses'],['user_id'])
+        summary = self.distribution_area_ids.read_group([('id','in',self.distribution_area_ids.ids)],['partner_id','folder_addresses','total_addresses'],['partner_id'])
         total_result=[]
         for entry in summary :
             result={}
-            if entry['user_id'] : 
-                user    = self.env['res.users'].browse(entry['user_id'][0])
-                partner = user.partner_id
+            if entry['partner_id'] : 
+                partner = self.env['res.partner'].browse(entry['partner_id'][0])
                 result  = {
-                    'user_id'   : user.id,
                     'partner_id': partner.id,
                     'name'      : partner.name,
                     'street'    : (partner.street or '-'),
@@ -66,7 +65,6 @@ class ProductDistributionOrderLine(models.Model):
                 }
             else :
                 result = {
-                    'user_id'   : False,
                     'partner_id': False,
                     'name'      : "Nader te bepalen",
                     'street'    : "-",
@@ -84,7 +82,7 @@ class ProductDistributionOrderLine(models.Model):
     def list_for_distributors(self) :
         distributors = self.sum_by_distributor() 
         for distributor in distributors :
-            areas = self.distribution_area_ids.search_read([('id','in',self.distribution_area_ids.ids),('user_id', '=',distributor['user_id'])])
+            areas = self.distribution_area_ids.search_read([('id','in',self.distribution_area_ids.ids),('partner_id', '=',distributor['partner_id'])])
             distributor['areas'] =areas
         return distributors
 

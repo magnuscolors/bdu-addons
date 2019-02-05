@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import datetime, httplib, json, logging, pdb
+import datetime, httplib, json, logging
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
@@ -67,6 +67,18 @@ class PubbleProductionConfig(models.Model):
         date       = datetime.date.fromtimestamp(local_secs)
         return date
 
+    @api.multi
+    @api.onchange('begin')
+    def onchange_begin(self):
+        if self.begin>self.end :
+            self.end = self.begin
+
+    @api.multi
+    @api.onchange('end')
+    def onchange_end(self):
+        if self.end<self.begin :
+            self.begin = self.end
+
 
     @api.multi
     def automated_do_collect(self):
@@ -106,6 +118,7 @@ class PubbleProductionConfig(models.Model):
 
             #lookup values and other init
             adv_issues   = self.env['sale.advertising.issue'].search([('parent_id','!=', False)])
+            websites     = self.env['sale.advertising.issue'].search([('parent_id','=', 'Online')])
             current_data = self.env['pubble.production.data'].search([])
             conversions  = self.env['pubble.product.conversion'].search([])
 
@@ -170,7 +183,7 @@ class PubbleProductionConfig(models.Model):
 
                 #get accounting info
                 if (title) :
-                    ids = self.ids_by_issue_and_date(adv_issues, title, issue_date)
+                    ids = self.ids_by_issue_and_date(adv_issues, websites, title, issue_date)
                 else :
                     ids = {}
 
@@ -182,15 +195,24 @@ class PubbleProductionConfig(models.Model):
                     record = {}
                     revbil_msg = ""
                     
-                    #freelancer should be in system otherwise false
-                    ingevoerdDoor   = billing_line['ingevoerdDoor']
-                    searchresult    = self.findPartnerByEmail(billing_line['ingevoerdDoor'])
+                    #skip reverse billing line if bdu, or user generated content or not published and not approved
+                    credit   = billing_line['credit']
+                    if credit.find('@bdu.nl') > -1 :
+                        continue
+                    if credit.find('Ingezonden via website') > -1 :
+                        continue
+                    pubble_product  = billing_line['productCode']
+                    if pubble_product.find('tekst') > -1 and len(publications)==0 :
+                        continue
+
+                    #search freelancer
+                    searchresult    = self.findPartnerByEmail(billing_line['credit'])
                     freelancer      = searchresult['partner']
                     if not freelancer and message.find(searchresult['message'])==-1 and searchresult['message'].find('@bdu.nl')==-1 :
                         message   += searchresult['message']
                         revbil_msg = searchresult['message']
 
-                    pubble_product  = billing_line['productCode']
+                    #other info
                     pubble_count    = billing_line['aantal']
                     date2           = self.ms_datetime_to_python_date(billing_line['gemaaktOp'])
                     odoo_product    = self.convert_2_odoo_product(conversions,pubble_product, pubble_count)
@@ -239,7 +261,7 @@ class PubbleProductionConfig(models.Model):
                     if odoo_product['product_id'] == False :
                         record['message'] += "Pubble product/count could not be converted. Check conversion data.<br/>"
                     if freelancer == False :
-                        record['message'] += "Email address "+ingevoerdDoor+" not found in Odoo. No payment possible.<br/>"
+                        record['message'] += "Email address "+credit+" not found in Odoo. No payment possible.<br/>"
 
                     #search for existing record
                     existing_recs = current_data.search([  ('name', '=', record['name']) ])
@@ -322,18 +344,26 @@ class PubbleProductionConfig(models.Model):
 
 
     @api.multi
-    def ids_by_issue_and_date(self, adv_issues, title, issue_date) :
+    def ids_by_issue_and_date(self, adv_issues, websites, title, issue_date) :
         #analytic account and company via sale.advertising.issue
         result={'issue_id':False, 'company_id':False, 'analytic_account_id':False, 'operating_unit_id':False}
         issues = adv_issues.search([('parent_id', '=', title),
                                     ('issue_date','=', issue_date.strftime('%Y-%m-%d') )
-                                   ])    
+                                   ])  
+
+        #if no match, then check for internet title/issue  
+        if len(issues)==0 :
+            issues = websites.search([('code', '=', title),
+                                      ('issue_date','=', issue_date.strftime('%Y-12-31') )
+                                      ])
+        #prep answer when single match
         if len(issues)==1:
             result['issue_id']            = issues[0]['id']
             result['company_id']          = issues[0].analytic_account_id.company_id.id
             result['analytic_account_id'] = issues[0].analytic_account_id.id
             ou_ids = self.env['account.analytic.account'].search([('id','=',result['analytic_account_id'])])
             result['operating_unit_id']   = ou_ids.operating_unit_ids.id
+
         return result
 
     @api.multi
@@ -368,11 +398,13 @@ class PubbleProductionConfig(models.Model):
     def pretty_billing_lines(self,billing_lines) :
         s = ""
         for line in billing_lines :
-            s += line['ingevoerdDoor']
+            s += line['credit']
             s += ", "+self.ms_datetime_to_python_date(line['gemaaktOp']).strftime("%Y-%m-%d")
             s += ": <b>"+str(line['aantal'])
             s += " x "+line['productCode']+"</b>"
             s += " (ref:"+str(line['referentie'])+")"
+            if '@bdu.nl' in line['credit'] :
+                s += " Note: billing line for bdu employee skipped."
             s += "<br/>"
         s += ""
         return s

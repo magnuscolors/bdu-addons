@@ -1,0 +1,40 @@
+<odoo>
+
+
+    <!-- Contacts presented in tree first, then kanban -->
+    <record id="base.action_partner_customer_form" model="ir.actions.act_window">
+        <field name="name">Customers</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{'default_customer':1, 'search_default_customer':1}</field>
+        <field name="filter" eval="True"/>
+        <field name="search_view_id" ref="base.view_res_partner_filter"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to add a contact in your contacts directory.
+          </p><p>
+            Odoo helps you easily track all activities related to
+            a customer: discussions, history of business opportunities,
+            documents, etc.
+          </p>
+        </field>
+    </record>
+
+    <!-- redefinition of view sequence -->
+    <record id="base.res_partner_customer_kanban_view_inherited" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="base.res_partner_kanban_view"/>
+        <field name="act_window_id" ref="base.action_partner_customer_form"/>
+    </record>
+
+
+
+
+  
+ 
+
+</odoo>

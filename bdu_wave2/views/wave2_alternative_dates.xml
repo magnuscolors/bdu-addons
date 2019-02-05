@@ -1,0 +1,39 @@
+<?xml version="1.0"?> 
+<odoo>
+
+  <!-- List view  --> 
+  <record id="view_tree_wave2_alternative_date" model="ir.ui.view"> 
+    <field name="name">Wave2 alternative dates</field> 
+    <field name="model">wave2.alternative.date</field> 
+    <field name="arch" type="xml"> 
+      <tree string="Wave2 alternative dates" editable="bottom"> 
+          <field name="title" domain="[('parent_id', '=',  False)]"/> 
+          <field name="wave2_date"/>
+          <field name="search_begin" invisible="1"/>
+          <field name="issue"  string="Move order to issue" domain="[('parent_id', '=',  title),('issue_date','>',search_begin)]"/> 
+          <field name="remark"/>
+      </tree> 
+    </field> 
+  </record> 
+
+  <!-- No Form view because of editable tree view -->
+
+  <!-- No Search filter -->
+ 
+  <!-- Action  --> 
+  <act_window id="wave2_edit_alternative_dates" 
+              name="Wave2 alternative dates" 
+              res_model="wave2.alternative.date" 
+              view_mode="tree,form" 
+  /> 
+  
+  <!-- Menu item --> 
+  <menuitem id="wave2_alternative_dates_menuitem" 
+            name="Wave2 alternative dates" 
+            action="wave2_edit_alternative_dates"
+            sequence="234"
+            parent="wave2_menu" 
+  /> 
+
+
+</odoo>

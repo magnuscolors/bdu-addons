@@ -1,0 +1,65 @@
+<odoo>
+
+
+    <!-- Contacts presented in tree first, then kanban -->
+    <record id="contacts.action_contacts" model="ir.actions.act_window">
+        <field name="name">Contacts</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="search_view_id" ref="base.view_res_partner_filter"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to add a contact in your contacts directory.
+          </p><p>
+            Odoo helps you easily track all activities related to
+            a customer: discussions, history of business opportunities,
+            documents, etc.
+          </p>
+        </field>
+    </record>
+
+    <!-- redefinition of view sequence -->
+    <record id="contacts.action_contacts_view_kanban" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="base.res_partner_kanban_view"/>
+        <field name="act_window_id" ref="contacts.action_contacts"/>
+    </record>
+
+    <!-- removing opportunity count and meeting count -->
+    <record id="remove_slow_queries_from_partner_kanban_view_inherited" model="ir.ui.view">
+      <field name="name">bdu_performance_enhancements.remove_slow_queries_from_partner_kanban_view</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="crm.crm_lead_partner_kanban_view"/>
+      <field name="arch" type="xml">
+        <field name="opportunity_count" position="replace">
+        </field>
+        <field name="meeting_count" position="replace">
+        </field>
+        <xpath expr="//div[@class='oe_kanban_partner_links']/span[@t-if='record.opportunity_count.value&gt;0']" position="replace">
+        </xpath>
+        <xpath expr="//div[@class='oe_kanban_partner_links']/span[@t-if='record.meeting_count.value&gt;0']" position="replace">
+        </xpath>
+      </field>
+    </record>
+
+
+    <!-- removing purchase order count -->
+    <record id="remove_purchase_partner_kanban_view_inherited" model="ir.ui.view">
+      <field name="name">bdu_performance_enhancements.remove_purchase_partner_kanban_view_inherited</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="purchase.purchase_partner_kanban_view"/>
+      <field name="arch" type="xml">
+        <field name="purchase_order_count" position="replace">
+        </field>
+        <xpath expr="//div[@class='oe_kanban_partner_links']/span[@t-if='record.purchase_order_count.value&gt;0']" position="replace">
+        </xpath>
+      </field>
+    </record>
+
+
+    <!-- sale order count is removed in sale_advertising_order  -->
+
+</odoo>

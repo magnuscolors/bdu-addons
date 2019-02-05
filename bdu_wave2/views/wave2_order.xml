@@ -1,0 +1,61 @@
+<?xml version="1.0"?> 
+<odoo>
+
+  <!-- List view  --> 
+  <record id="view_tree_wave2_orders" model="ir.ui.view"> 
+    <field name="name">Wave2 orders</field> 
+    <field name="model">wave2.order</field> 
+    <field name="arch" type="xml"> 
+      <tree string="Wave2 orders" edit="false" create="false"> 
+          <field name="filename" /> 
+          <field name="excerpt"/>
+          <field name="state"/>
+          <field name="remark"/>
+      </tree> 
+    </field> 
+  </record> 
+
+  <!-- Form view to show XML -->
+  <record id="view_form_wave2_orders" model="ir.ui.view">
+    <field name="name">Wave2 orders</field>
+    <field name="model">wave2.order</field>
+    <field name="arch" type="xml">
+      <form string="Wave2 order" create="false" action="false" class="oe_form_configuration">
+          <group>
+              <group> 
+                <field name="excerpt"/>
+              </group>  
+              <group>
+                <field name="state"/>
+              </group>
+          </group>
+
+        <notebook>
+            <page string="File content">
+                <field name="content" widget="ace" options="{'mode': 'xml'}"/> 
+            </page>
+        </notebook>
+
+      </form>
+    </field>
+  </record> 
+
+  <!-- No Search filter -->
+ 
+  <!-- Action  --> 
+  <act_window id="wave2_orders" 
+              name="Wave2 orders" 
+              res_model="wave2.order" 
+              view_mode="tree,form" 
+  /> 
+  
+  <!-- Menu item --> 
+  <menuitem id="wave2_orders_menuitem" 
+            name="Collected Wave2 orders" 
+            action="wave2_orders"
+            sequence="233"
+            parent="wave2_menu" 
+  /> 
+
+
+</odoo>
