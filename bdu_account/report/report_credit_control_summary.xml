@@ -8,7 +8,7 @@
                 <div class="row" style="padding-left:85px;">
                 <div name="invoice_title" class="col-xs-5 col-xs-offset-7" style="padding:0px;">
                     <h3>
-                        <span>Reminder</span>
+                        <span></span>
                     </h3>
                 </div>
             </div>
