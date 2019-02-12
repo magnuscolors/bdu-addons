@@ -8,7 +8,7 @@
                 <div class="row" style="padding-left:85px;">
                 <div name="invoice_title" class="col-xs-5 col-xs-offset-7" style="padding:0px;">
                     <h3>
-                        <span>Reminder</span>
+                        <span></span>
                     </h3>
                 </div>
             </div>
@@ -79,20 +79,34 @@
                                     <span t-field="l.date_due"/>
                                 </td>
                                 <t t-if="l.invoice_id">
-                                    <td>
-                                        <span t-field="l.move_line_id.name"/>
-                                    </td>
+                                    <t t-if="l.move_line_id.name=='/' and l.invoice_id.ad">
+                                        <td>
+                                            <span>Geplaatste advertenties</span>
+                                        </td>
+                                    </t>
+                                    <t t-if="l.move_line_id.name!='/' or not l.invoice_id.ad">
+                                        <td>
+                                            <span t-field="l.move_line_id.name"/>
+                                        </td>
+                                    </t>
                                 </t>
                                 <t t-if="not l.invoice_id">
-                                    <td>
-                                        <span t-field="l.move_line_id.ref"/>
-                                    </td>
+                                    <t t-if="l.move_line_id.ref=='/' and l.invoice_id.ad">
+                                        <td>
+                                        <span>Geplaatste advertenties</span>
+                                        </td>
+                                    </t>
+                                    <t t-if="l.move_line_id.ref!='/' or not l.invoice_id.ad">
+                                        <td>
+                                            <span t-field="l.move_line_id.ref"/>
+                                        </td>
+                                    </t>
                                 </t>
-                                <td class="text-right">
-                                    <span t-field="l.amount_due"/>
+                               <td class="text-right">
+                                    <span t-field="l.amount_due" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}" />
                                 </td>
                                 <td class="text-right">
-                                    <span t-field="l.balance_due"/>
+                                    <span t-field="l.balance_due" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}" />
                                 </td>
                             </tr>
                         </tbody>
@@ -107,7 +121,7 @@
                                     <strong>Total Invoiced</strong>
                                 </td>
                                 <td class="text-right">
-                                    <span t-field="doc.total_invoiced" />
+                                    <span t-field="doc.total_invoiced" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
                                 </td>
                             </tr>
                             <tr>
@@ -115,7 +129,7 @@
                                     <strong>Total Due</strong>
                                 </td>
                                 <td class="text-right">
-                                    <span t-field="doc.total_due"/>
+                                    <span t-field="doc.total_due" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
                                 </td>
                             </tr>
                         </table>
