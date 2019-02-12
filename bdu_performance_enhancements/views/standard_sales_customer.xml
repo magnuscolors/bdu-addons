@@ -20,18 +20,16 @@
         </field>
     </record>
 
-    <!-- redefinition of view sequence 
-    <record id="base.res_partner_kanban_view_inherited" model="ir.actions.act_window.view">
+    <!-- inherit with different view sequence (kanban last)  
+    todo: duplicate of act_window_id + kanban mode prevents redefinition
+    <record id="base.res_partner_kanban_view" model="ir.actions.act_window.view">
         <field name="sequence" eval="3"/>
         <field name="view_mode">kanban</field>
-        <field name="view_id" ref="base.res_partner_kanban_view"/>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
         <field name="act_window_id" ref="base.action_partner_form"/>
     </record>
+    -->
 
--->
 
-
-  
- 
 
 </odoo>
