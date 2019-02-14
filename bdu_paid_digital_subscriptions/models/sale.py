@@ -36,7 +36,7 @@ class SaleOrder(models.Model):
         b_auth      = bytes(config.api_user+":"+config.api_password)
         headers     = {'authorization': "Basic " + base64.b64encode( b_auth),
                        'cache-control': "no-cache",
-                       'content-type' : "application/x-www-form-urlencoded",
+                       'Content-Type' : "application/json" #x-www-form-urlencoded",
                       }
 
         payload={}
@@ -77,13 +77,13 @@ class SaleOrder(models.Model):
             right['count']     = str(int(orderline.product_uom_qty)) 
             right['startdate'] = orderline.start_date
             right['enddate']   = orderline.end_date
-            rights.append(json.dumps(right))
+            rights.append(right)
         
-        payload['rights'] =  json.dumps(rights)
+        payload['rights'] =  rights
         
         #send it, give answer as triplet or plain ok
         try :
-            response = requests.request("POST", url, data=payload, headers=headers)
+            response = requests.request("POST", url, data=json.dumps(payload), headers=headers)
         except :            
             config.api_last_msg = "No connection"
             return "no connection"
