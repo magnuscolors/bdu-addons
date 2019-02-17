@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+  <t t-extend="ListView.buttons">
+        <!-- remove buttons -->
+        <t t-jquery="button.generate_delivery_title" t-operation="replace">
+        </t>
+        <t t-jquery="button.generate_delivery_list" t-operation="replace">
+        </t>
+    </t>
+
+</templates>
