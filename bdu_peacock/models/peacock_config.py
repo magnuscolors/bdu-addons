@@ -71,6 +71,7 @@ class PeacockConfig(models.Model):
             data = etree.tostring(xml, pretty_print=self.pretty_print)
             f.write(data)
         f.close
+        f = None #to force releasing the file handle
 
         # Initiate File Transfer Connection
         try:

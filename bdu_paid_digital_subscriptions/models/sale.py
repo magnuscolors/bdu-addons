@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 import pdb
-import base64, requests, logging
+import base64, json, logging, requests
 from datetime import datetime, timedelta
 from odoo import api, fields, exceptions, models
 #from dateutil.relativedelta import relativedelta
@@ -18,7 +18,7 @@ class SaleOrder(models.Model):
         for order in self.filtered(lambda s: s.state in ['sale'] and s.subscription ):
             r = self.drupal_update(order)
             if r != "ok" :            
-                _logger.warning(r)
+                _logger.warning("Drupal update on order "+order.name+" "+r)
         return result
 
     @api.multi
@@ -36,7 +36,7 @@ class SaleOrder(models.Model):
         b_auth      = bytes(config.api_user+":"+config.api_password)
         headers     = {'authorization': "Basic " + base64.b64encode( b_auth),
                        'cache-control': "no-cache",
-                       'content-type' : "application/x-www-form-urlencoded",
+                       'Content-Type' : "application/json" #x-www-form-urlencoded",
                       }
 
         payload={}
@@ -74,32 +74,29 @@ class SaleOrder(models.Model):
             else :
                 right['subscription'] = ""
             
-            if orderline.start_date <= now and orderline.end_date >= now :
-                right['count']     = str(int(orderline.product_uom_qty)) 
-            else :
-                right['count']     = "0"
-            
-            right['startdate']     = orderline.start_date
-            right['enddate']       = orderline.end_date
+            right['count']     = str(int(orderline.product_uom_qty)) 
+            right['startdate'] = orderline.start_date
+            right['enddate']   = orderline.end_date
             rights.append(right)
         
         payload['rights'] =  rights
         
         #send it, give answer as triplet or plain ok
         try :
-            response = requests.request("POST", url, data=payload, headers=headers)
+            response = requests.request("POST", url, data=json.dumps(payload), headers=headers)
         except :            
             config.api_last_msg = "No connection"
             return "no connection"
+        prefix = datetime.now().strftime("UTC %Y-%m-%d %H:%M:%S")+" order "+order.name+" "
         if response.status_code == requests.codes.ok :  # equal 200 ok
-            config.api_last_msg = "ok"
+            config.api_last_msg = prefix+"ok"
             return "ok"
         elif response.status_code in list(range(100, 600)) :
-            config.api_last_msg = "bad response,"+str(response.status_code)+", "+response.content
+            config.api_last_msg = prefix + "bad response,"+str(response.status_code)+", "+response.content
             return "bad response,"+str(response.status_code)+", "+response.content
         else:
             msg=str(response.json()['message'])
-            config.api_last_msg = "bad response,"+str(response.status_code)+", "+msg
+            config.api_last_msg = prefix + "bad response,"+str(response.status_code)+", "+msg
             return "bad response,"+str(response.status_code)+", "+msg
 
 
