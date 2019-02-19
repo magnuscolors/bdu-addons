@@ -107,7 +107,7 @@ class DeliveryConfig(models.Model):
         for title in config.title_ids :
             issues=self.env['sale.advertising.issue'].search([('parent_id','=',title.id),('issue_date','=',config.active_date)])
             if len(issues)==1 :
-                titles.append(str(title.name))
+                titles.append(title.name) #no str() because diacritic chars in e.g. esthé are non ascii
         if len(titles)==0 :
             self.log_exception(msg, "No issues found for date "+config.active_date+". Program terminated.")
             return False
