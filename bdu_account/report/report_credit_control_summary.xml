@@ -73,7 +73,7 @@
                                     </td>
                                 </t>
                                 <td>
-                                    <span t-field="l.date_entry"/>
+                                    <span t-field="l.invoice_id.date_invoice"/>
                                 </td>
                                 <td>
                                     <span t-field="l.date_due"/>
