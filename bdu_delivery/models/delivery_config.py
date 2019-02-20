@@ -256,7 +256,11 @@ class DeliveryConfig(models.Model):
             line = concat(line, subscription.date_cancel)   
             if subscription.start_date == config.active_date and subscription.subscription_origin==0 :
                 line = concat(line, "BIJ")
+            #subscriptions that explicitly end
             elif subscription.date_cancel == yesterday or subscription.date_cancel == day_before_yesterday or subscription.date_cancel == three_days_ago :
+                line = concat(line, "AF")
+            #for products that do not renew
+            elif (subscription.end_date == yesterday or subscription.end_date == day_before_yesterday or subscription.end_date == three_days_ago) and subscription.renew_product_id.product_tmpl_id.can_renew == False:
                 line = concat(line, "AF")
             else :
                 line += concat(line, "")  
