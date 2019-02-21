@@ -23,11 +23,13 @@ class Wave2Order(models.Model):
 							        ('done','Done'),
 							        ('error','Error'),
 							        ('cancel', 'Cancelled'),
+							        ('skip', 'Skip')
 							      ],
 							      'State', index=True,  default='collected',
 						          help=' * The \'Collected\' status is set after collecting the order. \
 						          \n* The \'Done\' status is set after successfully registring an Odoo order and partner. \
 						          \n* The \'Error\' status is set after an error and leaves the opportunity to correct the order content. \
-						          \n* The \'Cancelled\' status may be invoked by the user to ignore the order for further processing.')
+						          \n* The \'Cancelled\' status may be invoked by the user to ignore the order for further processing.\
+						          \n* The \'Skip\' status may be used to temporarily skip an order in error to keep processing the other orders.')
 
    
