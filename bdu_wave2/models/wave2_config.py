@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import base64, csv, datetime, ftputil, ftputil.session, logging, os, re, time, pdb
+import base64, csv, datetime, ftputil, ftputil.session, logging, os, re, time
 from unidecode import unidecode
 import xml.etree.ElementTree as et
 
@@ -38,6 +38,8 @@ class Wave2Config(models.Model):
     one_column_prod  = fields.Many2one('product.template', ondelete="set null", string="One column product")
     two_column_prod  = fields.Many2one('product.template', ondelete="set null", string="Two column product")
     prod_uom         = fields.Many2one('product.uom', ondelete="set null", string="Selling unit")
+    payment_method_id= fields.Many2one('account.payment.mode', string="Method for Ideal")
+    payment_term_id  = fields.Many2one('account.payment.term', string="Terms for Ideal")
 
     status2          = fields.Char(string="Status order processing")
 
@@ -187,7 +189,6 @@ class Wave2Config(models.Model):
         #init, then cycle through orders
         errors = 0
         for order in orders :
-            
             xml_root = et.fromstring(order.content.strip())
             customer = self.parse_into_partner_details(xml_root)
             found = False
@@ -220,25 +221,31 @@ class Wave2Config(models.Model):
 
             #prep an order header
             order_header = self.parse_into_header_details(xml_root, partner)
-            order_ids = self.env['sale.order'].search([('client_order_ref','=',order_header['client_order_ref'])])
-            if len(order_ids) == 1 :
-                order_id=order_ids[0]
-                order_id.write(order_header)
-            elif len(order_ids) > 1 :
+            odoo_orders = self.env['sale.order'].search([('client_order_ref','=',order_header['client_order_ref'])])
+            if len(odoo_orders) == 1 :
+                odoo_order=odoo_orders[0]
+                odoo_order.write(order_header)
+            elif len(odoo_orders) > 1 :
                 errors += 1
                 order.state = 'error'
                 order.remark="Multiple orders with client order ref "+order_header['client_order_ref']
                 continue
             else : 
-                 order_id = self.env['sale.order'].create(order_header)
+                 odoo_order = self.env['sale.order'].create(order_header)
 
             #count lines to estimate last line value
             count = 0;
-            no_titles_found=False
+            search_error=False
             placements = xml_root.find("RAD_PK").find("PLAATSINGSDATA").getchildren()
             for placement in placements :
                 region_id     = int(placement.findtext("UCL_PK"))
                 region     = self.env['wave2.region'].search([('wave2_id','=',region_id)])
+                if not region :
+                    errors+=1
+                    order.state  = 'error'
+                    order.remark = "No region found for region code "+str(region_id)+'. '
+                    search_error=True
+                    continue
                 issue_date = str(placement.findtext("PLAATSINGS_DATUM"))
                 issue_date = datetime.date(int(issue_date[0:4]),int(issue_date[4:6]),int(issue_date[6:8]))
                 weekday    = issue_date.weekday() #monday=0, sunday=6
@@ -246,12 +253,13 @@ class Wave2Config(models.Model):
                 if len(region_titles)==0 :
                     errors+=1
                     order.state  = 'error'
-                    order.remark = "No titles found for region "+region.name+" and date "+str(ad.findtext("PLAATSINGS_DATUM"))
-                    no_titles_found=True
+                    order.remark = "No titles found for region "+str(region.name)+" and date "+str(ad.findtext("PLAATSINGS_DATUM"))+'. '
+                    search_error=True
+                    continue
                 else :
                     count     += len(region_titles)
             #prevent dividing by zero, which not something one orders
-            if no_titles_found :
+            if search_error :
                 continue
             
             #e.g. 10 euro / 3 lines = 3,33 euro per line, but last line must be 3,34 euro to total to 10 euro   
@@ -291,7 +299,7 @@ class Wave2Config(models.Model):
                         return
                     
                     #prep orderline
-                    orderline_to_upsert= self.parse_into_orderline_details(xml_root, order_id, region_title.title, issue_date, region, net, listprice)
+                    orderline_to_upsert= self.parse_into_orderline_details(xml_root, odoo_order, region_title.title, issue_date, region, net, listprice)
                     if type(orderline_to_upsert)==unicode :
                         abort(config, order, orderline_to_upsert)
                         return
@@ -307,8 +315,8 @@ class Wave2Config(models.Model):
                         return
 
             #set orderstatus and reset possible remark
-            order_id.write({'state':'sale'})
-            order.write({'state':'done', 'remark': 'Order '+order_id.name})
+            odoo_order.write({'state':'sale'})
+            order.write({'state':'done', 'remark': 'Order '+odoo_order.name})
 
         #report stats
         msg= datetime.datetime.strftime(datetime.datetime.now(),"%Y-%m-%d %H:%M:%S" )+" "+str(len(orders))+" Wave2 orders processed."
@@ -426,14 +434,14 @@ class Wave2Config(models.Model):
                         }
         payment_according_wave2 = int(xml.find("RAD_PK").findtext("RAD_BETALING"))
         if payment_according_wave2 == 6 :
-            order_header['payment_mode_id'] = payment_method_id
-            order_header['payment_term_id'] = payment_term_id
+            order_header['payment_mode_id'] = config.payment_method_id.id
+            order_header['payment_term_id'] = config.payment_term_id.id
         else :
             order_header['payment_mode_id'] = ""
         return order_header
 
 
-    def parse_into_orderline_details(self, xml, order_id, title, issue_date, region, net, listprice):
+    def parse_into_orderline_details(self, xml, odoo_order, title, issue_date, region, net, listprice):
         config=self.search([])[0]
 
         #issue
@@ -503,14 +511,14 @@ class Wave2Config(models.Model):
             region_text = str(region.wave2_id)
             if int(region.wave2_id) < 10 :
                 region_text = "0"+region_text
-                ad_number = order_id.client_order_ref+"_"+region_text+title.name+"_"+datetime.datetime.strftime(issue_date, '%Y-%m-%d')
+                ad_number = odoo_order.client_order_ref+"_"+region_text+title.name+"_"+datetime.datetime.strftime(issue_date, '%Y-%m-%d')
         else :
             #old style
             return "No support for legacy style orders"
 
         orderline_details = {
                       'advertising'         : 1,               
-                      'order_id'            : order_id.id, 
+                      'order_id'            : odoo_order.id, 
                       'medium'              : product.categ_id.parent_id.id,
                       'ad_class'            : product.categ_id.id,
                       'title'               : title.id,

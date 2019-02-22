@@ -32,7 +32,7 @@
                             <label for="announcement_adv_issue_ids" string="Published in"/> 
                             <newline/>
                             <field name="announcement_adv_issue_ids" nolabel="1" 
-                                   domain="[('parent_id','!=', False),('parent_id','not in',('Online'))]" 
+                                   domain="[('parent_id','!=', False),('parent_id.name','not ilike',('online'))]" 
                                    options="{'no_open': True,'no_create': True, 'no_create_edit': True}" 
                                    context="{'search_view_ref':'bdu_product_announcement.announcement_view_filter',
                                              'tree_view_ref':'bdu_product_announcement.announcement_tree_view' }"
