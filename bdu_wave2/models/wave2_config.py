@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import base64, csv, datetime, ftputil, ftputil.session, logging, os, re, time, pdb
+import base64, csv, datetime, ftputil, ftputil.session, logging, os, re, time
 from unidecode import unidecode
 import xml.etree.ElementTree as et
 
@@ -447,7 +447,7 @@ class Wave2Config(models.Model):
 
     def parse_into_orderline_details(self, xml, odoo_order, title, issue_date, region, net, listprice):
         config=self.search([])[0]
-        pdb.set_trace()
+        
         #issue
         issues=self.env['sale.advertising.issue'].search([('parent_id','=',title.id),('issue_date','=',issue_date)])
         if len(issues) == 1 :
@@ -490,9 +490,11 @@ class Wave2Config(models.Model):
                                                          ('product_tmpl_id','=', product.id),
                                                          ('name','=', product.name)])
         if len(product_variants)==1 :
-            product_variant = product_variants[0];
+            product_variant = product_variants[0]; 
+        elif len(product_variants)==0 : 
+            return "No  product variant found for product template \""+product.name+"\" with pricelist (category) name holding \""+title.name+"\" in its name. Check for variant existance and/or right category for product variant, i.e. pricelist."
         else :
-            return "Invalid config of product variant "+product.name+" and title "+title.name+". Check for existance, duplicates, product category referal to title, and no/multiple pricelist(s)."
+            return "Multiple product variants found for product template \""+product.name+"\" and pricelist (category) name holding "+title.name+" in its name."
 
         #link to material
         wav2_order_id = str(xml.find("RAD_PK").findtext("RAD_PK"))
