@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+		<record model="wave2.region" id="wave2_region_1">
+		        <field name="wave2_id">5</field>
+		        <field name="name">RUN</field>
+		        <field name="remark">BDU Noord</field>
+		</record>
+		<record model="wave2.region" id="wave2_region_2">
+		        <field name="wave2_id">4</field>
+		        <field name="name">RUM</field>
+		        <field name="remark">BDU Midden</field>
+		</record>
+		<record model="wave2.region" id="wave2_region_3">
+		        <field name="wave2_id">6</field>
+		        <field name="name">RUO</field>
+		        <field name="remark">BDU Oost</field>
+		</record>
+		<record model="wave2.region" id="wave2_region_4">
+		        <field name="wave2_id">3</field>
+		        <field name="name">RUB</field>
+		        <field name="remark">BDU Groot Barneveld</field>
+		</record>
+		<record model="wave2.region" id="wave2_region_5">
+		        <field name="wave2_id">11</field>
+		        <field name="name">RBT</field>
+		        <field name="remark">BDU Veluwe</field>
+		</record>
+		<record model="wave2.region" id="wave2_region_6">
+		        <field name="wave2_id">2</field>
+		        <field name="name">RUK</field>
+		        <field name="remark">BDU Klaverblad</field>
+		</record>
+		<record model="wave2.region" id="wave2_region_7">
+		        <field name="wave2_id">13</field>
+		        <field name="name">RUV</field>
+		        <field name="remark">BDU Veluwe</field>
+		</record>
+		<record model="wave2.region" id="wave2_region_8">
+		        <field name="wave2_id">14</field>
+		        <field name="name">NHL</field>
+		        <field name="remark">Kop van Noord-Holland</field>
+		</record>
+		<record model="wave2.region" id="wave2_region_9">
+		        <field name="wave2_id">15</field>
+		        <field name="name">WFR</field>
+		        <field name="remark">West Friesland</field>
+		</record>
+		<record model="wave2.region" id="wave2_region_10">
+		        <field name="wave2_id">16</field>
+		        <field name="name">ALK</field>
+		        <field name="remark">Alkmaar en Omstreken</field>
+		</record>
+		<record model="wave2.region" id="wave2_region_11">
+		        <field name="wave2_id">17</field>
+		        <field name="name">KEN</field>
+		        <field name="remark">Kennemerland</field>
+		</record>
+		<record model="wave2.region" id="wave2_region_12">
+		        <field name="wave2_id">19</field>
+		        <field name="name">ZAA</field>
+		        <field name="remark">Zaanstreek</field>
+	    </record>
+		<record model="wave2.region" id="wave2_region_13">
+		        <field name="wave2_id">20</field>
+		        <field name="name">HLM</field>
+		        <field name="remark">Haarlemmermeer</field>
+	    </record>
+		<record model="wave2.region" id="wave2_region_14">
+		        <field name="wave2_id">21</field>
+		        <field name="name">HAA</field>
+		        <field name="remark">Haarlem</field>
+		</record>
+		<record model="wave2.region" id="wave2_region_15">
+		        <field name="wave2_id">22</field>
+		        <field name="name">AMS</field>
+		        <field name="remark">Amstelland</field>
+		</record>
+		<record model="wave2.region" id="wave2_region_16">
+		        <field name="wave2_id">23</field>
+		        <field name="name">ALP</field>
+		        <field name="remark">Alphen</field>
+		</record>
+
+</odoo>	

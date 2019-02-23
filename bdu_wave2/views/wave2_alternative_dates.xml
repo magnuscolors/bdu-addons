@@ -29,7 +29,7 @@
   
   <!-- Menu item --> 
   <menuitem id="wave2_alternative_dates_menuitem" 
-            name="Wave2 alternative dates" 
+            name="Alternative dates" 
             action="wave2_edit_alternative_dates"
             sequence="234"
             parent="wave2_menu" 

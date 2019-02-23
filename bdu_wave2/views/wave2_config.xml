@@ -102,7 +102,7 @@
   </record> 
 
   <menuitem id="wave2_config_menuitemn" 
-    name="System configuration" 
+    name="Connector" 
     action="config_wave2_interface"
     sequence="232"
     parent="wave2_menu" 
