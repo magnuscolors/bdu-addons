@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<odoo>
+
+  <!--  List view for Drupal classifieds online mapping of titles to domain names --> 
+  <record id="view_tree_classifieds_online_mapping" model="ir.ui.view"> 
+    <field name="name">Classifieds online mapping</field> 
+    <field name="model">classifieds.online.mapping</field> 
+    <field name="arch" type="xml"> 
+      <tree string="Classifieds mapping" editable="bottom"> 
+          <field name="title" /> 
+          <field name="domain"/>
+          <field name="remark"/>
+      </tree> 
+    </field> 
+  </record> 
+
+  <!-- No Form view because of editable tree view -->
+
+  <!-- No Search filter -->
+ 
+  <!-- Action  --> 
+  <act_window id="classifieds_online_mapping" 
+              name="Classifieds online mapping" 
+              res_model="classifieds.online.mapping" 
+              view_mode="tree" 
+  /> 
+  
+  <!-- Menu item --> 
+  <menuitem id="classifieds_online_mapping_menuitem" 
+            name="Mapping" 
+            action="classifieds_online_mapping"
+            sequence="20"
+            parent="classifieds_online_menu" 
+  /> 
+
+
+</odoo>
