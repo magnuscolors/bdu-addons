@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<odoo>
+
+  <!--  Form view for classifieds online connector settings and operation --> 
+  <record id="view_form_classifieds_online_connector" model="ir.ui.view">
+    <field name="name">Classifieds Online connector</field>
+    <field name="model">classifieds.online.config</field> 
+    <field name="arch" type="xml">
+      <form string="Classifieds Online connector" create="false" edit="false" action="false" 
+                                     class="oe_form_configuration">
+        <header > 
+        </header>
+
+          <br/>
+          <group name="connector_config" string="Connector configuration" col="2">
+            <field name="server"/> 
+            <field name="method"/>  
+            <field name="user"/> 
+            <field name="password"/>  
+            <field name="ad_class"/>  
+            <field name="days_visible"/> 
+          </group>
+          <button name="save_config" type="object" 
+            string="Save" class="oe_highlight" /> 
+          <br/>
+          <br/>
+
+          <group name="production_status" string="Production status" col="2">
+              <field name="next_sync_start"   readonly="1"/> 
+              <field name="latest_run"        readonly="1" widget="html"/> 
+              <field name="latest_success"    readonly="1"/> 
+              <field name="latest_status"     readonly="1"/> 
+              <field name="latest_reason"     readonly="1" widget="html"/> 
+          </group>
+          <br/>
+          <br/>
+
+          <group name="manual_send" string="Manual send" >
+            <div colspan="2">
+              <p>Enter begin date and press "Send" to ship orderlines for period after begin date. </p>
+            </div>
+            <group>
+              <field name="begin"/>
+            </group>
+            <group>
+            </group>
+          </group>
+          <button string="Send" name="do_send" type="object" class="oe_highlight"/>
+          <br/>
+          <br/>
+
+
+          <group name="documentation" string="Summary" col="1">
+              <p>This interfaces takes the url and method given under connection info and ships all orderlines with products from the given product category by consuming the classifieds online API.</p> 
+              <p>The interface can be run manually (via the Send button) and automatically via scheduled actions calling the automated_run method of the classifieds.online.config object.</p>  
+              <p>Websites are currently maintained by Dutch Open Projects and hosted by YourHosting</p>           
+              <p/>
+              <p/>
+              <a href="https://www.dop.nu/" target="_blank"> More about Dutch Open Projects</a>
+              <a href="https://www.yourhosting.nl/" target="_blank"> More about YourHosting</a>
+          </group>
+
+
+      </form>
+    </field>
+  </record> 
+
+  <!-- Action to open form -->
+  <record id="classifieds_connector" model="ir.actions.server"> 
+    <field name="name">Classifieds Online connector</field> 
+    <field name="model_id" ref="model_classifieds_online_config"/> 
+    <field name="code">
+      action = model.default_view()
+    </field>
+  </record> 
+
+  <!-- Menu item --> 
+  <menuitem id="classifieds_online_connector_menuitem" 
+            name="Connector" 
+            action="classifieds_connector"
+            sequence="10"
+            parent="classifieds_online_menu" 
+  /> 
+
+
+</odoo>

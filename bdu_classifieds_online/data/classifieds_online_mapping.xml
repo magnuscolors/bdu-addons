@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="classifieds.online.mapping" id="classifieds_online_mapping_BKO">
+        <field name="title">BKO</field>
+        <field name="domain">BKOI</field>
+    </record>
+
+</odoo>
