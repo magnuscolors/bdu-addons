@@ -38,7 +38,7 @@ class SaleOrder(models.Model):
         b_auth      = bytes(config.api_user+":"+config.api_password)
         headers     = {'authorization': "Basic " + base64.b64encode( b_auth),
                        'cache-control': "no-cache",
-                       'Content-Type' : "application/json" #x-www-form-urlencoded",
+                       'Content-Type' : "application/json"
                       }
 
         payload={}
