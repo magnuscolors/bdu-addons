@@ -20,6 +20,7 @@ class PeacockConfig(models.Model):
     password       = fields.Char(string='Password')
     days           = fields.Integer(string='History in days')
     pretty_print   = fields.Boolean(string='Pretty print XML')
+    use_sql        = fields.Boolean(string='Use SQL')
 
     latest_run     = fields.Char(string='Latest run',     help="Date of latest run of Announcement connector")
     latest_status  = fields.Char(string='Latest status',  help="Log of latest run")
@@ -60,13 +61,17 @@ class PeacockConfig(models.Model):
         config.write({})
         return 
 
-    def ship_xml_file(self, xml, filename):
+    def ship_xml_file(self, msg, xml, filename):
         config = self[0]
 
         f = open(config.tempdir+"/"+filename,"w")
-        data = etree.tostring(xml, pretty_print=self.pretty_print)
-        f.write(data)
+        if self.use_sql :
+            f.write(xml)
+        else :
+            data = etree.tostring(xml, pretty_print=self.pretty_print)
+            f.write(data)
         f.close
+        f = None #to force releasing the file handle
 
         # Initiate File Transfer Connection
         try:
@@ -131,11 +136,77 @@ class PeacockConfig(models.Model):
         #calc begin and end date
         end   = datetime.datetime.strptime(config.end,DEFAULT_SERVER_DATE_FORMAT).date()
         begin = end - datetime.timedelta(days = config.days)
+        #for sql queries
+        period_end   = end.strftime(  '%Y-%m-%d')
+        period_begin = begin.strftime('%Y-%m-%d')
+        #for ORM search_reads
         end   = end.strftime(  'UTC %Y-%m-%d T23:59:59')
         begin = begin.strftime('UTC %Y-%m-%d T00:00:00')
 
         #account.move
-        am =self.env['account.move'].search_read([      ('write_date', '>=', begin), \
+        if self.use_sql :
+            cursor = self._cr
+            #account.move
+            query = 'SELECT  query_to_xml(\'SELECT account_move.id, account_move.name, \
+                                                   account_move.create_date, account_move.create_uid, account_move.write_date, account_move.write_uid, \
+                                                   account_move.date, account_move.operating_unit_id, account_move.company_id, account_move.journal_id, \
+                                                   res_company.name as company_name, account_journal.name as journal_name \
+                                            FROM account_move \
+                                            LEFT JOIN res_company ON account_move.company_id = res_company.id \
+                                            LEFT JOIN account_journal ON account_move.journal_id = account_journal.id \
+                                            WHERE account_move.write_date>=$$'+period_begin+'$$ AND account_move.write_date<=$$'+period_end+'$$\',\
+                                          true,false,\'\')'  
+
+            cursor.execute(query)
+            am=cursor.fetchall()
+            am_root=am[0][0]
+            
+            #account.move.line
+            #analytic_account_ids and tax_ids are missing, needs a join to incorporate in answer
+            #narration is not recognized
+            query = 'SELECT  query_to_xml(\'SELECT  account_move_line.id,                account_move_line.name, \
+                                                    account_move_line.create_date,       account_move_line.create_uid, creator2.name as create_id_name, \
+                                                    account_move_line.write_date,        account_move_line.write_uid,  changer2.name as write_id_name, \
+                                                    account_move_line.date, \
+                                                    account_move_line.operating_unit_id, operating_unit.name as operating_unit_id_name, \
+                                                    account_move_line.company_id,        res_company.name as company_id_name, \
+                                                    account_move_line.account_id,        account_move_line.analytic_account_id, \
+                                                    account_move_line.invoice_id,        account_invoice.name as invoice_id_name, \
+                                                    account_move_line.quantity, \
+                                                    account_move_line.product_id,        product_template.name as product_id_name, \
+                                                    account_move_line.partner_id,        partner.name as partner_id_name, \
+                                                    account_move_line.partner_bank_id,   account_move_line.ref,                  account_move_line.reconciled, \
+                                                    account_move_line.statement_id,      account_move_line.bank_payment_line_id, account_move_line.full_reconcile_id, \
+                                                    account_move_line.debit,             account_move_line.credit,               account_move_line.move_id \
+                                            FROM account_move_line \
+                                            LEFT JOIN res_users    as creators ON creators.id         = account_move_line.create_uid          \
+                                            INNER JOIN res_partner as creator2 ON creator2.id         = creators.partner_id                   \
+                                            LEFT JOIN res_partner  as partner  ON partner.id          = account_move_line.partner_id          \
+                                            LEFT JOIN res_users    as changers ON changers.id         = account_move_line.write_uid           \
+                                            INNER JOIN res_partner as changer2 ON changer2.id         = changers.partner_id                   \
+                                            LEFT JOIN res_company              ON res_company.id      = account_move_line.company_id          \
+                                            LEFT JOIN operating_unit           ON operating_unit.id   = account_move_line.operating_unit_id   \
+                                            LEFT JOIN product_product          ON product_product.id  =account_move_line.product_id           \
+                                            INNER JOIN product_template        ON product_template.id = product_product.product_tmpl_id       \
+                                            LEFT JOIN account_invoice          ON account_invoice.id  =account_move_line.invoice_id           \
+                                            WHERE account_move_line.write_date>=$$'+period_begin+'$$ AND account_move_line.write_date<=$$'+period_end+'$$\',true,false,\'\')'  
+            cursor.execute(query)
+            aml=cursor.fetchall()
+            aml_root=aml[0][0]
+            
+            #account.account
+            # tag_ids needs joining
+            #display_name not recognized
+            query = 'SELECT  query_to_xml(\'SELECT  id, name, create_date, create_uid, write_date, write_uid, \
+                                                company_id, code \
+                                        FROM account_account WHERE deprecated>=$$False$$\',true,false,\'\')'  
+            cursor.execute(query)
+            aa=cursor.fetchall()
+            aa_root=aa[0][0]
+
+        else :
+            #account.move
+            am =self.env['account.move'].search_read([  ('write_date', '>=', begin), \
                                                         ('write_date', '<=', end  )  \
                                                      ],['id',                        \
                                                         'name',                      \
@@ -150,8 +221,8 @@ class PeacockConfig(models.Model):
                                                         'line_ids',                  \
                                                      ])
         
-        #account.move.line
-        aml =self.env['account.move.line'].search_read([ ('write_date', '>=', begin),\
+            #account.move.line
+            aml =self.env['account.move.line'].search_read([ ('write_date', '>=', begin),\
                                                          ('write_date', '<=', end  ) \
                                                      ],['id',                        \
                                                         'name',                      \
@@ -183,8 +254,8 @@ class PeacockConfig(models.Model):
                                                         'move_id',                   \
                                                      ])
         
-        #account.account
-        aa =self.env['account.account'].search_read([ ('deprecated','=',False   )    \
+            #account.account
+            aa =self.env['account.account'].search_read([ ('deprecated','=',False   )    \
                                                      ],['id',                        \
                                                         'name',                      \
                                                         'create_date',               \
@@ -197,23 +268,23 @@ class PeacockConfig(models.Model):
                                                         'code',                      \
                                                      ])
 
-        #process into xml files 
-        chapter_am   = etree.Element('account_move')
-        chapter_aml  = etree.Element('account_move_line')
-        chapter_aa   = etree.Element('account_account')
+            #process into xml files 
+            am_root   = etree.Element('account_move')
+            aml_root  = etree.Element('account_move_line')
+            aa_root   = etree.Element('account_account')
 
-        #files as chapters in one xml document
-        for am_record in am :
-            self.add_element(chapter_am, am_record, 'record')
-        for aml_record in aml :
-            self.add_element(chapter_aml, aml_record, 'record')
-        for aa_record in aa :
-            self.add_element(chapter_aa, aa_record, 'record')       
+            #files as chapters in one xml document
+            for am_record in am :
+                self.add_element(am_root, am_record, 'record')
+            for aml_record in aml :
+                self.add_element(aml_root, aml_record, 'record')
+            for aa_record in aa :
+                self.add_element(aa_root, aa_record, 'record')       
 
         #Transfer files
-        self.ship_xml_file(chapter_am,  'account_move.xml')
-        self.ship_xml_file(chapter_aml, 'account_move_line.xml')
-        self.ship_xml_file(chapter_aa,  'account_account.xml')
+        self.ship_xml_file(msg, am_root,  'account_move.xml')
+        self.ship_xml_file(msg, aml_root, 'account_move_line.xml')
+        self.ship_xml_file(msg, aa_root,  'account_account.xml')
 
         #report and exit positively
         final_msg = "File transfer for Schuiteman / Peacock succesfull"

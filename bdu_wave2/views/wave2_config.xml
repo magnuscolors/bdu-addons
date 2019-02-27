@@ -1,0 +1,109 @@
+<?xml version="1.0"?> 
+<odoo>
+
+
+  <!--  Form view for config settings --> 
+  <record id="view_wave2_connection_config" model="ir.ui.view">
+    <field name="name">Wave2 interface settings</field>
+    <field name="model">wave2.config</field>
+    <field name="arch" type="xml">
+      <form string="Configure Wave2 interface" create="false" edit="false" action="false" class="oe_form_configuration">
+        <header >
+        </header>
+
+        <group>
+          <group name="server" string="FTP server">
+            <field name="server"/> 
+            <field name="server_dir"/>
+            <field name="user"/> 
+            <field name="password"/> 
+            <field name="done_dir"/> 
+            <field name="work_dir"/> 
+            <field name="status" readonly="1" widget="html"/> 
+          </group>
+          <group name="mat_server" string="Material server">
+            <field name="matserver"/> 
+            <field name="matserver_dir"/>
+          </group>
+        </group>
+
+        <group col="8">
+            <group col="1">           
+              <button name="save_config" type="object" string="Save" class="oe_highlight"/> 
+            </group>
+            <group col="1">
+              <button name="get_files" type="object" string="Get orders" class="oe_highlight"/> 
+            </group>
+            <group col="6">
+            </group>
+        </group>
+        
+        <group>
+          <group name="defaults_order" string="Default order values">
+            <field name="partner" string="Sales person"/> 
+            <field name="discount_reason"/> 
+            <field name="order_prefix"/>   
+            <field name="one_column_prod"/>  
+            <field name="two_column_prod"/>  
+            <field name="prod_uom"/> 
+            <field name="status2" readonly="1" widget="html"/> 
+          </group>
+          <group name="defaults_partner" string="Default partner values">
+            <field name="partner_am" string="Account manager"/> 
+            <field name="sector_id"/> 
+            <field name="country_id"/> 
+          </group>
+        </group>
+        
+        <group col="8">
+            <group col="1">
+              <button name="save_config" type="object" string="Save" class="oe_highlight"/> 
+            </group>
+            <group col="1">
+              <button name="process_orders" type="object" string="Process orders" class="oe_highlight"/> 
+            </group>
+          <group col="6"></group>
+        </group>
+
+        <group name="documentation" string="Toelichting">
+          <div colspan="4">
+            <p>Wave2 orders are collected from the given FTP site, processed and moved to the given 'done' directory. Processing of files is done locally in the configured work directory where Odoo should have full CRUD authorisation.</p>
+            <p>Customers are identified by their email address. Hence they should be unique, otherwise associated order is skipped and an error is logged in the given channel.</p>
+            <p>Orders reference is kept in the order and orderline external reference field, using the configured prefixes.</p>
+            <p>This connector may be run automatically by calling the do_job method of the wave2.config object.</p>
+            <p>This connector also caters for region to title administration and an alternative date configuration. Because Wave2 only knows of weekdays, the alternative date function transfers specific Wave2 orders (identified by title and date) to defined issues. See the respective menu options. </p>
+            <p>Total price per order is maintained, based on total price and number of titles per order (i.e. region). Should calculation give a remainder (e.g. 3 orderlines for 10 euro), then the last orderline closes the balance. Hence price negates Odoo pricing and follows the Wave2 configuration, but is still depending on internal precision.</p>
+            <p>Note that reruns update an existing order and that all orders are accepted (no check on deadline, issue_date, availability, invoices made).</p>
+            <p/>
+            <p/>
+            <p/>
+            <p/>
+            <a href="http://www.miles33.com/section/202/wave-2" target="_blank">Read more about Wave 2</a>
+          </div>
+        </group>
+      </form>
+    </field>
+  </record> 
+
+
+
+ 
+
+
+  <!-- Connection info via server action and submenu-->
+  <record id="config_wave2_interface" model="ir.actions.server"> 
+    <field name="name">Wave2 system configuration</field> 
+    <field name="model_id" ref="model_wave2_config"/> 
+    <field name="code">
+      action = model.default_view()
+    </field>
+  </record> 
+
+  <menuitem id="wave2_config_menuitemn" 
+    name="System configuration" 
+    action="config_wave2_interface"
+    sequence="232"
+    parent="wave2_menu" 
+     /> 
+
+</odoo>

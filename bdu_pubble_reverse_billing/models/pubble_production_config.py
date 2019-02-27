@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import datetime, httplib, json, logging, pdb
+import datetime, httplib, json, logging
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
@@ -403,6 +403,8 @@ class PubbleProductionConfig(models.Model):
             s += ": <b>"+str(line['aantal'])
             s += " x "+line['productCode']+"</b>"
             s += " (ref:"+str(line['referentie'])+")"
+            if '@bdu.nl' in line['credit'] :
+                s += " Note: billing line for bdu employee skipped."
             s += "<br/>"
         s += ""
         return s

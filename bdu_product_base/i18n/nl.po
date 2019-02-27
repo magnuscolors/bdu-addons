@@ -22,8 +22,8 @@ msgstr "Fiscale positie:"
 
 #. module: bdu_product_base
 #: model:ir.ui.view,arch_db:bdu_product_base.report_saleorder_document
-msgid "Payment Terms:"
-msgstr "Betalingsconditie:"
+msgid "<strong>Payment Terms:</strong>"
+msgstr "<strong>Betalingsconditie:</strong>"
 
 #. module: bdu_product_base
 #: model:ir.ui.view,arch_db:bdu_product_base.report_saleorder_document
@@ -32,8 +32,8 @@ msgstr "<strong>Verkoper:</strong>"
 
 #. module: bdu_product_base
 #: model:ir.ui.view,arch_db:bdu_product_base.report_saleorder_document
-msgid "Shipping address:"
-msgstr "Leveradres:"
+msgid "<strong>Shipping address:</strong>"
+msgstr "<strong>Leveradres:</strong>"
 
 #. module: bdu_product_base
 #: model:ir.ui.view,arch_db:bdu_product_base.report_saleorder_document

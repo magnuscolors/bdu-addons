@@ -184,6 +184,11 @@ class PubbleConfig(models.Model):
                         d['ad_page'] = 0
                         d['ed_page'] = 1 #+ self.conditional_ad(d['is_spread'], 1)
                     
+                    #Specials are copied into an edition before manufacturing. This copy should not be counted
+                    if "special" in d['page_type'] :
+                        d['ad_page'] = 0
+                        d['ed_page'] = 0
+
                     existing_recs = pubble_kpis.search([('title',     '=', d['title']     ),
                                                         ('issue_date','=', d['issue_date']),
                                                         ('page_nr',   '=', d['page_nr']   )

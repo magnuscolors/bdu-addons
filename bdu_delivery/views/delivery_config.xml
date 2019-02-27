@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<odoo>
+
+  <!--  Tree view of delivery configurations --> 
+  <record id="view_tree_delivery_connector" model="ir.ui.view">
+    <field name="name">Delivery connector</field>
+    <field name="model">delivery.config</field> 
+    <field name="arch" type="xml">
+      <tree string="Delivery connectors" create="true" edit="false" action="false">
+            <field name="name"/>
+            <field name="title_ids" widget="many2many_tags"/>
+            <field name="carrier_ids" widget="many2many_tags" invisible="1"/>
+            <field name="delivery_ids" widget="many2many_tags"/>
+            <field name="offset_days"/> 
+            <field name="file_prefix" />
+            <field name="file_prefix" />
+            <field name="tempdir"/> 
+            <field name="use_ftp"/> 
+            <field name="use_email"/> 
+      </tree>
+    </field>
+  </record>
+                    
+
+  <!--  Form view for specific configuration --> 
+  <record id="view_form_delivery_connector" model="ir.ui.view">
+    <field name="name">Delivery connector</field>
+    <field name="model">delivery.config</field> 
+    <field name="arch" type="xml">
+      <form string="Delivery connector" create="false" edit="true" action="false" class="oe_form_configuration">
+        <header> 
+        </header>
+          <br/>
+          <group> 
+                <group name="other_config" string="Processing options">
+                    <field name="name"/>
+                    <field name="title_ids" widget="many2many_tags"/>
+                    <field name="carrier_ids" widget="many2many_tags" invisible="1"/>
+                    <field name="delivery_ids" widget="many2many_tags"/>
+                    <field name="offset_days"/> 
+                    <field name="file_prefix"/>
+                    <field name="file_suffix"/>
+                    <field name="file_format"/>
+                    <field name="tempdir"/> 
+                    <field name="use_ftp"/> 
+                    <field name="use_email"/> 
+                </group>
+                <group col="1">
+                    <group name="connector_config" string="FTP configuration" attrs="{'invisible': [('use_ftp', '!=', True)]}">
+                      <field name="server"/> 
+                      <field name="directory"/>  
+                      <field name="user"/> 
+                      <field name="password"/> 
+                    </group>
+                    <group name="email_config" string="Email configuration" attrs="{'invisible': [('use_email', '!=', True)]}">
+                      <field name="email_recipient" string="Recipient"/> 
+                      <field name="email_cc" string="Cc"/> 
+                      <field name="email_subject" string="Subject"/>  
+                      <field name="email_sender" string="Sender"/> 
+                    </group>
+                </group> 
+          </group>
+          <!--button name="save_config" type="object" string="Save" class="oe_highlight"/-->
+          
+          <br/>
+          <br/>
+          <br/>
+          <group name="Status" string="Status">
+              <field name="latest_run" readonly="1" widget="html"/> 
+              <field name="latest_status" readonly="1" widget="html"/> 
+          </group>
+          
+          <br/>
+          <br/>
+          <br/>
+          <group name="manual_send" string="Manual send">
+            <div colspan="2">
+              <p>Enter the date for which subscriptions should be active and press "Send" to send subscription update to website.</p>
+            </div>
+            <group>
+              <field name="active_date"/>
+            </group>
+            <group>
+            </group>
+          </group>
+          <button string="Send" name="do_send" type="object" class="oe_highlight"/>
+          <br/>
+          <br/>
+
+          <group name="documentation" string="Summary" col="1">
+              <p>This connector collects active subscriptions for given titles and an active date. The active date is either the given date (manual send) or the system date + offset in days (automated run). Current version neglects temporary stop. In case a subscription is not a new one, and the active date is equal to the start date of the subscription period an "add" flag is added to the list. Subsequently a "remove" flag is added on the day after subscription end.</p>
+              <p>The collector selects orderlines with state 'sale' and is indifferent to the state of invoicing. </p>
+              
+              <p>Shipping can be done manually using the Send-button above, or automatically via scheduled actions calling the automated_run method of the digital.subscribers.config object.</p>  
+              <p/>
+          </group>
+
+      </form>
+    </field>
+  </record> 
+
+ 
+
+   <!-- Action  --> 
+  <act_window id="delivery_connectors" 
+              name="Delivery connector" 
+              res_model="delivery.config" 
+              view_mode="tree,form" 
+  /> 
+
+  <!-- Menu item to open list of delivery configurations --> 
+  <menuitem id="delivery_connectors_menuitem" 
+    name="Deliveries" 
+    action="delivery_connectors"
+    sequence="205"
+    parent="sales_team.menu_sale_config" 
+     /> 
+
+
+
+</odoo>
