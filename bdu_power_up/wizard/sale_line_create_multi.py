@@ -266,7 +266,8 @@ class sale_order_line_create_multi_lines(models.TransientModel):
         ## o2m: nothing
         self.env.cr.execute(del_query)
         self.env.invalidate_all()
-        orders._pubble_allow()
+        if orders:
+            orders._pubble_allow()
         return lines
 
 
