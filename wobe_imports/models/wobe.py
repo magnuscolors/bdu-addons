@@ -1069,8 +1069,8 @@ class Job(models.Model):
                             if pack.product_qty > 0:
                                 pack.write({'qty_done': pack.product_qty})
                             else:
-                                autoConfirm = False
-                                # pack.unlink()
+                             #  autoConfirm = False
+                                pack.unlink()
                         if autoConfirm:
                             picking.do_transfer()
                             msg = "Picking : 'Auto Confirmed'"
