@@ -1,0 +1,39 @@
+<odoo>
+
+    <!-- removing javascript action from generate buttons from title delivery tree and delivery list tree  -->
+    <template id="assets_backend_inherited" inherit_id="publishing_subscription_order.assets_backend" name="bdu_delivery inherited assets_backend">
+        <xpath expr="//script[@src='/publishing_subscription_order/static/src/js/list_view.js']" position="replace">
+            <!-- Nothing -->
+        </xpath>
+    </template>
+
+
+    <!-- removing generate button from title delivery form   -->
+    <record id="subscription_title_delivery_form_inherited" model="ir.ui.view">
+      <field name="name">subscription.title.delivery.form.inherited</field>
+      <field name="model">subscription.title.delivery</field>
+      <field name="inherit_id" ref="publishing_subscription_order.subscription_title_delivery_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//button[@name='generate_delivery_list']" position="replace">
+        </xpath>
+      </field>
+    </record>
+    
+
+    <!-- removing generate button from delivery list form   -->
+    <record id="subscription_delivery_list_form_inherited" model="ir.ui.view">
+      <field name="name">subscription.delivery.list.form.inherited</field>
+      <field name="model">subscription.delivery.list</field>
+      <field name="inherit_id" ref="publishing_subscription_order.subscription_delivery_list_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//button[@name='generate_delivery_lines']" position="replace">
+        </xpath>
+        <!--this second definition is to remove re-generate button when in progress state which has the same name-->
+        <xpath expr="//button[@name='generate_delivery_lines']" position="replace">
+        </xpath>
+      </field>
+    </record>
+
+
+
+</odoo>

@@ -979,9 +979,11 @@ class Job(models.Model):
                     WasteRollProducts[roll.product_id] = Qty
 
         for product_id, qty in NetRollProducts.iteritems():
-            lines.append({'productObj': product_id, 'name': 'Net Paper: ' + str(product_id.name), 'product_uom_qty': qty})
+            if qty > 0:
+                lines.append({'productObj': product_id, 'name': 'Net Paper: ' + str(product_id.name), 'product_uom_qty': qty})
         for product_id, qty in WasteRollProducts.iteritems():
-            lines.append({'productObj': product_id, 'name': 'Waste Paper: ' + str(product_id.name), 'product_uom_qty': qty})
+            if qty > 0:
+                lines.append({'productObj': product_id, 'name': 'Waste Paper: ' + str(product_id.name), 'product_uom_qty': qty})
 
         InkQty = 0.0
         for ed in job.edition_ids:
@@ -1069,8 +1071,8 @@ class Job(models.Model):
                             if pack.product_qty > 0:
                                 pack.write({'qty_done': pack.product_qty})
                             else:
-                                autoConfirm = False
-                                # pack.unlink()
+                               autoConfirm = False
+                             #   pack.unlink()
                         if autoConfirm:
                             picking.do_transfer()
                             msg = "Picking : 'Auto Confirmed'"

@@ -1,9 +1,11 @@
 # -*- encoding: utf-8 -*-
 
 import pdb
-import base64, requests, logging
+import base64, json, logging, requests
 from datetime import datetime, timedelta
-from odoo import api, fields, exceptions, models
+from odoo.addons.queue_job.job import job, related_action
+from odoo.addons.queue_job.exception import FailedJobError
+from odoo import api, fields, exceptions, models, _
 #from dateutil.relativedelta import relativedelta
 #from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 
@@ -12,16 +14,16 @@ _logger = logging.getLogger(__name__)
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    @job
     @api.multi
     def write(self, vals):
-        result = super(SaleOrder, self).write(vals)
-        for order in self.filtered(lambda s: s.state in ['sale'] and s.subscription ):
-            r = self.drupal_update(order)
-            if r != "ok" :            
-                _logger.warning(r)
+        result   = super(SaleOrder, self).write(vals)
+        sudoself = self.sudo()
+        for order in sudoself.filtered(lambda s: s.state in ['sale'] and s.subscription ):
+            sudoself.with_delay(description="Drupal update for subscription order "+order.name).drupal_update(order)
         return result
 
-    @api.multi
+    @job
     def drupal_update(self, order):
         #use config to prep api call      
         configs     = self.env['digital.subscribers.config'].search([])
@@ -36,7 +38,7 @@ class SaleOrder(models.Model):
         b_auth      = bytes(config.api_user+":"+config.api_password)
         headers     = {'authorization': "Basic " + base64.b64encode( b_auth),
                        'cache-control': "no-cache",
-                       'content-type' : "application/x-www-form-urlencoded",
+                       'Content-Type' : "application/json" #x-www-form-urlencoded",
                       }
 
         payload={}
@@ -74,34 +76,34 @@ class SaleOrder(models.Model):
             else :
                 right['subscription'] = ""
             
-            if orderline.start_date <= now and orderline.end_date >= now :
-                right['count']     = str(int(orderline.product_uom_qty)) 
-            else :
-                right['count']     = "0"
-            
-            right['startdate']     = orderline.start_date
-            right['enddate']       = orderline.end_date
+            right['count']     = str(int(orderline.product_uom_qty)) 
+            right['startdate'] = orderline.start_date
+            right['enddate']   = orderline.end_date
             rights.append(right)
         
         payload['rights'] =  rights
         
         #send it, give answer as triplet or plain ok
+        prefix = datetime.now().strftime("UTC %Y-%m-%d %H:%M:%S")+" order "+order.name+" "
         try :
-            response = requests.request("POST", url, data=payload, headers=headers)
+            response = requests.request("POST", url, data=json.dumps(payload), headers=headers)
         except :            
             config.api_last_msg = "No connection"
-            return "no connection"
+            _logger.error("No connection error on Drupal update for order "+order.name)
+            return
         if response.status_code == requests.codes.ok :  # equal 200 ok
-            config.api_last_msg = "ok"
-            return "ok"
+            config.api_last_msg = prefix+"ok"
+            _logger.info("Successful Drupal update for order "+order.name)
+            return
         elif response.status_code in list(range(100, 600)) :
-            config.api_last_msg = "bad response,"+str(response.status_code)+", "+response.content
-            return "bad response,"+str(response.status_code)+", "+response.content
+            config.api_last_msg = prefix + "bad response,"+str(response.status_code)+", "+response.content
+            _logger.error("Bad response,"+str(response.status_code)+", "+response.content+ " on Drupal update for order "+order.name)
+            return
         else:
             msg=str(response.json()['message'])
-            config.api_last_msg = "bad response,"+str(response.status_code)+", "+msg
-            return "bad response,"+str(response.status_code)+", "+msg
-
+            config.api_last_msg = prefix + "bad response,"+str(response.status_code)+", "+msg
+            _logger.error("Bad response,"+str(response.status_code)+", "+ msg+" on Drupal update for order "+order.name)
+            return 
 
 
 

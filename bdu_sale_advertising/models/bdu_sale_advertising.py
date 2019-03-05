@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-
+import logging
 from odoo import api, fields, models, _
 
+_logger = logging.getLogger(__name__)
 
 class SaleAdvertisingIssue(models.Model):
     _inherit = "sale.advertising.issue"
@@ -74,6 +75,17 @@ class SaleOrder(models.Model):
                 else:
                     self.partner_acc_mgr = False
         return result
+        
+    def invoice_filtered_order(self, domain):
+        # automated call expects domain selections in arguments in form of  (<arguments>,)
+        #example ([('state','=','sale'),('advertising','=',True)],)
+        if not type(domain) == list :
+            _logger.error("Provided domain is not of type list. Program aborted.")
+            return
+        selection = self.search(domain).ids
+        self = self.with_context(active_ids=selection,chunk_size=100)
+        result = self.env['ad.order.make.invoice'].make_invoices_from_ad_orders()
+        return
 
 
 class SaleOrderLine(models.Model):
@@ -85,4 +97,15 @@ class SaleOrderLine(models.Model):
         string='Salesteam',
         store=True
     )
+        
+    def invoice_filtered_orderlines(self, domain):
+        # automated call expects domain selections in arguments in form of  (<arguments>,)
+        #example ([('advertising','=',True),('state','=','sale'),('adv_issue.name', '=','ESO 2019-01-30')],)
+        if not type(domain) == list :
+            _logger.error("Provided domain is not of type list. Program aborted.")
+            return
+        selection = self.search(domain).ids
+        self = self.with_context(active_ids=selection, chunk_size=100)
+        result = self.env['ad.order.line.make.invoice'].make_invoices_from_lines()
+        return
 

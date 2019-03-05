@@ -23,7 +23,7 @@
     </record>
     
 
-    <!-- redefinition of view sequence -->
+    <!-- addition of kanban view behind tree view -->
     <record id="base.res_partner_supplier_kanban_view_inherited" model="ir.actions.act_window.view">
         <field name="sequence" eval="3"/>
         <field name="view_mode">kanban</field>
@@ -31,6 +31,12 @@
         <field name="act_window_id" ref="base.action_partner_supplier_form"/>
     </record>
 
-
+    <!-- addition of tree view -->
+    <record id="base.res_partner_supplier_tree_view_inherited" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="base.view_partner_tree"/>
+        <field name="act_window_id" ref="base.action_partner_supplier_form"/>
+    </record>
 
 </odoo>

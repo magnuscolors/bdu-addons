@@ -48,6 +48,7 @@
             'views/wave2_region.xml',
             'views/wave2_region_titles.xml',
             'data/wave2_class.xml',
+            'data/wave2_region.xml',
             ],
     # only loaded in demonstration mode
     #'demo': [

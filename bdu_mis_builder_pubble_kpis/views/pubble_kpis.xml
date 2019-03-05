@@ -1,7 +1,7 @@
 <?xml version="1.0"?> 
 <odoo>
 
-  <!-- Form for record interaction  --> 
+  <!-- List view  --> 
   <record id="view_tree_pubble_data" model="ir.ui.view"> 
     <field name="name">Pubble data</field> 
     <field name="model">mis.pubble.kpi</field> 
@@ -25,7 +25,7 @@
     </field> 
   </record> 
 
-  <!-- List view in first screen --> 
+  <!-- Form view --> 
   <record id="view_form_pubble_data" model="ir.ui.view"> 
     <field name="name">Pubble data</field> 
     <field name="model">mis.pubble.kpi</field> 

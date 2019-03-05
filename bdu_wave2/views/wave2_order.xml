@@ -51,7 +51,7 @@
   
   <!-- Menu item --> 
   <menuitem id="wave2_orders_menuitem" 
-            name="Collected Wave2 orders" 
+            name="Wave2 orders" 
             action="wave2_orders"
             sequence="233"
             parent="wave2_menu" 

@@ -30,7 +30,7 @@ class sale_order_line_create_multi_lines(models.TransientModel):
 
 
     @api.multi
-    def create_multi_from_order_lines(self, orderlines=[]):
+    def create_multi_from_order_lines(self, orderlines=[], orders= None):
         sol_obj = self.env['sale.order.line']
         olines = sol_obj.browse(orderlines)
         for ol in olines:
@@ -219,7 +219,12 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                          sol.comb_list_price
                     ELSE 0.0
                 END AS price_total,
-                'false' AS line_pubble_allow
+                CASE
+                    WHEN adclass.pubble is true AND medium.pubble is true
+                    THEN true
+                    ELSE false
+                END 
+                AS line_pubble_allow
                 FROM sale_order_line sol
                 LEFT JOIN sale_order_line_issues_products solip
                 ON (sol.id = solip.order_line_id)
@@ -229,6 +234,10 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 ON (title.id = issue.parent_id)
                 LEFT JOIN sale_order so
                 ON (so.id = sol.order_id)
+                LEFT JOIN product_category adclass
+                ON (adclass.id = sol.ad_class)
+                LEFT JOIN product_category medium
+                ON (medium.id = issue.medium)
                 WHERE
                 sol.id {2} '{3}'
                 RETURNING id
@@ -257,6 +266,8 @@ class sale_order_line_create_multi_lines(models.TransientModel):
         ## o2m: nothing
         self.env.cr.execute(del_query)
         self.env.invalidate_all()
+        if orders:
+            orders._pubble_allow()
         return lines
 
 

@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_delivery_connector,access_delivery_connector,model_delivery_config,delivery_connector,1,1,1,0
