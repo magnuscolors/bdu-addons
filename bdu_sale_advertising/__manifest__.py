@@ -37,7 +37,7 @@ c) future edition filter on issues\n
 d) additional selection "Exception" for invoicing frequency\n
 e) batch invoicing with parsed date arguments\n
 
-Barch invoicing uses an argument in the form : ([domain filter],invoice_date,)\n
+Barch invoicing uses an argument in the form : ([domain filter],invoice_date, invoice_type, ou)\n
 Date arguments in filters and invoice date may either be a date or a date keyword like :
 - nearest_tuesday
 - first_this_month (monday afterwards if a sunday)
@@ -45,7 +45,9 @@ Date arguments in filters and invoice date may either be a date or a date keywor
 - today
 - yesterday
 - day_before_yesterday
-- last_sunday
+- last_sunday\n
+Invoice type may be either \'ad\', \'sub\' or \'general\'.\n
+The operating unit parameter (ou) should match an existing operating unit code. See operating unit under settings.
 \n\n
 Filters are a.o. based on sales teams to circumvent additional administration\n
 Note that by using sales teams only direct sales teams should be used (i.e. one channel)\n
