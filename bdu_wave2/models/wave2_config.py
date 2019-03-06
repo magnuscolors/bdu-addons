@@ -228,6 +228,11 @@ class Wave2Config(models.Model):
             odoo_orders = self.env['sale.order'].search([('client_order_ref','=',order_header['client_order_ref'])])
             if len(odoo_orders) == 1 :
                 odoo_order=odoo_orders[0]
+                if odoo_order.invoice_status=='invoiced' :
+                    errors += 1
+                    order.state = 'error'
+                    order.remark= 'already invoiced'
+                    continue
                 odoo_order.write(order_header)
             elif len(odoo_orders) > 1 :
                 errors += 1
@@ -530,6 +535,9 @@ class Wave2Config(models.Model):
             #old style
             return "No support for legacy style orders"
 
+        #orderline text for online publication in dtp remark field without CDATA
+        rawtext = str(xml.find("RAD_PK").find("RAD_TEKST").findtext("REGEL"))
+
         orderline_details = {
                       'advertising'         : 1,               
                       'order_id'            : odoo_order.id, 
@@ -544,7 +552,7 @@ class Wave2Config(models.Model):
                       'ad_number'           : ad_number,
                       'page_reference'      : "Rubriek : "+classified_class.name,
                       'url_to_material'     : material_url,          #ftp location of pdf made by WAV2
-                      'layout_remark'       : str(xml.find("RAD_PK").findtext("RAD_TEKST")),   #raw info into remarks for DTP-er
+                      'layout_remark'       : rawtext,   #raw info into remarks for DTP-er
                       'product_uom'         : config.prod_uom.id,    
                       'product_uom_qty'     : round(float(xml.find("RAD_PK").findtext("RAD_MM")),2),
                       #'discount'           : 0,        
