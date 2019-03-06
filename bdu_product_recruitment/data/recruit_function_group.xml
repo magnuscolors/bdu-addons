@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<odoo >
+    <record model="recruit.function.group" id="administratief_secretarieel">
+        <field name="name">Administratief / Secretarieel</field>
+    </record>
+    <record model="recruit.function.group" id="automatisering_internet">
+        <field name="name">Automatisering / Internet</field>
+    </record>
+    <record model="recruit.function.group" id="beleid_bestuur_staf">
+        <field name="name">Beleid / Bestuur / Staf</field>
+    </record>
+    <record model="recruit.function.group" id="beveiliging_defensie_politie">
+        <field name="name">Beveiliging / Defensie / Politie</field>
+    </record>
+    <record model="recruit.function.group" id="commercieel_verkoop">
+        <field name="name">Commercieel / Verkoop</field>
+    </record>
+    <record model="recruit.function.group" id="consultancy_advies">
+        <field name="name">Consultancy / Advies</field>
+    </record>
+    <record model="recruit.function.group" id="default">
+        <field name="name">Default</field>
+    </record>
+    <record model="recruit.function.group" id="design_creatie_journalistiek">
+        <field name="name">Design / Creatie / Journalistiek</field>
+    </record>
+    <record model="recruit.function.group" id="directie_management_algemeen">
+        <field name="name">Directie / Management algemeen</field>
+    </record>
+    <record model="recruit.function.group" id="financieel_accounting">
+        <field name="name">Financieel / Accounting</field>
+    </record>
+    <record model="recruit.function.group" id="financiele_dienstverlening">
+        <field name="name">Financiële dienstverlening</field>
+    </record>
+    <record model="recruit.function.group" id="horeca_detailhandel">
+        <field name="name">Horeca / Detailhandel</field>
+    </record>
+    <record model="recruit.function.group" id="hr_training_opleiding">
+        <field name="name">HR / Training / Opleiding</field>
+    </record>
+    <record model="recruit.function.group" id="inkoop_logistiek_transport">
+        <field name="name">Inkoop / Logistiek / Transport</field>
+    </record>
+    <record model="recruit.function.group" id="juridisch">
+        <field name="name">Juridisch</field>
+    </record>
+    <record model="recruit.function.group" id="klantenservice_callcenter_receptie">
+        <field name="name">Klamntenservice / Callcenter / Receptie</field>
+    </record>
+    <record model="recruit.function.group" id="marketing_pr_communicatie">
+        <field name="name">Marketing / PR / Communicatie</field>
+    </record>
+    <record model="recruit.function.group" id="medisch_zorg">
+        <field name="name">Medisch / Zorg</field>
+    </record>
+    <record model="recruit.function.group" id="onderwijs_onderzoek_wetenschap">
+        <field name="name">Onderwijs / Onderzoek / Wetenschap</field>
+    </record>
+    <record model="recruit.function.group" id="overig">
+        <field name="name">Overig</field>
+    </record>
+    <record model="recruit.function.group" id="productie_uitvoerend">
+        <field name="name">Productie / Uitvoerend</field>
+    </record>
+    <record model="recruit.function.group" id="techniek">
+        <field name="name">Techniek</field>
+    </record>
+</odoo>
