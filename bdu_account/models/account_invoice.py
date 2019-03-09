@@ -92,7 +92,6 @@ class AccountInvoice(models.Model):
             embed_string = '<img src="data:image/jpeg;base64,'+b64jpeg+'" width="'+str(size[0])+'px" height="'+str(size[1])+'px"/>'
             return embed_string
         else :
-            import pdb;pdb.set_trace()
             return "n.a."
 
 
