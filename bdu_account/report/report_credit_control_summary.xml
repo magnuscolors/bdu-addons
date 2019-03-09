@@ -34,7 +34,7 @@
                 <t t-if="not o or not 'company_id' in o">
                     <t t-set="company" t-value="res_company"/>
                 </t>
-                <t  t-if="company.credit_control_footer" t-raw="'data:image/png;base64,%s' % company.credit_control_footer"/>
+                <t  t-if="company.credit_control_footer" t-raw="company.credit_control_footer"/>
             </div>
         </div>
         <t t-raw="0"/>
