@@ -2,7 +2,7 @@
 
 from odoo import api, fields, models, _
 import odoo.addons.decimal_precision as dp
-import datetime
+import base64, datetime, pdf2image, StringIO
 
 
 class AccountInvoice(models.Model):
@@ -60,6 +60,40 @@ class AccountInvoice(models.Model):
                     if name == 'ad':
                         result[i][2].pop(name, None)
         return result
+
+
+    @api.model
+    def has_attachment(self):
+        attachments = self.env['ir.attachment'].search([('res_model','=','account.invoice'), 
+                                                        ('res_id','=',self.id),              
+                                                        ('mimetype','=','application/pdf'),  
+                                                        ('res_name','like',self.number)])
+        if len(attachments) == 1 :
+            return True
+        else:
+            return False
+
+    @api.model
+    def invoice_attachment_as_image(self, scale):
+        attachments = self.env['ir.attachment'].search([('res_model','=','account.invoice'), 
+                                                        ('res_id','=',self.id),              
+                                                        ('mimetype','=','application/pdf'),  
+                                                        ('res_name','like',self.number)])
+        if len(attachments) == 1 :
+            data    = attachments[0].datas
+            b64data = base64.b64decode(data)
+            image   = pdf2image.convert_from_bytes(b64data) #is PIL format
+            size    = int(image[0].width*scale) , int(image[0].height*scale)
+            #image[0]= image[0].resize(size) #resizing by wkhtmltopdf gives better quality
+            buf     = StringIO.StringIO()
+            image[0].save(buf, format= 'JPEG')
+            jpeg    = buf.getvalue()
+            b64jpeg = base64.b64encode(jpeg)
+            embed_string = '<img src="data:image/jpeg;base64,'+b64jpeg+'" width="'+str(size[0])+'px" height="'+str(size[1])+'px"/>'
+            return embed_string
+        else :
+            import pdb;pdb.set_trace()
+            return "n.a."
 
 
 

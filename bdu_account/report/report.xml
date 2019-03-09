@@ -24,6 +24,26 @@
         <field name="dpi">90</field>
     </record>
 
+    <!--
+        A4 with small margin
+        template should add logo and footer
+    -->
+    <record id="paperformat_european_a4_bdu" model="report.paperformat">
+        <field name="name">European A4 - BDU Layout - no header</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">8</field>
+        <field name="margin_bottom">16</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
 
     <report
         id="account.account_invoices"
@@ -106,12 +126,12 @@
     <report
         id="account_credit_control.credit_control_summary"
         model="credit.control.communication"
-        string="Credit Control Summary"
+        string="Credit Control Summary v2"
         report_type="qweb-pdf"
         name="account_credit_control.report_credit_control_summary"
         file="account_credit_control.report_credit_control_summary"
         auto="False"
-        paperformat="bdu_account.paperformat_bdu_layout"
+        paperformat="bdu_account.paperformat_european_a4_bdu"
     />
 
     </data>

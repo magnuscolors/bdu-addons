@@ -1,51 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    
-    <template id="report_credit_control_summary_document1">
-        <t t-call="bdu_account.external_layout_bdu">
-            <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})" />
-            <div class="page" style="font-family: 'Titillium Web', sans-serif;">
-                <div class="row" style="padding-left:85px;">
-                <div name="invoice_title" class="col-xs-5 col-xs-offset-7" style="padding:0px;">
-                    <h3>
-                        <span></span>
-                    </h3>
-                </div>
+
+    <!-- 
+        Credit control is done on company level, so could be handling different OU invoices.
+        Hence different logo and footer options added as company attributes
+    -->
+
+
+    <!-- supposedly used only on first page -->
+    <template id= "bdu_account.company_mail_logo">
+        <t t-if="not o and doc">
+            <t t-set="o" t-value="doc"/>
+        </t>
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company"/>
+        </t>
+        <img  t-if="company.credit_control_logo" t-att-src="'data:image/png;base64,%s' % company.credit_control_logo"/>
+    </template>
+
+    <!-- company based (not OU based) layout -->
+    <template id="external_layout_company_footer_only">
+         <div class="footer">
+            <div class="row text-center text-muted" style="font-size: 0.875em; padding-left:20px;padding-right:15px;">            
+                <t t-if="not o and doc">
+                    <t t-set="o" t-value="doc"/>
+                </t>
+                <t t-if="o and 'company_id' in o">
+                    <t t-set="company" t-value="o.company_id"/>
+                </t>
+                <t t-if="not o or not 'company_id' in o">
+                    <t t-set="company" t-value="res_company"/>
+                </t>
+                <t  t-if="company.credit_control_footer" t-raw="'data:image/png;base64,%s' % company.credit_control_footer"/>
             </div>
-            <div class="row" id="address" style="padding-left:85px;">
-                <!--<div class="col-xs-5 col-xs-offset-7" style="padding:0px;">-->
-                    <!--<address t-field="doc.contact_address"-->
-                             <!--t-field-options='{"widget": "contact",-->
-                                               <!--"fields": ["address", "name"],-->
-                                               <!--"no_marker": true}'/>-->
-                <!--</div>-->
-                <div name="address" class="col-xs-5 col-xs-offset-7" style="padding:0px;">
-                      <t t-if="doc.partner_id.zip">
-                            <address t-field="doc.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
-                      </t>
-                      <t t-if=" not doc.partner_id.zip">
-                            <address t-field="doc.partner_id.parent_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
-                      </t>
-                     <span t-if="doc.partner_id.vat">TIN: <span t-field="doc.partner_id.vat"/></span>
-                 </div>
-                <div class="col-xs-5 col-xs-offset-7" style="padding:0px;">
-                    <span t-field="doc.report_date"/>
-                </div>
+        </div>
+        <t t-raw="0"/>
+    </template>
+    
+    <!-- header page, with possible appendices -->
+    <template id="report_credit_control_summary_document1">
+        <t t-call="bdu_account.external_layout_company_footer_only">
+        <div class="page" style="font-family: 'Titillium Web', sans-serif;font-size:11pt;">
+            <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})"/>
+
+            <!-- fixed height and no overflow for logo so address is always starting at right place -->
+            <div class="row " style="padding-left:35px;">
+                <div style="height:45mm;overflow:hidden;">
+                   <t t-call="bdu_account.company_mail_logo"/>
+               </div>
             </div>
 
+            <div >
+                <div class="row" id="address">
+                    <div name="address" class="col-xs-5 col-xs-offset-7" style="padding:0px;">
+                        <t t-if="doc.partner_id.zip">
+                            <address t-field="doc.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                        </t>
+                        <t t-if=" not doc.partner_id.zip">
+                            <address t-field="doc.partner_id.parent_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                        </t>
+                        <span t-if="doc.partner_id.vat">TIN: <span t-field="doc.partner_id.vat"/></span>
+                    </div>
+                    <div class="col-xs-5 col-xs-offset-7" style="padding:0px;">
+                        <span t-field="doc.report_date" t-field-options="{&quot;format&quot;:&quot;d MMMM y&quot;}"/>
+                    </div>
+                </div>
+    
                 <h2 id="policy_level" style="padding-left:20px;">
                     <span t-field="doc.current_policy_level.name"/>
                 </h2>
-
-                <div class="row mt32 mb32" style="padding-left:20px;">
-                    <div class="col-xs-12">
+    
+                <div class="row mt32 mb32" style="padding-left:35px;padding-right:15px;">
                        <span t-field="doc.current_policy_level.custom_text"/>
-                    </div>
                 </div>
-
+    
                 <h3 style="padding-left:20px;">Summary</h3>
 
-                <div class="row" style="padding-left:30px;padding-right:15px;">
+                <div class="row" style="padding-left:35px;padding-right:30px;">
                     <table class="table table-condensed" id="summary_table">
                         <thead>
                             <tr>
@@ -59,54 +93,41 @@
                         </thead>
                         <tbody>
                             <tr t-foreach="doc.credit_control_line_ids" t-as="l">
-                                <t t-if="l.invoice_id">
-                                    <td>
+                                <td>
+                                    <t t-if="l.invoice_id">
                                         <span t-field="l.invoice_id.number"/>
                                         <t t-if="l.invoice_id.name">
                                             <span t-field="l.invoice_id.name"/>
                                         </t>
-                                    </td>
                                 </t>
-                                <t t-if="not l.invoice_id">
-                                    <td>
+                                    <t t-if="not l.invoice_id">
                                         <span t-field="l.move_line_id.name"/>
-                                    </td>
-                                </t>
+                                    </t>
+                                </td>
                                 <td>
                                     <span t-field="l.invoice_id.date_invoice"/>
                                 </td>
                                 <td>
                                     <span t-field="l.date_due"/>
                                 </td>
-                                <t t-if="l.invoice_id">
-                                    <t t-if="l.move_line_id.name=='/' and l.invoice_id.ad">
-                                        <td>
-                                            <span>Geplaatste advertenties</span>
-                                        </td>
+                                <td>
+                                    <t t-if="l.invoice_id">
+                                        <t t-if="l.move_line_id.name=='/' and l.invoice_id.ad">
+                                                <span>Geplaatste advertentie(s)</span>
+                                        </t>
+                                        <t t-if="l.move_line_id.name!='/' or not l.invoice_id.ad">
+                                                <span t-field="l.move_line_id.name"/>
+                                        </t>
                                     </t>
-                                    <t t-if="l.move_line_id.name!='/' or not l.invoice_id.ad">
-                                        <td>
-                                            <span t-field="l.move_line_id.name"/>
-                                        </td>
+                                    <t t-if="not l.invoice_id">
+                                                <span t-field="l.move_line_id.ref"/>
                                     </t>
-                                </t>
-                                <t t-if="not l.invoice_id">
-                                    <t t-if="l.move_line_id.ref=='/' and l.invoice_id.ad">
-                                        <td>
-                                        <span>Geplaatste advertenties</span>
-                                        </td>
-                                    </t>
-                                    <t t-if="l.move_line_id.ref!='/' or not l.invoice_id.ad">
-                                        <td>
-                                            <span t-field="l.move_line_id.ref"/>
-                                        </td>
-                                    </t>
-                                </t>
+                                </td>
                                <td class="text-right">
-                                    <span t-field="l.amount_due" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}" />
+                                    <span t-field="l.amount_due" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
                                 </td>
                                 <td class="text-right">
-                                    <span t-field="l.balance_due" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}" />
+                                    <span t-field="l.balance_due" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
                                 </td>
                             </tr>
                         </tbody>
@@ -114,7 +135,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-4 pull-right">
+                    <div class="col-xs-4 pull-right" style="padding-right:30px;">
                         <table class="table table-condensed">
                             <tr>
                                 <td>
@@ -143,10 +164,50 @@
                         </div>
                     </div>
                 </t>
-
+                
+                
+                <!--
+                    Print appendix if present
+                -->
+                <t t-set="appendix" t-value="False"/>
+                <t t-foreach="doc.credit_control_line_ids" t-as="line">
+                    <t t-if="line.invoice_id.has_attachment()">
+                        <t t-set="appendix" t-value="True"/>
+                    </t>
+                </t>
+                
+                <div class="row mt32 mb32" style="padding-left:35px;">
+                   <t t-if="appendix == True">
+                       <p>Bijlage(n) :</p>
+                       <t t-foreach="doc.credit_control_line_ids" t-as="line">
+                           <t t-if="line.invoice_id.has_attachment()">
+                               <li>Kopie van <span t-field="line.invoice_id.display_name"/></li>
+                           </t>
+                       </t>
+                   </t> 
+                </div>
             </div>
+
+
+            <!--
+                Actual appendices
+            -->
+            <t t-foreach="doc.credit_control_line_ids" t-as="line">
+                <t t-if="line.invoice_id.has_attachment()">
+                    <div class="row text-center" style="page-break-before:always;padding-left:35px;">
+                        <div style="overflow:hidden">
+                            <h3 >Copy of <span t-field="line.invoice_id.display_name"/> </h3>
+                            <t t-raw="line.invoice_id.invoice_attachment_as_image(0.48)"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+            
+            
+        </div>
         </t>
     </template>
+
 
     <template id="account_credit_control.report_credit_control_summary">
         <t t-call="report.html_container">
