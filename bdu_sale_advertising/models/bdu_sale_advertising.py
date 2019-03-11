@@ -78,7 +78,7 @@ class SaleOrder(models.Model):
         return result
 
     # automated call expects domain selections in arguments in form of  (<arguments>,invoice_date, invoice_type, ou)
-    #example ([('state','=','sale'),('advertising','=',True)], "nearest_tuesday", 'ad', 'LNM')    
+    #example ([('payment_method_id.name','=','Ideal')], "nearest_tuesday", 'ad', 'LNM')    
     def invoice_filtered_order(self, domain, invoice_date, invoice_type, ou):
         if not type(domain) == list :
             _logger.error("Provided domain is not of type list. Program aborted.")
@@ -101,6 +101,7 @@ class SaleOrder(models.Model):
         domain.append(('state','in',('sale','done')))
         #invoice according parms
         if invoice_type=='ad' :
+            result = False
             domain.append(('advertising','=',True))
             selection = self.search(domain).ids
             his_obj = self.env['ad.order.line.make.invoice']
