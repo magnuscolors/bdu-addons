@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import base64, datetime, httplib, json, logging, pdb, requests, urllib
+import base64, datetime, httplib, json, logging, requests, urllib
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as DTF
@@ -101,8 +101,8 @@ class ClassifiedsOnlineConfig(models.Model):
         #check title to domain translation
         domains = self.env['classifieds.online.mapping'].search([])
         mapped_titles = domains.mapped('title')
-        filtered_orderlines = orderlines.filtered(lambda r: orderlines.title in mapped_titles)
-        unmapped_orderlines = orderlines.filtered(lambda r: orderlines.title not in mapped_titles)
+        filtered_orderlines = orderlines.filtered(lambda r: r.title in mapped_titles)
+        unmapped_orderlines = orderlines.filtered(lambda r: r.title not in mapped_titles)
 
         #send it to websites
         if len(filtered_orderlines) != 0 :
@@ -112,7 +112,8 @@ class ClassifiedsOnlineConfig(models.Model):
        
         #leave testimonial of run
         if result == "ok" and len(unmapped_orderlines)==0:
-            config.next_sync_start= orderline['write_date']
+            timestamps            = filtered_orderlines.mapped('write_date')
+            config.next_sync_start= max(timestamps)
             config.latest_run     = datetime.datetime.utcnow().strftime('UTC %Y-%m-%d %H:%M:%S ')
             config.latest_success = datetime.date.today()
             config.latest_status  = "Last record processed : "+result
@@ -144,7 +145,7 @@ class ClassifiedsOnlineConfig(models.Model):
         b_auth      = bytes(config.user+":"+config.password)
         headers     = {'authorization': "Basic " + base64.b64encode( b_auth),
                        'cache-control': "no-cache",
-                       'content-type' : "application/x-www-form-urlencoded",
+                       'Content-Type' : "application/json"
                       }
         
         #all orderlines in one batch (lines should have valid mapping, etc.)
@@ -169,8 +170,9 @@ class ClassifiedsOnlineConfig(models.Model):
             #orderline info
             classified_ad['orderline_nr']  = orderline.id
             classified_ad['count']         = str(int(orderline.product_uom_qty)) #number of mm
-            classified_ad['start_date']    = orderline.issue_date
-            classified_ad['end_date']      = (datetime.datetime.strptime(orderline.issue_date, DF)+datetime.timedelta(days=config.days_visible)).strftime(DF)  
+            classified_ad['product']       = orderline.product_id.name
+            classified_ad['startdate']     = orderline.issue_date
+            classified_ad['enddate']       = (datetime.datetime.strptime(orderline.issue_date, DF)+datetime.timedelta(days=config.days_visible)).strftime(DF)  
             classified_ad['category']      = orderline.analytic_tag_ids[0].name
             classified_ad['domain']        = domain[0].domain
             classified_ad['description']   = orderline.layout_remark #needs latest amendments in Odoo wave2 interface
@@ -178,7 +180,7 @@ class ClassifiedsOnlineConfig(models.Model):
             batch.append(classified_ad) 
         payload={}
         payload['batch'] =  batch
-
+        
         #actual send plus logging
         try :
             response = requests.request("POST", url, data=json.dumps(payload), headers=headers)

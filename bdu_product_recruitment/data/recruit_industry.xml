@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<odoo >
+    <record model="recruit.industry" id="cultuur">
+        <field name="name">Cultuur</field>
+    </record>
+    <record model="recruit.industry" id="media">
+        <field name="name">Communicatie en Mediabureaus</field>
+    </record>
+    <record model="recruit.industry" id="dienstverlening">
+        <field name="name">Dienstverlening</field>
+    </record>
+</odoo>
