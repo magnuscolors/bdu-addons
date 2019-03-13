@@ -165,7 +165,7 @@ class SaleOrderLine(models.Model):
             filter      = tuple(lst)
             domain[num] = filter
         invoice_date = helper.date_parse(invoice_date)
-        domain.append(('state','in',('sale','done')))
+        #domain.append(('state','in',('sale','done')))
         #invoice according parms
         if invoice_type=='ad' :
             domain.append(('advertising','=',True))
