@@ -284,7 +284,7 @@ class DeliveryConfig(models.Model):
         #    else :
         #        return (line +",")
 
-        header= "Abonneenummer, aantal, Bedrijfsnaam, afdeling, Voorletters, Tussenvoegsels, Achternaam, Straatnaam, Huisnummer, Toevoeging, Postcode, Plaats, Land\r\n"
+        header= "Abonneenummer, aantal, Bedrijfsnaam, afdeling, Voorletters, Tussenvoegsels, Achternaam, Straatnaam, Huisnummer+Toevoeging, Postcode, Plaats, Land\r\n"
         delivery_list.write(header)
 
         for subscription in subscriptions :
@@ -298,8 +298,7 @@ class DeliveryConfig(models.Model):
             line = concat(line, subscriber.infix)
             line = concat(line, subscriber.lastname)
             line = concat(line, subscriber.street_name)
-            line = concat(line, subscriber.street_number)#.split("-")[0])
-            line = concat(line, subscriber.street_number)#.split("-")[1])
+            line = concat(line, subscriber.street_number)
             line = concat(line, subscriber.zip)
             line = concat(line, subscriber.city)
             line = concat(line, subscriber.country_id.name)   
