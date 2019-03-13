@@ -27,13 +27,13 @@
                  'sale', 
                 ],
     'data'    : [
-                'security/security.xml',
-                'security/ir.model.access.csv',
                 'data/recruit_employment_type.xml',
                 'data/recruit_function_group.xml',
                 'data/recruit_education_level.xml',
                 'data/recruit_industry.xml',
                  'views/orderline_adaptions.xml',
+                'security/security.xml',
+                'security/ir.model.access.csv',
                 ],
     'demo'    : [
                 ],
