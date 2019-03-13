@@ -263,7 +263,7 @@ class DeliveryConfig(models.Model):
             elif (subscription.end_date == yesterday or subscription.end_date == day_before_yesterday or subscription.end_date == three_days_ago) and subscription.renew_product_id.product_tmpl_id.can_renew == False:
                 line = concat(line, "AF")
             else :
-                line += concat(line, "")  
+                line = concat(line, "")  
             line = unidecode(line)         
             delivery_list.write(line+"\r\n")
 
