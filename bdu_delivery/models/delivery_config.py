@@ -440,7 +440,8 @@ class DeliveryConfig(models.Model):
                     sdl_rec = sdl_rec[0]
                     #update filename and date
                     sdl_rec.write({'name'         : filename,
-                                   'delivery_date': now
+                                   'delivery_date': now,
+                                   'state'        : 'draft'  #reset possible cancel
                     })
 
                 #delivery lines
