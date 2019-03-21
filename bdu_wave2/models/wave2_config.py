@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import base64, csv, datetime, ftputil, ftputil.session, logging, os, re, time, pdb
+import base64, csv, datetime, ftputil, ftputil.session, logging, os, re, time
 from unidecode import unidecode
 import xml.etree.ElementTree as et
 
@@ -38,6 +38,8 @@ class Wave2Config(models.Model):
     one_column_prod  = fields.Many2one('product.template', ondelete="set null", string="One column product")
     two_column_prod  = fields.Many2one('product.template', ondelete="set null", string="Two column product")
     prod_uom         = fields.Many2one('product.uom', ondelete="set null", string="Selling unit")
+    payment_method_id= fields.Many2one('account.payment.mode', string="Method for Ideal")
+    payment_term_id  = fields.Many2one('account.payment.term', string="Terms for Ideal")
 
     status2          = fields.Char(string="Status order processing")
 
@@ -186,11 +188,10 @@ class Wave2Config(models.Model):
         
         #init, then cycle through orders
         errors = 0
+
         for order in orders :
-            
             xml_root = et.fromstring(order.content.strip())
             customer = self.parse_into_partner_details(xml_root)
-            found = False
             
             #search by email, skip order if error
             if customer['email'] :
@@ -200,58 +201,74 @@ class Wave2Config(models.Model):
                     order.state='error'
                     order.remark=partner
                     continue
-                elif partner :
-                    found = True
+
 
             #if not found, search by name, skip order if error
-            if not found :
+            if not partner :
                 partner = self.search_update_by_name(customer)
                 if type(partner)==unicode :
                     errors += 1
                     order.state = 'error'
                     order.remark=partner
                     continue
-                elif partner :
-                    found = True
+
 
             #make partner if not found
-            if not found :
+            if not partner :
                 partner = self.env['res.partner'].create(customer)
+                if not partner or type(partner==unicode) :
+                    errors += 1
+                    order.state = 'error'
+                    order.remark=partner or "Error creating partner"
+                    continue
+
 
             #prep an order header
             order_header = self.parse_into_header_details(xml_root, partner)
-            order_ids = self.env['sale.order'].search([('client_order_ref','=',order_header['client_order_ref'])])
-            if len(order_ids) == 1 :
-                order_id=order_ids[0]
-                order_id.write(order_header)
-            elif len(order_ids) > 1 :
+            odoo_orders = self.env['sale.order'].search([('client_order_ref','=',order_header['client_order_ref'])])
+            if len(odoo_orders) == 1 :
+                odoo_order=odoo_orders[0]
+                if odoo_order.invoice_status=='invoiced' :
+                    errors += 1
+                    order.state = 'error'
+                    order.remark= 'already invoiced'
+                    continue
+                odoo_order.write(order_header)
+            elif len(odoo_orders) > 1 :
                 errors += 1
                 order.state = 'error'
                 order.remark="Multiple orders with client order ref "+order_header['client_order_ref']
                 continue
             else : 
-                 order_id = self.env['sale.order'].create(order_header)
+                 odoo_order = self.env['sale.order'].create(order_header)
 
             #count lines to estimate last line value
             count = 0;
-            no_titles_found=False
+            search_error=False
             placements = xml_root.find("RAD_PK").find("PLAATSINGSDATA").getchildren()
             for placement in placements :
                 region_id     = int(placement.findtext("UCL_PK"))
                 region     = self.env['wave2.region'].search([('wave2_id','=',region_id)])
+                if not region :
+                    errors+=1
+                    order.state  = 'error'
+                    order.remark = "No region found for region code "+str(region_id)+'. '
+                    search_error=True
+                    continue
                 issue_date = str(placement.findtext("PLAATSINGS_DATUM"))
                 issue_date = datetime.date(int(issue_date[0:4]),int(issue_date[4:6]),int(issue_date[6:8]))
                 weekday    = issue_date.weekday() #monday=0, sunday=6
-                region_titles     = self.env['wave2.region.titles'].search([('name','=',region.id),('weekday','=',weekday)])
+                region_titles     = self.env['wave2.region.titles'].search([('region','=',region.id),('weekday','=',weekday)])
                 if len(region_titles)==0 :
                     errors+=1
                     order.state  = 'error'
-                    order.remark = "No titles found for region "+region.name+" and date "+str(ad.findtext("PLAATSINGS_DATUM"))
-                    no_titles_found=True
+                    order.remark = "No titles found for region "+str(region.name)+" and date "+str(placement.findtext("PLAATSINGS_DATUM"))+'. '
+                    search_error=True
+                    continue
                 else :
                     count     += len(region_titles)
             #prevent dividing by zero, which not something one orders
-            if no_titles_found :
+            if search_error :
                 continue
             
             #e.g. 10 euro / 3 lines = 3,33 euro per line, but last line must be 3,34 euro to total to 10 euro   
@@ -272,7 +289,7 @@ class Wave2Config(models.Model):
                 issue_date_w2 = str(placement.findtext("PLAATSINGS_DATUM"))
                 issue_date    = datetime.date(int(issue_date_w2[0:4]),int(issue_date_w2[4:6]),int(issue_date_w2[6:8]))
                 weekday       = issue_date.weekday() #monday=0, sunday=6
-                region_titles = self.env['wave2.region.titles'].search([('name','=',region.id),('weekday','=',weekday)])
+                region_titles = self.env['wave2.region.titles'].search([('region','=',region.id),('weekday','=',weekday)])
                 for region_title in region_titles :
                     currentline  += 1;
 
@@ -291,7 +308,7 @@ class Wave2Config(models.Model):
                         return
                     
                     #prep orderline
-                    orderline_to_upsert= self.parse_into_orderline_details(xml_root, order_id, region_title.title, issue_date, region, net, listprice)
+                    orderline_to_upsert= self.parse_into_orderline_details(xml_root, odoo_order, region_title.title, issue_date, region, net, listprice)
                     if type(orderline_to_upsert)==unicode :
                         abort(config, order, orderline_to_upsert)
                         return
@@ -307,8 +324,8 @@ class Wave2Config(models.Model):
                         return
 
             #set orderstatus and reset possible remark
-            order_id.write({'state':'sale'})
-            order.write({'state':'done', 'remark': 'Order '+order_id.name})
+            odoo_order.write({'state':'sale'})
+            order.write({'state':'done', 'remark': 'Order '+odoo_order.name})
 
         #report stats
         msg= datetime.datetime.strftime(datetime.datetime.now(),"%Y-%m-%d %H:%M:%S" )+" "+str(len(orders))+" Wave2 orders processed."
@@ -426,22 +443,24 @@ class Wave2Config(models.Model):
                         }
         payment_according_wave2 = int(xml.find("RAD_PK").findtext("RAD_BETALING"))
         if payment_according_wave2 == 6 :
-            order_header['payment_mode_id'] = payment_method_id
-            order_header['payment_term_id'] = payment_term_id
+            order_header['payment_mode_id'] = config.payment_method_id.id
+            order_header['payment_term_id'] = config.payment_term_id.id
         else :
             order_header['payment_mode_id'] = ""
         return order_header
 
 
-    def parse_into_orderline_details(self, xml, order_id, title, issue_date, region, net, listprice):
+    def parse_into_orderline_details(self, xml, odoo_order, title, issue_date, region, net, listprice):
         config=self.search([])[0]
-
+        
         #issue
         issues=self.env['sale.advertising.issue'].search([('parent_id','=',title.id),('issue_date','=',issue_date)])
         if len(issues) == 1 :
             issue = issues[0]
+        elif len(issues) == 0 :
+            return  "No issue for "+title.name+" on "+datetime.datetime.strftime(issue_date,"%Y-%m-%d")+"."
         else :
-            return  "No or multiple issues for "+title.name+" on "+datetime.datetime.strftime(issue_date,"%Y-%m-%d")+"."
+            return  "Multiple issues for "+title.name+" on "+datetime.datetime.strftime(issue_date,"%Y-%m-%d")+"."
 
         #product, template, ad class, medium
         width = int(xml.find("RAD_PK").findtext("RAD_BREEDTE"))
@@ -466,17 +485,21 @@ class Wave2Config(models.Model):
         price_lists = self.env['product.category'].search([('type', '!=', 'view'),('name','like', title.name)])
         if len(price_lists)==1 :
             price_list = price_lists[0]
+        elif len(price_lists)==0:
+            return "Missing product/pricelist category for title "+title.name+"."
         else :
-            return "Missing or multiple product category for title "+title.name+"."
+            return "Multiple product/pricelist categories for title "+title.name+"."
 
         #product variant
         product_variants = self.env['product.product'].search([('categ_id', '=', price_list.id),
                                                          ('product_tmpl_id','=', product.id),
                                                          ('name','=', product.name)])
         if len(product_variants)==1 :
-            product_variant = product_variants[0];
+            product_variant = product_variants[0]; 
+        elif len(product_variants)==0 : 
+            return "No  product variant found for product template \""+product.name+"\" with pricelist (category) name holding \""+title.name+"\" in its name. Check for variant existance and/or right category for product variant, i.e. pricelist."
         else :
-            return "Invalid config of product variant "+product.name+" and title "+title.name+". Check for existance, duplicates, product category referal to title, and no/multiple pricelist(s)."
+            return "Multiple product variants found for product template \""+product.name+"\" and pricelist (category) name holding "+title.name+" in its name."
 
         #link to material
         wav2_order_id = str(xml.find("RAD_PK").findtext("RAD_PK"))
@@ -488,29 +511,36 @@ class Wave2Config(models.Model):
         classified_classes = self.env['wave2.class'].search([('class_id','=',classified_id)])
         if len(classified_classes) == 1 :
             classified_class = classified_classes[0]
+        elif len(classified_classes) == 0 :
+            return "No classified class for "+classified_id+"."
         else :
-            return "No or multiple classified classes for "+classified_id+"."
+            return "Multiple classified classes for "+classified_id+"."
 
         #analytic tag
         tag_ids = self.env['account.analytic.tag'].search([('name', '=', classified_class.name)]) #todo: add domain page_class_domain
         if len(tag_ids) == 1 :
             analytic_tag = tag_ids[0]
+        elif len(tag_ids) == 0 :
+            return "No analytic tag for classified ad class "+classified_class.name+"."
         else :
-            return "No or multiple analytic tags for classified ad class "+classified_class.name+"."
+            return "Multiple analytic tags for classified ad class "+classified_class.name+"."
 
         #unique orderline reference
         if wav2_order_id>2100013050 : 
             region_text = str(region.wave2_id)
             if int(region.wave2_id) < 10 :
                 region_text = "0"+region_text
-                ad_number = order_id.client_order_ref+"_"+region_text+title.name+"_"+datetime.datetime.strftime(issue_date, '%Y-%m-%d')
+                ad_number = odoo_order.client_order_ref+"_"+region_text+title.name+"_"+datetime.datetime.strftime(issue_date, '%Y-%m-%d')
         else :
             #old style
             return "No support for legacy style orders"
 
+        #orderline text for online publication in dtp remark field without CDATA
+        rawtext = str(xml.find("RAD_PK").find("RAD_TEKST").findtext("REGEL"))
+
         orderline_details = {
                       'advertising'         : 1,               
-                      'order_id'            : order_id.id, 
+                      'order_id'            : odoo_order.id, 
                       'medium'              : product.categ_id.parent_id.id,
                       'ad_class'            : product.categ_id.id,
                       'title'               : title.id,
@@ -522,7 +552,7 @@ class Wave2Config(models.Model):
                       'ad_number'           : ad_number,
                       'page_reference'      : "Rubriek : "+classified_class.name,
                       'url_to_material'     : material_url,          #ftp location of pdf made by WAV2
-                      'layout_remark'       : "",                    #remarks for DTP-er
+                      'layout_remark'       : rawtext,   #raw info into remarks for DTP-er
                       'product_uom'         : config.prod_uom.id,    
                       'product_uom_qty'     : round(float(xml.find("RAD_PK").findtext("RAD_MM")),2),
                       #'discount'           : 0,        
@@ -533,272 +563,4 @@ class Wave2Config(models.Model):
                       }
 
         return orderline_details
-
-
-    """
-   
-
-    def log(self, channel, message, from_party):        
-        MailMessage = self.env['mail.message'].search([('id','=',channel.id)])
-        message_dict = {
-                        'res_id'       : channel.id,
-                        'message_type' : 'email',
-                        'email_from'   : from_party,
-                        'subject'      : 'Wave2 verwerkingsverslag',
-                        'body'         : message,
-                        #'channel_ids'  : channel,
-                        'model'        : 'mail.channel',
-                        'subtype_id'   : 1
-                       }
-        MailMessage.create(message_dict)
-        return True
-
-    #customers 
-
-    def process_customer_files(self, work_dir, files, status):
-        msg  = "Start processing " + str(len(files)) + " promille files.<br>"
-        _logger.info(msg)
-        #counters and message containers
-        new = errors = email_match = name_match = 0
-        email_matching_message = error_reporting = name_matching_message = new_report = ""
-        #process only files starting with customer and ending with csv by using the csv module
-        for filename in files:
-            if not filename.startswith('customers_'): continue
-            if not filename.endswith('.csv'): continue 
-            status['customer_files'] += 1
-            file = os.path.join(str(work_dir + 'in/'), filename)
-            f = open(file,'rb')
-            reader = csv.reader(f, delimiter=';')
-            #line processing
-            for customer in reader:
-                if customer[0]!='Received': self.process_customer(customer, status)
-            #cleanup
-            f.close()  
-            #todo: move file to done directory
-        return status
-
-    def process_customer(self, customer, status):
-        status['customers'] +=1
-        #defined by config or hard coded
-        configs = self.search([])
-        promille_config  = configs[0]
-        sector        = promille_config.sector
-        country_id    = 166 #Netherlands
-        is_company    = 1
-        lang          = "nl_NL"
-        message_is_follower = 0
-        is_customer   = 1
-        property_payment_term_id = 0 #0=default, 1=direct betalen, ?=standard 15 days, ?=standard 30 days  
-        trust         = "normal"
-
-        #given by Promille
-        tmg_nr        = customer[1]
-        name          = customer[3]
-        street_name   = customer[11]
-        street_number = str(customer[12])
-        street2       = customer[13]
-        zipcode       = customer[14].replace(" ", "").upper()
-        city          = customer[15]
-
-        phone         = customer[23].replace(" ", "").replace("(", "").replace(")", "").replace("-", "")
-        mobile        = customer[24].replace(" ", "").replace("(", "").replace(")", "").replace("-", "")
-        email         = customer[25]
-        website       = customer[27]
-        if website=="http://" : website = ""
-        coc_nr        = customer[30] 
-
-        if customer[44]=="B002 BUREAU / Reklamebureau" : is_ad_agency=1
-        else                                           : is_ad_agency=0
-
-        btwnr = customer[32].replace(".", "")
-        if not btwnr.startswith("NL") : btwnr = "NL"+btwnr
-        if not re.match(r'NL[0-9]{9}B01', btwnr, re.I) : btwnr=""
-        btwstring="\n- BTW nr            \t= "+customer[32]
-
-        #keep all info in comment for reference
-        comment    = "Originele partner-info vanuit Promille:"+\
-                     "\n- Promille_id         \t= "   +tmg_nr+\
-                     "\n- Naam                \t= "+name+\
-                     "\n- Adres               \t= "+street_name+" "+street_number+" "+street2+", "+zipcode+" "+city+\
-                     "\n- Telefoon            \t= "+phone+\
-                     "\n- Mobiel              \t= "+mobile+\
-                     "\n- Email               \t= "+email+\
-                     "\n- website             \t= "+website+\
-                     "\n- Email adres factuur \t= "+customer[26]+\
-                     "\n- BTW afhandeling     \t= "+customer[33]+\
-                     "\n- IBAN                \t= "+customer[34]+\
-                     "\n- BIC                 \t= "+customer[35]+\
-                     "\n- Klantkorting        \t= "+customer[36]+"% (bij partner)"+\
-                     "\n- Leververbod         \t= "+customer[37]+\
-                     "\n- Kredietlimiet       \t= "+customer[38]+\
-                     "\n- OptIn               \t= "+customer[39]+\
-                     "\n- Employees           \t= "+customer[40]+\
-                     "\n- CustomerGroup_ID\t= "    +customer[41]+\
-                     "\n- CustomerSource_ID   \t= "+customer[42]+\
-                     "\n- Account_manager   \t= "  +customer[43]+\
-                     "\n- Branchecode     \t= "    +customer[44]+\
-                     "\n- KvK nummer       \t= "   +coc_nr+\
-                     "\n- KvK vestigingsnr\t= "+customer[31]+\
-                     btwstring
-        comment = self.remove_non_ascii(comment)
-
-        #for easy forwarding
-        cust_dict     = {
-                        #header
-                        'is_company'   : 1,
-                        'name'         : name,
-                        'street_name'  : street_name,
-                        'street_number': street_number,
-                        'street2'      : street2,
-                        'zip'          : zipcode,
-                        'city'         : city,
-                        'country_id'   : country_id,
-                        'sector_id'    : sector,
-                        'phone'        : phone,
-                        'mobile'       : mobile,
-                        'email'        : email,
-                        'website'      : website,
-                        'lang'         : lang,
-                        'message_is_follower':message_is_follower,
-                        #sales & purchases
-                        'customer'     : is_customer,
-                        'is_ad_agency' : is_ad_agency,
-                        'coc_registration_number' : coc_nr,
-                        'promille_id'  : tmg_nr, 
-                        #financial administration
-                        'property_payment_term_id' : property_payment_term_id,
-                        'trust'        : trust,
-                        'vat'          : btwnr,
-                        #notes tab
-                        'comment'      : comment
-                        }
-
-        #search for promille id
-        #note: multiple id's in string field requires removing false positives, i.e. 23 found within 1234
-        customers_found = self.env['res.partner'].search([('promille_id', 'like', tmg_nr)])
-        verified = []
-        if len(customers_found)>0:
-            for c in customers_found:
-                if (re.match('^' +str(tmg_nr)+'$' , str(c.promille_id))!=None or\
-                    re.match('^' +str(tmg_nr)+',' , str(c.promille_id))!=None or\
-                    re.match(' ' +str(tmg_nr)+'$' , str(c.promille_id))!=None or\
-                    re.match(' ' +str(tmg_nr)+',' , str(c.promille_id))!=None    ) : 
-                    verified.append(c)
-                  
-        if len(verified)==1 : 
-            status['c_found'] += 1
-            status['last_status']="Klant met TMG klantnr " + tmg_nr + " reeds aangelegd."
-            #no informational message here
-            return status
-        
-        if len(verified)>1:
-                status['c_error'] += 1
-                status['last_status']="Meerdere klanten met TMG klantnr " + tmg_nr + ". Repareer dit!!"
-                status['c_messages'] += "- "+status['last_status']+"<br>"
-                return status
-  
-        todo: review coc_nr module, e.g. compute needs depends according documenation
-        and search, via custom filter, is giving TypeError: _search_identification() takes exactly 4 arguments (5 given)
-
-        #check on COC_registration number
-        _logger.info("coc_nr : " + coc_nr)
-        customers_found = self.env['res.partner'].search([('coc_registration_number', '=', coc_nr )])  
-        if len(customers_found)==1 : 
-            status['c_coc_match'] += 1
-            status['last_status']="Klant gevonden met KvK nr " + coc_nr + ". Wordt uitgebreid met nieuwe gegevens."
-            status['c_messages'] += "- "+status['last_status']+"<br>"
-            self.extend_customer(customers_found[0], cust_dict)
-            return status
-        #sanity check after removing false positives
-        if len(customers_found)>1:
-            status['c_error'] += 1
-            status['last_status']="Meerdere klanten met KvK nr " + coc_nr + ". Repareer dit!!"
-            status['c_messages'] += "- "+status['last_status']+"<br>"
-            return status
-
-        #search for email adres, update and return if one found, report warning if multiple found, continue if none found
-        if email!="":
-            customers_found = self.env['res.partner'].search([('email', '=', email)])
-            if len(customers_found)==1:
-                status['c_email_match'] += 1
-                status['last_status']="Klant met email adres " + email + " gevonden en uitgebreid met Promille gegevens."
-                status['c_messages'] += "- "+status['last_status']+"<br>"
-                self.extend_customer(customers_found[0], cust_dict)
-                return status
-            if len(customers_found)>1 :  
-                status['c_error'] += 1
-                status['last_status']="Meerdere klanten met email adres " + email + ". Repareer dit!!"
-                status['c_messages'] += "- "+status['last_status']+"<br>"
-                return status
-
-        #prep name for losely search  
-        search_name = name.replace("bv","").replace("b.v.","").replace("nv","").replace("n.v.","").replace("vof", "").replace("BV","").replace("B.V.","").replace("NV","").replace("N.V.","")
-
-        #search for name/zip/housenr, update and return if one found, report warning if multiple found, continue if none found
-        if search_name!="" and zipcode!="" and street_number!="" :
-            customers_found = self.env['res.partner'].search([('name', 'like', search_name),('zip', '=', zipcode),('street', 'like', street_number)])
-            verified = []
-            if len(customers_found)==1 and (re.match('^' +str(street_number)+'$' ,        str(customers_found[0].street))!=None or\
-                                            re.match('^' +str(street_number)+'[a-zA-Z]' , str(customers_found[0].street))!=None or\
-                                            re.match(' ' +str(street_number)+'$' ,        str(customers_found[0].street))!=None or\
-                                            re.match(' ' +str(street_number)+'[a-zA-Z]' , str(customers_found[0].street))!=None    ) : 
-                    verified.append(c)
-
-            if len(verified)==1 : 
-                status['c_name_zip_match'] += 1
-                status['last_status']="Name + zip + huisnummer gevonden voor : " + search_name + " + " + zipcode + " + " + street_number + ". Bestaande klant wordt uitgebreid."
-                status['c_messages'] += "- "+status['last_status']+"<br>"
-                self.extend_customer(customers_found[0], cust_dict)
-                return status
-
-            if len(verified)>1: 
-                status['c_error'] += 1
-                status['last_status']="Name + zip + huisnummer combinatie " + name + " + " + zipcode + " + " + street_number +  " komt meerdere keren voor. Repareer dit!!"
-                status['c_messages'] += "- "+status['last_status']+"<br>"
-                return status
-
-        #search for name/telnr, update and return if one found, report warning if multiple found, continue if none found
-        if name!="" and phone!="" :
-            customers_found = self.env['res.partner'].search([('name', 'like', search_name),('phone', '=', phone)])
-            if len(customers_found)==1 : 
-                status['c_name_phone_match'] += 1
-                status['last_status']="Naam + telefoon combinatie gevonden voor : " + search_name + " + " + phone + ". Bestaande klant wordt uitgebreid."
-                status['c_messages'] += "- "+status['last_status']+"<br>"
-                self.extend_customer(customers_found[0], cust_dict)
-                return status
-            if len(customers_found)>0 : 
-                status['c_error'] += 1
-                status['last_status']= "Naam en telefoon combinatie komt meerdere keren voor voor: " + name + " + " + phone + ". Repareer dit!!" 
-                status['c_messages'] += "- "+status['last_status']+"<br>"
-                return status
-
-        #if still not found create it
-        status['c_new'] += 1
-        status['last_status']="Klant " +  name + " aangemaakt voor promille id "+ tmg_nr
-        status['c_messages'] += "- "+status['last_status']+"<br>"
-        self.create_customer(cust_dict)
-        return status
-
-
-    def extend_customer(self, customer, cust_dict):
-        if customer.promille_id!=False : cust_dict['promille_id'] = customer.promille_id + ", " + cust_dict['promille_id'] 
-        if customer.comment    !=False : cust_dict['comment']     = customer.comment + "\nAangevuld\n" + cust_dict['comment']
-        update_dict = {
-                      'promille_id' : cust_dict['promille_id'],
-                      'comment'     : cust_dict['comment']
-                      }
-        if customer.email==False : update_dict['email']=cust_dict['email']  #else new email found in comment, or already there
-        customer.write(update_dict)
-        customer._cr.commit()
-        return True
-
-    def create_customer(self, cust_dict):
-        cust_dict['street']=cust_dict['street_name']+" "+cust_dict['street_number']
-        cust_dict.pop('street_name')
-        cust_dict.pop('street_number')
-        ResPartner = self.env['res.partner']
-        ResPartner.create(cust_dict)
-        ResPartner._cr.commit()
-        return True
-    """
 

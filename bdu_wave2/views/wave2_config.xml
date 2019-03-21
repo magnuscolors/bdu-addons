@@ -46,6 +46,8 @@
             <field name="one_column_prod"/>  
             <field name="two_column_prod"/>  
             <field name="prod_uom"/> 
+            <field name="payment_method_id"/> 
+            <field name="payment_term_id"/> 
             <field name="status2" readonly="1" widget="html"/> 
           </group>
           <group name="defaults_partner" string="Default partner values">
@@ -100,7 +102,7 @@
   </record> 
 
   <menuitem id="wave2_config_menuitemn" 
-    name="System configuration" 
+    name="Connector" 
     action="config_wave2_interface"
     sequence="232"
     parent="wave2_menu" 

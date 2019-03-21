@@ -1,0 +1,22 @@
+<odoo>
+
+    <record id="view_company_form_credit_control" model="ir.ui.view">
+        <field name="name">res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//notebook[last()]" position="inside">
+                    <page string="Credit control" >
+                        <group string="Credit control" cols="2" >
+                            <field name="credit_control_logo" no_label="1" widget="image" class="oe_avatar oe_left"/>
+                            <field name="credit_control_footer"    widget="html"/>
+                        </group>
+                    </page>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+</odoo>

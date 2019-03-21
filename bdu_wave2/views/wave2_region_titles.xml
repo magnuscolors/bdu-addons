@@ -7,7 +7,7 @@
     <field name="model">wave2.region.titles</field> 
     <field name="arch" type="xml"> 
       <tree string="Wave2 titles per region" editable="bottom"> 
-          <field name="name"/> 
+          <field name="region"/> 
           <field name="weekday"/>
           <field name="title" />
           <field name="remark"/>

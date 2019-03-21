@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<odoo >
+    <record model="recruit.employment.type" id="full_time">
+        <field name="name">Full-time</field>
+    </record>
+    <record model="recruit.employment.type" id="part_time">
+        <field name="name">Part-time</field>
+    </record>
+    <record model="recruit.employment.type" id="bijbaan">
+        <field name="name">Bijbaan</field>
+    </record>
+    <record model="recruit.employment.type" id="zzp">
+        <field name="name">Freelancer/zzp</field>
+    </record>
+</odoo>
