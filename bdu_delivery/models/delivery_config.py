@@ -121,17 +121,19 @@ class DeliveryConfig(models.Model):
             #('company_id', '=', self.company_id.id),
             ('subscription', '=', True),
             ('state', '=', 'sale'),
-            ('title', 'in', titles),
+            ('title.name', 'in', titles),
             ('product_template_id.digital_subscription','=', False), #not digital only subscription, but physical delivery needed
-            ('number_of_issues', '=', 0)                             #period subscriptions
+            ('number_of_issues', '=', 0),                            #period subscriptions
+            ('product_uom_qty','>', 0)                               #no canceled orderlines
         ]
         counted_subs = [
             ('line_renewed', '=', False),
             ('subscription', '=', True),
             ('state', '=', 'sale'),
-            ('title', 'in', titles),
+            ('title.name', 'in', titles),
             ('product_template_id.digital_subscription','=', False),  #not digital only subscription, but physical delivery needed
-            ('number_of_issues', '!=', 0)                             #period subscriptions
+            ('number_of_issues', '!=', 0),                            #counted subscriptions
+            ('product_uom_qty','>', 0)                                #no canceled orderlines
         ]
         if config.delivery_ids :
             period_subs.append(('order_id.delivery_type', 'in', config.delivery_ids.ids))
