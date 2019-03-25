@@ -94,9 +94,10 @@ class SaleOrder(models.Model):
         helper=self.env['argument.helper']
         for num, filter in enumerate(domain) :
             lst         = list(filter)
-            lst[2]      = helper.date_parse(lst[2])
-            filter      = tuple(lst)
-            domain[num] = filter
+            if len(lst)>2: #if not a RPN operator
+                lst[2]      = helper.date_parse(lst[2])
+                filter      = tuple(lst)
+                domain[num] = filter
         invoice_date = helper.date_parse(invoice_date)
         domain.append(('state','in',('sale','done')))
         #invoice according parms
@@ -104,6 +105,9 @@ class SaleOrder(models.Model):
             result = False
             domain.append(('advertising','=',True))
             selection = self.search(domain).ids
+            if len(selection)==0:
+                _logger.info("No order in selection.")
+                return False
             his_obj = self.env['ad.order.line.make.invoice']
             for order in selection :
                 orderlines = self.env['sale.order.line'].search([('order_id','=', order)])
@@ -161,15 +165,19 @@ class SaleOrderLine(models.Model):
         helper=self.env['argument.helper']
         for num, filter in enumerate(domain) :
             lst         = list(filter)
-            lst[2]      = helper.date_parse(lst[2])
-            filter      = tuple(lst)
-            domain[num] = filter
+            if len(lst)>2: #if not a RPN operator
+                lst[2]      = helper.date_parse(lst[2])
+                filter      = tuple(lst)
+                domain[num] = filter
         invoice_date = helper.date_parse(invoice_date)
-        #domain.append(('state','in',('sale','done')))
+        domain.append(('state','in',('sale','done')))
         #invoice according parms
         if invoice_type=='ad' :
             domain.append(('advertising','=',True))
             orderlines = self.search(domain).ids
+            if len(orderlines)==0:
+                _logger.info("No orderlines in selection.")
+                return False
             his_obj    = self.env['ad.order.line.make.invoice']
             ctx = self._context.copy()
             ctx['active_ids']   = orderlines
