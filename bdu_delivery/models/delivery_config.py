@@ -295,12 +295,6 @@ class DeliveryConfig(models.Model):
         yesterday, day_before_yesterday, three_days_ago = self.init_days(config.active_date)
         concat = self.make_concatenate(",")
         
-        #def concatx(line, var) :
-        #    if var :
-        #        return (line+","+str(var))
-        #    else :
-        #        return (line +",")
-
         header= "Abonneenummer, aantal, Bedrijfsnaam, afdeling, Voorletters, Tussenvoegsels, Achternaam, Straatnaam, Huisnummer+Toevoeging, Postcode, Plaats, Land\r\n"
         delivery_list.write(header)
 
