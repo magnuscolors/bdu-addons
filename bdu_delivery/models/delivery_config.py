@@ -285,7 +285,7 @@ class DeliveryConfig(models.Model):
             delivery_list.write(line+"\r\n")
 
         footer=""
-        delivery_list.write(line)
+        delivery_list.write(footer)
         return delivery_list
 
     
