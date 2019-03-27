@@ -412,7 +412,7 @@ class DeliveryConfig(models.Model):
 
         #deliveries segmented per delivery type and title as subscription module uses
         for title in config.title_ids : 
-            issues  = self.env['sale.advertising.issue'].search([('parent_id','=',title.id),('issue_date','=',config.active_date)])
+            issues  = self.env['sale.advertising.issue'].search([('parent_id','=',title.id),('issue_date','=',config.active_date),('subscription_title','=',True)])
             if len(issues) == 0 : 
                 continue
             issue=issues[0]
