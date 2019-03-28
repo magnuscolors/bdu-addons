@@ -262,8 +262,8 @@ class sale_order_line_create_multi_lines(models.TransientModel):
         'IN' if len(orderlines) > 1 else '=',
         tuple(orderlines) if len(orderlines) > 1 else orderlines[0]
         ))
-        ## m2m:tax_ids and analytic_tag_ids still to update
-        ## o2m: nothing
+        ## TODO m2m:tax_ids and analytic_tag_ids still to update
+        ## TODO o2m: nothing
         self.env.cr.execute(del_query)
         self.env.invalidate_all()
         if orders:

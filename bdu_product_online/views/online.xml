@@ -7,7 +7,7 @@
     <field name="model">sale.advertising.issue</field> 
     <field name="arch" type="xml"> 
       <tree string="Issues" toolbar="1"> 
-          <field name="code"           string="Issue"/> 
+          <field name="code"           string="Code"/> 
           <field name="default_note"   string="Title"/>
       </tree> 
     </field> 

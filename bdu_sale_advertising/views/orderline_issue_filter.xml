@@ -13,8 +13,8 @@
                 
                 <xpath expr="filter[4]"  position="after">
                     <separator/>
-                    <filter name="future" string="Future Issues" 
-                            domain="[('issue_date','&gt;=', datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))]"/>
+                    <filter name="future" string="Titles or Future Issues" 
+                            domain="['|',('parent_id','=',False),('issue_date','&gt;=', datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))]"/>
                 </xpath>
 
 

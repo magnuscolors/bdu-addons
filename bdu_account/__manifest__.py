@@ -27,16 +27,19 @@
 ##############################################################################
 
 {
-    'name' : 'BDU Account',
-    'version' : '0.9',
-    'category': 'accounts',
+    'name'       : 'BDU Account',
+    'version'    : '0.9',
+    'category'   : 'accounts',
     'description': """
-This module adds customization as per BDU Media
-=============================================================================
-
-
+This module adds customization for BDU Media, like :\n
+- product variant name\n
+- order and orderline layout\n
+- partner attributes (like social media id's)\n
+- custom invoice per OU\n
+- custom credit control per company, including invoices in appendix\n
+- reverse billing logo\n
     """,
-    'author'  : 'Magnus - Willem Hulshof',
+    'author'  : 'Magnus - Willem Hulshof, D. Prosee',
     'website' : 'http://www.magnus.nl',
     'depends' : ['account', 'sale_advertising_order', 'account_bank_statement_import_camt',
                  'partner_contact_gender','purchase', 'account_invoice_refund_link',
@@ -60,6 +63,7 @@ This module adds customization as per BDU Media
             "views/operating_unit_view.xml",
             "views/res_partner_view.xml",
             "views/product_view.xml",
+            "views/company_view.xml",
             "wizard/account_invoice_state_view.xml",
     ],
     'demo' : [],

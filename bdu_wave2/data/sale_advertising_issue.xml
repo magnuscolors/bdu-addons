@@ -1,0 +1,1949 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_DST"</field>
+<field name="">DST</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">DST</field>
+<field name="">False</field>
+<field name="default_note">Stad Tiel</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_DSB"</field>
+<field name="">DSB</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">DSB</field>
+<field name="">True</field>
+<field name="default_note">Stad Buren</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_WNO"</field>
+<field name="">WNO</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">WNO</field>
+<field name="">True</field>
+<field name="">Wijks</field>
+<field name="">Nieuws</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_online"</field>
+<field name="">Online</field>
+<field name="price_edit">Falsesale_advertising_order.online_advertising_category</field>
+<field name="">Online</field>
+<field name="">False</field>
+<field name="">Online</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_AVN"</field>
+<field name="">AVN</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">AVN</field>
+<field name="">False</field>
+<field name="">Amstelveens</field>
+<field name="">Nieuwsblad</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_BKD"</field>
+<field name="">BKD</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">BKD</field>
+<field name="">False</field>
+<field name="">Donderdagkrant</field>
+<field name="">BK</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_BKO"</field>
+<field name="">BKO</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">BKO</field>
+<field name="">False</field>
+<field name="">Barneveldse Krant</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_DBO"</field>
+<field name="">DBO</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">DBO</field>
+<field name="">False</field>
+<field name="default_note">De Band</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_DKD"</field>
+<field name="">DKD</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">DKD</field>
+<field name="">True</field>
+<field name="default_note">De Heuvelrug</field>
+<field name="">HAH</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_DPO"</field>
+<field name="">DPO</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">DPO</field>
+<field name="">True</field>
+<field name="default_note">De Puttenaer</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_DKO"</field>
+<field name="">DKO</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">DKO</field>
+<field name="">False</field>
+<field name="default_note">De Kaap</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_ESO"</field>
+<field name="">ESO</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">ESO</field>
+<field name="">False</field>
+<field name="">EDe Stad</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_HCO"</field>
+<field name="">HCO</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">HCO</field>
+<field name="">False</field>
+<field name="">HCnieuws</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_HEC"</field>
+<field name="">HEC</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">HEC</field>
+<field name="">False</field>
+<field name="">Heemsteedse</field>
+<field name="">Courant</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_HHB"</field>
+<field name="">HHB</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">HHB</field>
+<field name="">False</field>
+<field name="">Haarlems</field>
+<field name="">Weekblad</field>
+<field name="">Bloemendaal</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_HHS"</field>
+<field name="">HHS</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">HHS</field>
+<field name="">False</field>
+<field name="">Haarlems</field>
+<field name="">Weekblad</field>
+<field name="">Schalkwijk</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_HLO"</field>
+<field name="">HLO</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">HLO</field>
+<field name="">False</field>
+<field name="">Hoog</field>
+<field name="">en</field>
+<field name="">Laag</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_HLW"</field>
+<field name="">HLW</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">HLW</field>
+<field name="">True</field>
+<field name="">Woensdag Krant</field>
+<field name="">HL</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_LKO"</field>
+<field name="">LKO</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">LKO</field>
+<field name="">False</field>
+<field name="">Leusder Krant</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_SAN"</field>
+<field name="">SAN</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">SAN</field>
+<field name="">False</field>
+<field name="default_note">De Stad Amersfoort</field>
+<field name="">Noord</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_SAO"</field>
+<field name="">SAO</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">SAO</field>
+<field name="">False</field>
+<field name="default_note">De Stad Amersfoort</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_SCO"</field>
+<field name="">SCO</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">SCO</field>
+<field name="">False</field>
+<field name="">Soester</field>
+<field name="">Courant</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_SKO"</field>
+<field name="">SKO</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">SKO</field>
+<field name="">True</field>
+<field name="">Scherpenzeelse Krant</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_SNO"</field>
+<field name="">SNO</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">SNO</field>
+<field name="">False</field>
+<field name="default_note">Stad Nijkerk</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_VEE"</field>
+<field name="">VEE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">VEE</field>
+<field name="">False</field>
+<field name="">Veenendaalse Krant</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_VEL"</field>
+<field name="">VEL</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">VEL</field>
+<field name="">False</field>
+<field name="">Veluweland</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_VNE"</field>
+<field name="">VNE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">VNE</field>
+<field name="">True</field>
+<field name="">Het</field>
+<field name="">Kontakt</field>
+<field name="">Ermelo</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_VNH"</field>
+<field name="">VNH</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">VNH</field>
+<field name="">False</field>
+<field name="">Het</field>
+<field name="">Kontakt</field>
+<field name="">Harderwijk</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_WAR"</field>
+<field name="">WAR</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">WAR</field>
+<field name="">False</field>
+<field name="">Witte</field>
+<field name="">Weekblad</field>
+<field name="">Alphen</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_WBO"</field>
+<field name="">WBO</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">WBO</field>
+<field name="">False</field>
+<field name="default_note">De Woudenberger</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_WNK"</field>
+<field name="">WNK</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">WNK</field>
+<field name="">False</field>
+<field name="">Witte</field>
+<field name="">Weekblad</field>
+<field name="">Nieuwkoop</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_WKB"</field>
+<field name="">WKB</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">WKB</field>
+<field name="">False</field>
+<field name="">Witte</field>
+<field name="">Weekblad</field>
+<field name="">Kaag</field>
+<field name="">en</field>
+<field name="">Braassem</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_WOA"</field>
+<field name="">WOA</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">WOA</field>
+<field name="">False</field>
+<field name="">Weekblad</field>
+<field name="">voor</field>
+<field name="">Ouder</field>
+<field name="">Amstel</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_WWA"</field>
+<field name="">WWA</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">WWA</field>
+<field name="">False</field>
+<field name="">Witte</field>
+<field name="">Weekblad</field>
+<field name="">Aalsmeer</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_WWN"</field>
+<field name="">WWN</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">WWN</field>
+<field name="">False</field>
+<field name="">Witte</field>
+<field name="">Weekblad</field>
+<field name="">Nieuw</field>
+<field name="">Vennep</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_WWR"</field>
+<field name="">WWR</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">WWR</field>
+<field name="">False</field>
+<field name="">Witte</field>
+<field name="">Weekblad</field>
+<field name="default_note">De RonDe Venen</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_WWU"</field>
+<field name="">WWU</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">WWU</field>
+<field name="">False</field>
+<field name="">Witte</field>
+<field name="">Weekblad</field>
+<field name="">Uithoorn</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_SPO"</field>
+<field name="">SPO</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">SPO</field>
+<field name="">False</field>
+<field name="">Specials</field>
+<field name="">Overig</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_SPH"</field>
+<field name="">SPH</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">SPH</field>
+<field name="">False</field>
+<field name="">Specials</field>
+<field name="">Haarlem</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_VVV"</field>
+<field name="">VVV</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">VVV</field>
+<field name="">False</field>
+<field name="">Recreatiekrant</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_SPN"</field>
+<field name="">SPN</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">SPN</field>
+<field name="">False</field>
+<field name="">Specials</field>
+<field name="">Noord</field>
+<field name="">Holland</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_BUNE"</field>
+<field name="">BUNE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">BUNE</field>
+<field name="">False</field>
+<field name="default_note">De Bunschoter</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_KEAE"</field>
+<field name="">KEAE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">KEAE</field>
+<field name="">False</field>
+<field name="">Het</field>
+<field name="">Kontakt</field>
+<field name="">Alblasserwaard</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_KEHE"</field>
+<field name="">KEHE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">KEHE</field>
+<field name="">False</field>
+<field name="">Het</field>
+<field name="">Kontakt</field>
+<field name="">Heusden</field>
+<field name="">en</field>
+<field name="">Altena</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_KELE"</field>
+<field name="">KELE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">KELE</field>
+<field name="">False</field>
+<field name="">Het</field>
+<field name="">Kontakt</field>
+<field name="">Leerdam</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_KEOE"</field>
+<field name="">KEOE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">KEOE</field>
+<field name="">False</field>
+<field name="">Het</field>
+<field name="">Kontakt</field>
+<field name="">Krimpener-</field>
+<field name="">en</field>
+<field name="">Lopikerwaard</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_KEVE"</field>
+<field name="">KEVE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">KEVE</field>
+<field name="">False</field>
+<field name="">Het</field>
+<field name="">Kontakt</field>
+<field name="">Vianen</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_KEWE"</field>
+<field name="">KEWE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">KEWE</field>
+<field name="">False</field>
+<field name="">Het</field>
+<field name="">Kontakt</field>
+<field name="">Krimpenerwaard</field>
+<field name="">West</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_HEW"</field>
+<field name="">HEW</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">HEW</field>
+<field name="">False</field>
+<field name="">"Helders</field>
+<field name="">Weekblad
+"</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_WIC"</field>
+<field name="">WIC</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">WIC</field>
+<field name="">False</field>
+<field name="">Wieringer</field>
+<field name="">Courant</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_GPB"</field>
+<field name="">GPB</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">GPB</field>
+<field name="">False</field>
+<field name="">"Het</field>
+<field name="">Gezinsblad
+"</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_AWB"</field>
+<field name="">AWB</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">AWB</field>
+<field name="">False</field>
+<field name="">"Alkmaars</field>
+<field name="">Weekblad
+"</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_ADS"</field>
+<field name="">ADS</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">ADS</field>
+<field name="">False</field>
+<field name="">"De Duinstreek
+"</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_ADK"</field>
+<field name="">ADK</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">ADK</field>
+<field name="">False</field>
+<field name="">"De Koerier
+"</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_KNC"</field>
+<field name="">KNC</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">KNC</field>
+<field name="">False</field>
+<field name="">"Nieuwsblad</field>
+<field name="">voor</field>
+<field name="">Castricum
+"</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_KNK"</field>
+<field name="">KNK</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">KNK</field>
+<field name="">False</field>
+<field name="">"Nieuwsblad</field>
+<field name="default_note">De Kennemer
+"</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_NBY"</field>
+<field name="">NBY</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">NBY</field>
+<field name="">False</field>
+<field name="">Nieuwsblad</field>
+<field name="">IJmuiden</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_SWE"</field>
+<field name="">SWE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">SWE</field>
+<field name="">False</field>
+<field name="">Schager</field>
+<field name="">Weekblad</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_CKA"</field>
+<field name="">CKA</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">CKA</field>
+<field name="">False</field>
+<field name="">CTR</field>
+<field name="">Hollands</field>
+<field name="">Kroon</field>
+<field name="">-</field>
+<field name="">Anna</field>
+<field name="">Paulowna</field>
+<field name="">en</field>
+<field name="">Wieringen</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_CKN"</field>
+<field name="">CKN</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">CKN</field>
+<field name="">False</field>
+<field name="">"CTR</field>
+<field name="">Hollands</field>
+<field name="">Kroon</field>
+<field name="">-</field>
+<field name="">Niedorp</field>
+<field name="">en</field>
+<field name="">Wieringermeer
+"</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_WFO"</field>
+<field name="">WFO</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">WFO</field>
+<field name="">False</field>
+<field name="">"Westfries</field>
+<field name="">Weekblad</field>
+<field name="">Oost
+"</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_WFW"</field>
+<field name="">WFW</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">WFW</field>
+<field name="">False</field>
+<field name="">"Westfries</field>
+<field name="">Weekblad</field>
+<field name="">West
+"</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_ZZS"</field>
+<field name="">ZZS</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">ZZS</field>
+<field name="">False</field>
+<field name="">"De Zaankanter</field>
+<field name="">-</field>
+<field name="">Zaanstreek</field>
+<field name="">en</field>
+<field name="">Wormerland
+"</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_ZZD"</field>
+<field name="">ZZD</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">ZZD</field>
+<field name="">False</field>
+<field name="">"De Zaankanter</field>
+<field name="">-</field>
+<field name="">Zaandam
+"</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_ZKR"</field>
+<field name="">ZKR</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">ZKR</field>
+<field name="">False</field>
+<field name="">"De Krommenieer
+"</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_KEBE"</field>
+<field name="">KEBE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">KEBE</field>
+<field name="">False</field>
+<field name="">Het</field>
+<field name="">Kontakt</field>
+<field name="">Bommelerwaard</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_KLAE"</field>
+<field name="">KLAE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">KLAE</field>
+<field name="">False</field>
+<field name="default_note">De Klaroen</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_STI</field>
+<field name="">STI</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">STI</field>
+<field name="">False</field>
+<field name="">Stichtse</field>
+<field name="">Courant</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_BCO</field>
+<field name="">BCO</field>
+<field name=""></field>
+<field name="">True</field>
+<field name=""></field>
+<field name=""></field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">BCO</field>
+<field name="">False</field>
+<field name="">Baarnsche</field>
+<field name="">Courant</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_BWB</field>
+<field name="">BWB</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">BWB</field>
+<field name="">False</field>
+<field name="">Baarns</field>
+<field name="">Weekblad</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant1</field>
+<field name="">DPLE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">DPLE</field>
+<field name="">True</field>
+<field name="">Doorplaatsing</field>
+<field name="">Extern</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant2</field>
+<field name="">SCH</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">SCH</field>
+<field name="">False</field>
+<field name="">Soester</field>
+<field name="">Courant</field>
+<field name="">Huis-aan-Huis</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant3</field>
+<field name="">ALPE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">ALPE</field>
+<field name="">False</field>
+<field name="">Alphens</field>
+<field name="">Nieuwsblad</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant4</field>
+<field name="">RKU</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">RKU</field>
+<field name="">False</field>
+<field name="">Recreatiekrant</field>
+<field name="">voor</field>
+<field name="">Regio</field>
+<field name="">Utrecht</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant5 Krant5</field>
+<field name="price_edit">Falseproduct.product_category_all Krant5</field>
+<field name="">False Krant5</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant6 Krant6</field>
+<field name="price_edit">Falseproduct.product_category_all Krant6</field>
+<field name="">False Krant6</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant7 Krant7</field>
+<field name="price_edit">Falseproduct.product_category_all Krant7</field>
+<field name="">False Krant7</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant8 Krant8</field>
+<field name="price_edit">Falseproduct.product_category_all Krant8</field>
+<field name="">False Krant8</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant9 Krant9</field>
+<field name="price_edit">Falseproduct.product_category_all Krant9</field>
+<field name="">False Krant9</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant10 Krant10</field>
+<field name="price_edit">Falseproduct.product_category_all Krant10</field>
+<field name="">False Krant10</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant11 Krant11</field>
+<field name="price_edit">Falseproduct.product_category_all Krant11</field>
+<field name="">False Krant11</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant12 Krant12</field>
+<field name="price_edit">Falseproduct.product_category_all Krant12</field>
+<field name="">False Krant12</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant13 Krant13</field>
+<field name="price_edit">Falseproduct.product_category_all Krant13</field>
+<field name="">False Krant13</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant14 Krant14</field>
+<field name="price_edit">Falseproduct.product_category_all Krant14</field>
+<field name="">False Krant14</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant15 Krant15</field>
+<field name="price_edit">Falseproduct.product_category_all Krant15</field>
+<field name="">False Krant15</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant16 Krant16</field>
+<field name="price_edit">Falseproduct.product_category_all Krant16</field>
+<field name="">False Krant16</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant17 Krant17</field>
+<field name="price_edit">Falseproduct.product_category_all Krant17</field>
+<field name="">False Krant17</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant18 Krant18</field>
+<field name="price_edit">Falseproduct.product_category_all Krant18</field>
+<field name="">False Krant18</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant19 Krant19</field>
+<field name="price_edit">Falseproduct.product_category_all Krant19</field>
+<field name="">False Krant19</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant20 Krant20</field>
+<field name="price_edit">Falseproduct.product_category_all Krant20</field>
+<field name="">False Krant20</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant21 Krant21</field>
+<field name="price_edit">Falseproduct.product_category_all Krant21</field>
+<field name="">False Krant21</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant22 Krant22</field>
+<field name="price_edit">Falseproduct.product_category_all Krant22</field>
+<field name="">False Krant22</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant23 Krant23</field>
+<field name="price_edit">Falseproduct.product_category_all Krant23</field>
+<field name="">False Krant23</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant24 Krant24</field>
+<field name="price_edit">Falseproduct.product_category_all Krant24</field>
+<field name="">False Krant24</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_Krant25 Krant25</field>
+<field name="price_edit">Falseproduct.product_category_all Krant25</field>
+<field name="">False Krant25</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_DMWE</field>
+<field name="">DMWE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">DMWE</field>
+<field name="">False</field>
+<field name="default_note">De Maas</field>
+<field name="">en</field>
+<field name="">Waler</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_LDNE</field>
+<field name="">LDNE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">LDNE</field>
+<field name="">False</field>
+<field name="default_note">De Leydenaer</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_LDVE</field>
+<field name="">LDVE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">LDVE</field>
+<field name="">False</field>
+<field name="">Leiderdorps</field>
+<field name="">Weekblad</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_TEVE</field>
+<field name="">TEVE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">TEVE</field>
+<field name="">False</field>
+<field name="default_note">De Teylinger</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_KSVE</field>
+<field name="">KSVE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">KSVE</field>
+<field name="">False</field>
+<field name="">Katwijk</field>
+<field name="">Speciaal</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_KPVE</field>
+<field name="">KPVE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">KPVE</field>
+<field name="">False</field>
+<field name="">Katwijksche</field>
+<field name="">Post</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_LIVE</field>
+<field name="">LIVE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">LIVE</field>
+<field name="">False</field>
+<field name="">Lisser</field>
+<field name="">Nieuws</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_HIVE</field>
+<field name="">HIVE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">HIVE</field>
+<field name="">False</field>
+<field name="default_note">De Hillegommer</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_RYVE</field>
+<field name="">RYVE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">RYVE</field>
+<field name="">False</field>
+<field name="default_note">De Rijnsburger</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_VOVE</field>
+<field name="">VOVE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">VOVE</field>
+<field name="">False</field>
+<field name="">Witte</field>
+<field name="">Weekblad</field>
+<field name="">Voorschoten</field>
+<field name="">&</field>
+<field name="">Zoeterwoude</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_OEVE</field>
+<field name="">OEVE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">OEVE</field>
+<field name="">False</field>
+<field name="">Oegstgeester</field>
+<field name="">Courant</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_NWVE</field>
+<field name="">NWVE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">NWVE</field>
+<field name="">False</field>
+<field name="default_note">De Noordwijker</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_NHVE</field>
+<field name="">NHVE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">NHVE</field>
+<field name="">False</field>
+<field name="">Noordwijkerhouts</field>
+<field name="">Weekblad</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_ANWE</field>
+<field name="">ANWE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">ANWE</field>
+<field name="">False</field>
+<field name="">Achterhoek</field>
+<field name="">Nieuws</field>
+<field name="">Winterswijk</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_ANOE</field>
+<field name="">ANOE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">ANOE</field>
+<field name="">False</field>
+<field name="">Achterhoek</field>
+<field name="">Nieuws</field>
+<field name="">Eibergen</field>
+<field name="">-</field>
+<field name="">Neede</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_ANBE</field>
+<field name="">ANBE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">ANBE</field>
+<field name="">False</field>
+<field name="">Achterhoek</field>
+<field name="">Nieuws</field>
+<field name="">Borculo</field>
+<field name="">-</field>
+<field name="">Ruurlo</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_ANAE</field>
+<field name="">ANAE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">ANAE</field>
+<field name="">False</field>
+<field name="">Aaltens</field>
+<field name="">Nieuws</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_ADNE</field>
+<field name="">ADNE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">ADNE</field>
+<field name="">False</field>
+<field name="">Dinxpers</field>
+<field name="">Nieuws</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_GPOE</field>
+<field name="">GPOE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">GPOE</field>
+<field name="">False</field>
+<field name="">Gelderse</field>
+<field name="">Post</field>
+<field name="">OuDe IJsselstreek</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_GPDe GPDE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">GPDe False</field>
+<field name="default_note">Stad Doetinchem</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_MONE</field>
+<field name="">MONE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">MONE</field>
+<field name="">False</field>
+<field name="">Montferland</field>
+<field name="">Nieuws</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_CONE</field>
+<field name="">CONE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">CONE</field>
+<field name="">False</field>
+<field name="">Contact</field>
+<field name="">Noord</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_COME</field>
+<field name="">COME</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">COME</field>
+<field name="">False</field>
+<field name="">Contact</field>
+<field name="">Midden</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_COZE</field>
+<field name="">COZE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">COZE</field>
+<field name="">False</field>
+<field name="">Contact</field>
+<field name="">Zuid</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_CZWE</field>
+<field name="">CZWE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">CZWE</field>
+<field name="">False</field>
+<field name="">Contact</field>
+<field name="">Zutphen</field>
+<field name="">-</field>
+<field name="">Warnsveld</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_ELIE</field>
+<field name="">ELIE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">ELIE</field>
+<field name="">False</field>
+<field name="">Elna</field>
+<field name="">Lichtenvoorde</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_GRGE</field>
+<field name="">GRGE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">GRGE</field>
+<field name="">False</field>
+<field name="">Groenlose</field>
+<field name="">Gids</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_BNEE</field>
+<field name="">BNEE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">BNEE</field>
+<field name="">False</field>
+<field name="">Bussums</field>
+<field name="">Nieuws</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_DNEE</field>
+<field name="">DNEE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">DNEE</field>
+<field name="">False</field>
+<field name="">Diemer</field>
+<field name="">Nieuws</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_GEBE</field>
+<field name="">GEBE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">GEBE</field>
+<field name="">False</field>
+<field name="default_note">De Gooi</field>
+<field name="">en</field>
+<field name="">Eembode</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_IJNE</field>
+<field name="">IJNE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">IJNE</field>
+<field name="">False</field>
+<field name="">IJburger</field>
+<field name="">Nieuws</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_LCBE</field>
+<field name="">LCBE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">LCBE</field>
+<field name="">False</field>
+<field name="">Laarder</field>
+<field name="">Courant</field>
+<field name="default_note">De Bel</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_MUNE</field>
+<field name="">MUNE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">MUNE</field>
+<field name="">False</field>
+<field name="">Muider</field>
+<field name="">Nieuws</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_NANE</field>
+<field name="">NANE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">NANE</field>
+<field name="">False</field>
+<field name="">Naarder</field>
+<field name="">Nieuws</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_NVHE</field>
+<field name="">NVHE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">NVHE</field>
+<field name="">False</field>
+<field name="">Nieuwsblad</field>
+<field name="">voor</field>
+<field name="">Huizen</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="sale.advertising.issue" id="bdumedia.bdumedia_sale_advertising_issue_WENE</field>
+<field name="">WENE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.newspaper_advertising_category</field>
+<field name="">WENE</field>
+<field name="">False</field>
+<field name="">Weesper</field>
+<field name="">Nieuws</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_VAK1</field>
+<field name="">VAK1</field>
+<field name="price_edit">Falseproduct.product_category_all</field>
+<field name="">Vakmedia</field>
+<field name="">extra</field>
+<field name="">1</field>
+<field name="">False</field>
+<field name="">Vakmedia</field>
+<field name="">extra</field>
+<field name="">1</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_VAK2</field>
+<field name="">VAK2</field>
+<field name="price_edit">Falseproduct.product_category_all</field>
+<field name="">Vakmedia</field>
+<field name="">extra</field>
+<field name="">2</field>
+<field name="">False</field>
+<field name="">Vakmedia</field>
+<field name="">extra</field>
+<field name="">2</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_VAK3</field>
+<field name="">VAK3</field>
+<field name="price_edit">Falseproduct.product_category_all</field>
+<field name="">Vakmedia</field>
+<field name="">extra</field>
+<field name="">3</field>
+<field name="">False</field>
+<field name="">Vakmedia</field>
+<field name="">extra</field>
+<field name="">3</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_ALG</field>
+<field name="">ALG</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Algemeen</field>
+<field name="">False</field>
+<field name="">Algemeen</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_BAP</field>
+<field name="">BAP</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Baptisten.nu</field>
+<field name="">False</field>
+<field name="">Baptisten.nu</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_BEM</field>
+<field name="">BEM</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Beam</field>
+<field name="">False</field>
+<field name="">Beam</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_BEA</field>
+<field name="">BEA</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Beautyweb</field>
+<field name="">False</field>
+<field name="">Beautyweb</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_BEW</field>
+<field name="">BEW</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">beware</field>
+<field name="">bodywear</field>
+<field name="">False</field>
+<field name="">beware</field>
+<field name="">bodywear</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_CON</field>
+<field name="">CON</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Contact</field>
+<field name="">False</field>
+<field name="">Contact</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_EOM</field>
+<field name="">EOM</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">EO</field>
+<field name="">Magazine</field>
+<field name="">False</field>
+<field name="">EO</field>
+<field name="">Magazine</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_EST</field>
+<field name="">EST</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">ESTHÉ</field>
+<field name="">False</field>
+<field name="">ESTHÉ</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_EVA</field>
+<field name="">EVA</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Eva</field>
+<field name="">False</field>
+<field name="">Eva</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_GKB</field>
+<field name="">GKB</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Gereformeerd</field>
+<field name="">Kerkblad</field>
+<field name="">False</field>
+<field name="">Gereformeerd</field>
+<field name="">Kerkblad</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_HAS</field>
+<field name="">HAS</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Hairstyle</field>
+<field name="">Only</field>
+<field name="">False</field>
+<field name="">Hairstyle</field>
+<field name="">Only</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_HOV</field>
+<field name="">HOV</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Hoveniersvak</field>
+<field name="">False</field>
+<field name="">Hoveniersvak</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_HWC</field>
+<field name="">HWC</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">HW</field>
+<field name="">Confessioneel</field>
+<field name="">False</field>
+<field name="">HW</field>
+<field name="">Confessioneel</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_ISR</field>
+<field name="">ISR</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Israël</field>
+<field name="">Aktueel</field>
+<field name="">False</field>
+<field name="">Israël</field>
+<field name="">Aktueel</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_KLU</field>
+<field name="">KLU</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Klusvisie</field>
+<field name="">False</field>
+<field name="">Klusvisie</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_LEW</field>
+<field name="">LEW</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Land</field>
+<field name="">en</field>
+<field name="">Water</field>
+<field name="">False</field>
+<field name="">Land</field>
+<field name="">en</field>
+<field name="">Water</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_MAS</field>
+<field name="">MAS</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Massage</field>
+<field name="">Magazine</field>
+<field name="">False</field>
+<field name="">Massage</field>
+<field name="">Magazine</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_MED</field>
+<field name="">MED</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Medium</field>
+<field name="">False</field>
+<field name="">Medium</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_MOB</field>
+<field name="">MOB</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Mobilia</field>
+<field name="">False</field>
+<field name="">Mobilia</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_NAT</field>
+<field name="">NAT</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Natuursteen</field>
+<field name="">False</field>
+<field name="">Natuursteen</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_NEL</field>
+<field name="">NEL</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Nederland</field>
+<field name="">Logistiek</field>
+<field name="">False</field>
+<field name="">Nederland</field>
+<field name="">Logistiek</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_OPW</field>
+<field name="">OPW</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Opwekking</field>
+<field name="">False</field>
+<field name="">Opwekking</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_PIP</field>
+<field name="">PIP</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">PI</field>
+<field name="">project</field>
+<field name="">en</field>
+<field name="">Interieur</field>
+<field name="">False</field>
+<field name="">PI</field>
+<field name="">project</field>
+<field name="">en</field>
+<field name="">Interieur</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_PEW</field>
+<field name="">PEW</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Plafond</field>
+<field name="">en</field>
+<field name="">Wand</field>
+<field name="">False</field>
+<field name="">Plafond</field>
+<field name="">en</field>
+<field name="">Wand</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_PRN</field>
+<field name="">PRN</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Profnail</field>
+<field name="">False</field>
+<field name="">Profnail</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_REU</field>
+<field name="">REU</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Reumamagazine</field>
+<field name="">False</field>
+<field name="">Reumamagazine</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_ROU</field>
+<field name="">ROU</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Routiers</field>
+<field name="">False</field>
+<field name="">Routiers</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_STY</field>
+<field name="">STY</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Stylevision</field>
+<field name="">False</field>
+<field name="">Stylevision</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_TIM</field>
+<field name="">TIM</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Timmerfabrikant</field>
+<field name="">False</field>
+<field name="">Timmerfabrikant</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_TNB</field>
+<field name="">TNB</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Touringcar</field>
+<field name="">&</field>
+<field name="">Bus</field>
+<field name="">False</field>
+<field name="">Touringcar</field>
+<field name="">&</field>
+<field name="">Bus</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_TEL</field>
+<field name="">TEL</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Transport</field>
+<field name="">en</field>
+<field name="">Logistiek</field>
+<field name="">False</field>
+<field name="">Transport</field>
+<field name="">en</field>
+<field name="">Logistiek</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_TLN</field>
+<field name="">TLN</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">TLN</field>
+<field name="">False</field>
+<field name="">TLN</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_TSP</field>
+<field name="">TSP</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Transport</field>
+<field name="">special</field>
+<field name="">False</field>
+<field name="">Transport</field>
+<field name="">special</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_VER</field>
+<field name="">VER</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Verhuizen</field>
+<field name="">False</field>
+<field name="">Verhuizen</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_VIS</field>
+<field name="">VIS</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Visie</field>
+<field name="">False</field>
+<field name="">Visie</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_VTM</field>
+<field name="">VTM</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Vloertechnisch</field>
+<field name="">magazine</field>
+<field name="">False</field>
+<field name="">Vloertechnisch</field>
+<field name="">magazine</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_VOE</field>
+<field name="">VOE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Voetvak+</field>
+<field name="">False</field>
+<field name="">Voetvak+</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_VOL</field>
+<field name="">VOL</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Volzin</field>
+<field name="">False</field>
+<field name="">Volzin</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_WER</field>
+<field name="">WER</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Waarheid</field>
+<field name="">en</field>
+<field name="">Recht</field>
+<field name="">False</field>
+<field name="">Waarheid</field>
+<field name="">en</field>
+<field name="">Recht</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_ZOE</field>
+<field name="">ZOE</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Zoeklicht</field>
+<field name="">False</field>
+<field name="">Zoeklicht</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_ZIZ</field>
+<field name="">ZIZ</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">ZuivelInzicht</field>
+<field name="">False</field>
+<field name="">ZuivelInzicht</field>
+<field name="state">Open</field>
+<field name="">False</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_ZUI</field>
+<field name="">ZUI</field>
+<field name="price_edit">False</field>
+<field name="medium">sale_advertising_order.magazine_advertising_category</field>
+<field name="name"></field>
+<field name="">Zuivelzicht</field>
+<field name="">False</field>
+<field name="">Zuivelzicht</field>
+<field name="state">Open</field>
+<field name="">True</field>
+</record>
+<record model="vakmedia.sale_advertising_issue_VAKONLINE</field>
+<field name="">VAKONLINE</field>
+<field name="price_edit">Falsesale_advertising_order.magazine_online_advertising_category</field>
+<field name="">Vakmedia</field>
+<field name="">Online</field>
+<field name="">False</field>
+<field name="">Vakmedia</field>
+<field name="">Online</field>
+<field name="state">Open</field>
+<field name="">False
+</odoo>

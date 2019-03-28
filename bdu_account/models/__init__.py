@@ -3,5 +3,6 @@
 import operating_unit
 import sale
 import account_invoice
+import res_company
 import res_partner
 import product

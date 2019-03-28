@@ -1,0 +1,12 @@
+<?xml version="1.0"?> 
+<odoo>
+ 
+
+  <!-- Classifieds  menu--> 
+  <menuitem id="classifieds_online_menu" 
+    name="Classifieds online" 
+    sequence="250"
+    parent="sales_team.menu_sale_config" 
+     /> 
+
+</odoo>
