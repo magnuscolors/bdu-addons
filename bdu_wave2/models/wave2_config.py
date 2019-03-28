@@ -530,7 +530,7 @@ class Wave2Config(models.Model):
             region_text = str(region.wave2_id)
             if int(region.wave2_id) < 10 :
                 region_text = "0"+region_text
-                ad_number = odoo_order.client_order_ref+"_"+region_text+title.name+"_"+datetime.datetime.strftime(issue_date, '%Y-%m-%d')
+            ad_number = odoo_order.client_order_ref+"_"+region_text+title.name+"_"+datetime.datetime.strftime(issue_date, '%Y-%m-%d')
         else :
             #old style
             return "No support for legacy style orders"

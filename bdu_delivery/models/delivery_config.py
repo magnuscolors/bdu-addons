@@ -60,6 +60,7 @@ class DeliveryConfig(models.Model):
 
     @api.multi
     def automated_run(self, config_name):
+        _logger.info("start automated run")
         # automated call should use name of config as text parameter enclosed in brackets and followed by comma, like ("spreadit",)
         configurations = self.search([('name','=',config_name)])
         if not configurations :
@@ -121,17 +122,19 @@ class DeliveryConfig(models.Model):
             #('company_id', '=', self.company_id.id),
             ('subscription', '=', True),
             ('state', '=', 'sale'),
-            ('title', 'in', titles),
+            ('title.name', 'in', titles),
             ('product_template_id.digital_subscription','=', False), #not digital only subscription, but physical delivery needed
-            ('number_of_issues', '=', 0)                             #period subscriptions
+            ('number_of_issues', '=', 0),                            #period subscriptions
+            ('product_uom_qty','>', 0)                               #no canceled orderlines
         ]
         counted_subs = [
             ('line_renewed', '=', False),
             ('subscription', '=', True),
             ('state', '=', 'sale'),
-            ('title', 'in', titles),
+            ('title.name', 'in', titles),
             ('product_template_id.digital_subscription','=', False),  #not digital only subscription, but physical delivery needed
-            ('number_of_issues', '!=', 0)                             #period subscriptions
+            ('number_of_issues', '!=', 0),                            #counted subscriptions
+            ('product_uom_qty','>', 0)                                #no canceled orderlines
         ]
         if config.delivery_ids :
             period_subs.append(('order_id.delivery_type', 'in', config.delivery_ids.ids))
@@ -166,6 +169,7 @@ class DeliveryConfig(models.Model):
             return False
 
         # make file 
+        _logger.info("start making output file for %d subscriptions" % len(subscriptions))
         filename      = str(config.tempdir)+"/"+str(config.file_prefix)+"_"+config.active_date+str(config.file_suffix)
         delivery_list = open(filename, "w")
         if config.file_format=='papo' :
@@ -182,6 +186,7 @@ class DeliveryConfig(models.Model):
             return False
         delivery_list.close()
         delivery_list = None
+        _logger.info("start sending output file")
 
         # send file by ftp
         if config.use_ftp :
@@ -283,7 +288,7 @@ class DeliveryConfig(models.Model):
             delivery_list.write(line+"\r\n")
 
         footer=""
-        delivery_list.write(line)
+        delivery_list.write(footer)
         return delivery_list
 
     
@@ -293,12 +298,6 @@ class DeliveryConfig(models.Model):
         yesterday, day_before_yesterday, three_days_ago = self.init_days(config.active_date)
         concat = self.make_concatenate(",")
         
-        #def concatx(line, var) :
-        #    if var :
-        #        return (line+","+str(var))
-        #    else :
-        #        return (line +",")
-
         header= "Abonneenummer, aantal, Bedrijfsnaam, afdeling, Voorletters, Tussenvoegsels, Achternaam, Straatnaam, Huisnummer+Toevoeging, Postcode, Plaats, Land\r\n"
         delivery_list.write(header)
 
@@ -402,16 +401,18 @@ class DeliveryConfig(models.Model):
 
 
     def store_delivered_obligations(self, config, subscriptions, titles) :
+        _logger.info("start storing delivered lines")
         filename       = str(config.file_prefix)+"_"+config.active_date+str(config.file_suffix)
         std            = self.env['subscription.title.delivery']
         sdl            = self.env['subscription.delivery.list']
         lines          = self.env['subscription.delivery.line']
         now            = datetime.datetime.now().strftime('%Y-%m-%d')
         yesterday, day_before_yesterday, three_days_ago = self.init_days(config.active_date)
+        line_list      = []
 
         #deliveries segmented per delivery type and title as subscription module uses
         for title in config.title_ids : 
-            issues  = self.env['sale.advertising.issue'].search([('parent_id','=',title.id),('issue_date','=',config.active_date)])
+            issues  = self.env['sale.advertising.issue'].search([('parent_id','=',title.id),('issue_date','=',config.active_date),('subscription_title','=',True)])
             if len(issues) == 0 : 
                 continue
             issue=issues[0]
@@ -465,10 +466,18 @@ class DeliveryConfig(models.Model):
                         'state'               : 'draft'
                     }
                     deliveries=lines.search([('delivery_list_id','=',sdl_rec.id),('sub_order_line','=',subscription.id)])
+                    #todo : possibly migrate to SQL
                     if len(deliveries) != 0 :
                         delivery=deliveries[0]
                         delivery.write(payload)
                     else :
                         delivery = lines.create(payload)
+                    line_list.append(delivery.id)
+
+        #update sale order lines with actual delivered issues
+        _logger.info("delivered lines stored, start updating delivered issues in orderlines")
+        delivered=lines.search([('id','in',tuple(line_list))])
+        delivered.update_delivered_issues()
+        _logger.info("orderlines updated")
 
         return
