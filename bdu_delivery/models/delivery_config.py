@@ -124,6 +124,7 @@ class DeliveryConfig(models.Model):
             ('state', '=', 'sale'),
             ('title.name', 'in', titles),
             ('product_template_id.digital_subscription','=', False), #not digital only subscription, but physical delivery needed
+            ('line_renewed', '=' ,False), 
             ('number_of_issues', '=', 0),                            #period subscriptions
             ('product_uom_qty','>', 0)                               #no canceled orderlines
         ]
@@ -133,6 +134,7 @@ class DeliveryConfig(models.Model):
             ('state', '=', 'sale'),
             ('title.name', 'in', titles),
             ('product_template_id.digital_subscription','=', False),  #not digital only subscription, but physical delivery needed
+            ('line_renewed', '=' ,False), 
             ('number_of_issues', '!=', 0),                            #counted subscriptions
             ('product_uom_qty','>', 0)                                #no canceled orderlines
         ]
@@ -156,13 +158,15 @@ class DeliveryConfig(models.Model):
             return wda
         subscriptions = subscriptions.filtered(lambda r: active_weekday in  list_of_days(r.product_template_id.weekday_ids))
 
-        #todo: filter for temp stop in orderline
+        #filter for temp stop in orderline
         def no_temp_stop(date1, date2):
             if date1<= config.active_date and date2>=config.active_date :
                 return False
             else :
                 return True
         subscriptions = subscriptions.filtered(lambda r: no_temp_stop(r.tmp_start_date, r.tmp_end_date) )
+
+        #filtering for final stop is done at file make level to facilitate start-stop-messages
 
         if len(subscriptions)==0 :
             self.log_exception(msg, "No subscriptions found. Program terminated.")
@@ -244,7 +248,7 @@ class DeliveryConfig(models.Model):
 
     def make_concatenate(self, concat_char) :
         def concat(line, addition) :
-            if addition : return line+concat_char+addition
+            if addition : return line+concat_char+addition.replace(concat_char,"")
             else :        return line+concat_char
         return concat
 
@@ -257,7 +261,7 @@ class DeliveryConfig(models.Model):
         yesterday, day_before_yesterday, three_days_ago = self.init_days(config.active_date)
         concat = self.make_concatenate(",")
 
-        header= "abonnee_nr, abonnement_nr, achternaam, bedrijfsnaam, parent_name, name, street, zip, woonplaats, start_datum, cancel_datum, bij/af\r\n"
+        header= "abonnee_nr, abonnement_nr, aantal, achternaam, bedrijfsnaam, parent_name, name, street, zip, woonplaats, start_datum, cancel_datum, bij/af\r\n"
         delivery_list.write(header)
 
         for subscription in subscriptions :
@@ -265,6 +269,7 @@ class DeliveryConfig(models.Model):
                 continue
             subscriber = subscription.order_id.partner_shipping_id
             line = str(subscriber.ref)+","+str(subscription.id)
+            line = concat(line, subscription.product_uom_qty)
             line = concat(line, subscriber.lastname)
             line = concat(line, subscriber.parent_id.name)
             line = concat(line, subscriber.parent_id.name)
@@ -392,7 +397,7 @@ class DeliveryConfig(models.Model):
             child(klant, "uitgave  ", subscription.title.name)
             child(klant, "editie", subscription.title.name)
             child(klant, "actie", "")
-            child(klant, "aantal", "1")
+            child(klant, "aantal", subscription.product_uom_qty)   #number of copies delivered, not number of issues
             child(klant, "verschwijze", "0200500")
             child(klant, "mutreden", "")
 
@@ -442,7 +447,8 @@ class DeliveryConfig(models.Model):
                     #update filename and date
                     sdl_rec.write({'name'         : filename,
                                    'delivery_date': now,
-                                   'state'        : 'draft'  #reset possible cancel
+                                   'issue_id'     : issue.id,    #rerun should correct possible wrong issue, e.g. mail issue incorrectly administered as subscription issue
+                                   'state'        : 'draft'      #reset possible cancel
                     })
 
                 #delivery lines
@@ -460,7 +466,7 @@ class DeliveryConfig(models.Model):
                         'sub_order_line'      : subscription.id,
                         'subscription_number' : subscription.order_id.id,
                         'partner_id'          : subscriber.id,
-                        'product_uom_qty'     : subscription.product_uom_qty,
+                        'product_uom_qty'     : 1,                              #is number of issues, not copies !!!
                         'title_id'            : title.id,
                         'issue_id'            : issue.id,
                         'state'               : 'draft'
