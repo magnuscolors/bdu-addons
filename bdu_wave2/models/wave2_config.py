@@ -6,6 +6,7 @@ import xml.etree.ElementTree as et
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 
 _logger = logging.getLogger(__name__)
 
@@ -303,6 +304,8 @@ class Wave2Config(models.Model):
                     dates = self.env['wave2.alternative.date'].search([('title','=',region_title.title.id),('wave2_date' ,'=', issue_date_w2)])
                     if len(dates)==1 :
                         issue_date = dates[0].issue.issue_date
+                        if type(issue_date) in [unicode, str] :
+                            issue_date = datetime.datetime.strptime(issue_date,DF).date()
                     elif len(dates)>1 :
                         abort(config, order, "Multiple alternative dates for "+region_title.title.name+" on "+issue_date_w2+"."  )
                         return
