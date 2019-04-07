@@ -255,7 +255,9 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 WHERE
                 sale_order_line_id = (
                 SELECT old_id
-                FROM new_sale_order_line)
+                FROM new_sale_order_line
+                )
+                RETURNING account_tax_id
                 )
                 INSERT INTO account_tax_sale_order_line_rel 
                         (sale_order_line_id, 
