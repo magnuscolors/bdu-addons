@@ -247,7 +247,7 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 ON (medium.id = issue.medium)
                 WHERE
                 sol.id {2} '{3}'
-                RETURNING id AS new_id, sol.id AS old_id
+                RETURNING id AS new_id, sale_order_line.id AS old_id
                 ),
                 tax AS (
                 SELECT account_tax_id
