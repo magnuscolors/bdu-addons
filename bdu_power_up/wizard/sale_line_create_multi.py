@@ -180,9 +180,9 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                     ELSE 0.0
                 END AS subtotal_before_agency_disc,
                 CASE
-                    WHEN sol.comb_list_price > 0.0 and sol.product_uom_qty > 0.0
-                    THEN sol.color_surcharge_amount * solip.price / 
-                         sol.comb_list_price / sol.product_uom_qty
+                    WHEN sol.comb_list_price > 0.0
+                    THEN sol.color_surcharge_amount * solip.price_unit / 
+                         sol.comb_list_price
                     ELSE 0.0
                 END AS color_surcharge_amount, 
                 sol.order_id AS order_id, 
