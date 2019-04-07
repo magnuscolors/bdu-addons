@@ -260,10 +260,10 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 INSERT INTO account_tax_sale_order_line_rel 
                         (sale_order_line_id, 
                         account_tax_id) 
-                (SELECT new_id
+                VALUES((SELECT new_id
                 FROM new_sale_order_line),
                 (SELECT account_tax_id
-                FROM tax)
+                FROM tax))
                 ;""".format(
         self._uid,
         "'%s'" % str(fields.Datetime.to_string(fields.datetime.now())),
