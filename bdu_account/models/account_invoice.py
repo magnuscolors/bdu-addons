@@ -85,11 +85,14 @@ class AccountInvoice(models.Model):
             image   = pdf2image.convert_from_bytes(b64data) #is PIL format
             size    = int(image[0].width*scale) , int(image[0].height*scale)
             #image[0]= image[0].resize(size) #resizing by wkhtmltopdf gives better quality
-            buf     = StringIO.StringIO()
-            image[0].save(buf, format= 'JPEG')
-            jpeg    = buf.getvalue()
-            b64jpeg = base64.b64encode(jpeg)
-            embed_string = '<img src="data:image/jpeg;base64,'+b64jpeg+'" width="'+str(size[0])+'px" height="'+str(size[1])+'px"/>'
+            embed_string = ""
+            for page in image :
+                buf     = StringIO.StringIO()
+                page.save(buf, format= 'JPEG')
+                jpeg    = buf.getvalue()
+                buf.close()
+                b64jpeg = base64.b64encode(jpeg)
+                embed_string += '<img src="data:image/jpeg;base64,'+b64jpeg+'" width="'+str(size[0])+'px" height="'+str(size[1])+'px"/>'
             return embed_string
         else :
             return "n.a."
