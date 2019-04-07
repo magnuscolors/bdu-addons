@@ -172,7 +172,7 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                     THEN sol.subtotal_before_agency_disc * solip.price_unit / 
                          sol.comb_list_price / sol.product_uom_qty
                     ELSE 0.0
-                END AS actual_unit_price
+                END AS actual_unit_price,
                 CASE
                     WHEN sol.comb_list_price > 0.0
                     THEN sol.subtotal_before_agency_disc * solip.price_unit / 
