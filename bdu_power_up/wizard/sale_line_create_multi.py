@@ -44,7 +44,7 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                     raise UserError(_(
                         'The number of Lines is different from the number of Issues in the multi line.'))
 
-        query =("""with new_sale_order_line as (
+        query =("""WITH new_sale_order_line AS (
         INSERT INTO sale_order_line 
                        (product_uom,
                         product_uom_qty,
@@ -253,7 +253,10 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 SELECT account_tax_id
                 FROM account_tax_sale_order_line_rel
                 WHERE
-                sale_order_line_id = new_sale_order_line.old_id)
+                sale_order_line_id = (
+                SELECT old_id
+                FROM new_sale_order_line)
+                ),
                 INSERT INTO account_tax_sale_order_line_rel 
                         (sale_order_line_id, 
                         account_tax_id) 
