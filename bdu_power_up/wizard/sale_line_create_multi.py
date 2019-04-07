@@ -44,7 +44,7 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                     raise UserError(_(
                         'The number of Lines is different from the number of Issues in the multi line.'))
 
-        query =("""
+        query =("""with new_sale_order_line as (
         INSERT INTO sale_order_line 
                        (product_uom,
                         product_uom_qty,
@@ -86,6 +86,7 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                         product_id,
                         name,
                         price_unit,
+                        actual_unit_price,
                         subtotal_before_agency_disc,
                         color_surcharge_amount,
                         order_id,
@@ -165,17 +166,23 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 issue.id AS adv_issue, 
                 solip.product_id AS product_id, 
                 so.name AS name,
-                solip.price_unit AS price_unit,
+                solip.price_unit AS price_unit, 
+                CASE
+                    WHEN sol.comb_list_price > 0.0 and sol.product_uom_qty > 0.0
+                    THEN sol.subtotal_before_agency_disc * solip.price_unit / 
+                         sol.comb_list_price / sol.product_uom_qty
+                    ELSE 0.0
+                END AS actual_unit_price
                 CASE
                     WHEN sol.comb_list_price > 0.0
                     THEN sol.subtotal_before_agency_disc * solip.price_unit / 
                          sol.comb_list_price
                     ELSE 0.0
-                END AS subtotal_before_agency_disc, 
+                END AS subtotal_before_agency_disc,
                 CASE
-                    WHEN sol.comb_list_price > 0.0
-                    THEN sol.color_surcharge_amount * solip.price_unit / 
-                         sol.comb_list_price
+                    WHEN sol.comb_list_price > 0.0 and sol.product_uom_qty > 0.0
+                    THEN sol.color_surcharge_amount * solip.price / 
+                         sol.comb_list_price / sol.product_uom_qty
                     ELSE 0.0
                 END AS color_surcharge_amount, 
                 sol.order_id AS order_id, 
@@ -240,7 +247,18 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 ON (medium.id = issue.medium)
                 WHERE
                 sol.id {2} '{3}'
-                RETURNING id
+                RETURNING id AS new_id, sol.id AS old_id
+                ),
+                tax AS (
+                SELECT account_tax_id
+                FROM account_tax_sale_order_line_rel
+                WHERE
+                sale_order_line_id = new_sale_order_line.old_id)
+                INSERT INTO account_tax_sale_order_line_rel 
+                        (sale_order_line_id, 
+                        account_tax_id) 
+                new_sale_order_line.new_id,
+                tax.account_tax_id
                 ;""".format(
         self._uid,
         "'%s'" % str(fields.Datetime.to_string(fields.datetime.now())),
@@ -251,18 +269,16 @@ class sale_order_line_create_multi_lines(models.TransientModel):
         lines = [r[0] for r in self.env.cr.fetchall()]
         del_query = ("""
         DELETE FROM sale_order_line 
-                WHERE id IN (
-                SELECT sol.id 
-                FROM sale_order_line sol
-                JOIN sale_order_line_issues_products solip
-                ON (sol.id = solip.order_line_id)
                 WHERE
-                sol.id {0} '{1}')
+                id {0} '{1}';
+        DELETE FROM account_tax_sale_order_line_rel
+                WHERE
+                sale_order_line_id {0} '{1}'
                 ;""".format(
         'IN' if len(orderlines) > 1 else '=',
         tuple(orderlines) if len(orderlines) > 1 else orderlines[0]
         ))
-        ## TODO m2m:tax_ids and analytic_tag_ids still to update
+        ## TODO m2m: analytic_tag_ids still to update
         ## TODO o2m: nothing
         self.env.cr.execute(del_query)
         self.env.invalidate_all()
