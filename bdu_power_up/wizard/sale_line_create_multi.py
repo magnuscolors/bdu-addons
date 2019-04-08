@@ -44,7 +44,7 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                     raise UserError(_(
                         'The number of Lines is different from the number of Issues in the multi line.'))
 
-        query =("""WITH new_sale_order_line AS (
+        query =("""
         INSERT INTO sale_order_line 
                        (product_uom,
                         product_uom_qty,
@@ -247,25 +247,7 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 ON (medium.id = issue.medium)
                 WHERE
                 sol.id {2} '{3}'
-                RETURNING id AS new_id, sale_order_line.id AS old_id
-                ),
-                tax AS (
-                SELECT account_tax_id
-                FROM account_tax_sale_order_line_rel
-                WHERE
-                sale_order_line_id = (
-                SELECT old_id
-                FROM new_sale_order_line
-                )
-                RETURNING account_tax_id
-                )
-                INSERT INTO account_tax_sale_order_line_rel 
-                        (sale_order_line_id, 
-                        account_tax_id) 
-                VALUES((SELECT new_id
-                FROM new_sale_order_line),
-                (SELECT account_tax_id
-                FROM tax))
+                RETURNING id                 
                 ;""".format(
         self._uid,
         "'%s'" % str(fields.Datetime.to_string(fields.datetime.now())),
@@ -274,13 +256,15 @@ class sale_order_line_create_multi_lines(models.TransientModel):
         ))
         self.env.cr.execute(query )
         lines = [r[0] for r in self.env.cr.fetchall()]
+#        lines_old = self.env['sale.order.line'].browse(orderlines)
+#        lines_new = self.env['sale.order.line'].browse(lines)
+#        if orders:
+#            for order in orders:
+#                order.order_line
         del_query = ("""
         DELETE FROM sale_order_line 
                 WHERE
                 id {0} '{1}';
-        DELETE FROM account_tax_sale_order_line_rel
-                WHERE
-                sale_order_line_id {0} '{1}'
                 ;""".format(
         'IN' if len(orderlines) > 1 else '=',
         tuple(orderlines) if len(orderlines) > 1 else orderlines[0]
