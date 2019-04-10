@@ -160,7 +160,7 @@ class RecruitmentConfig(models.Model):
             job_ad['company_street']  = orderline.recruit_company_street
             job_ad['company_zip']     = orderline.recruit_company_zip
             job_ad['company_city']    = orderline.recruit_company_city
-            job_ad['company_region']  = orderline.recruit_company_region
+            job_ad['company_region']  = 'obsolete'
             job_ad['company_province']= orderline.recruit_company_province.name
             job_ad['company_country'] = orderline.recruit_company_country.code
             #orderline info:where to publish
