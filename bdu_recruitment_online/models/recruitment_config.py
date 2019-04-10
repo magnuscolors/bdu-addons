@@ -167,8 +167,9 @@ class RecruitmentConfig(models.Model):
             job_ad['startdate']       = orderline.recruit_from_date
             job_ad['enddate']         = orderline.recruit_until_date
             domains                   = []
-            for issue in orderline.recruit_adv_issue_ids :
-                    domains.append(issue.code) #a.k.a. issue
+            #for issue in orderline.recruit_adv_issue_ids :
+            #        domains.append(issue.code) #a.k.a. issue
+            domains.append('obsolete')
             job_ad['domains']         = domains
             #consolidate result
             batch.append(job_ad)
