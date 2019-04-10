@@ -251,7 +251,7 @@ class ArgumentHelper(models.Model):
             if weekday in [0,1,2,3,4] :
                 days = +1 -weekday
             else :
-                days= +1 -weekdays +7  #saturday or sunday
+                days= +1 -weekday +7  #saturday or sunday
             nt = now + timedelta(days=days)
             return nt.strftime('%Y-%m-%d')
 
