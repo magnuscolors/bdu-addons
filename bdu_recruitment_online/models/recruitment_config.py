@@ -160,15 +160,16 @@ class RecruitmentConfig(models.Model):
             job_ad['company_street']  = orderline.recruit_company_street
             job_ad['company_zip']     = orderline.recruit_company_zip
             job_ad['company_city']    = orderline.recruit_company_city
-            job_ad['company_region']  = orderline.recruit_company_region
+            job_ad['company_region']  = 'obsolete'
             job_ad['company_province']= orderline.recruit_company_province.name
             job_ad['company_country'] = orderline.recruit_company_country.code
             #orderline info:where to publish
             job_ad['startdate']       = orderline.recruit_from_date
             job_ad['enddate']         = orderline.recruit_until_date
             domains                   = []
-            for issue in orderline.recruit_adv_issue_ids :
-                    domains.append(issue.code) #a.k.a. issue
+            #for issue in orderline.recruit_adv_issue_ids :
+            #        domains.append(issue.code) #a.k.a. issue
+            domains.append('obsolete')
             job_ad['domains']         = domains
             #consolidate result
             batch.append(job_ad)
