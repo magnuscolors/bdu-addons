@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<odoo >
+    <record model="recruit.education.level" id="lbo">
+        <field name="name">LBO</field>
+    </record>
+    <record model="recruit.education.level" id="mbo">
+        <field name="name">MBO</field>
+    </record>
+    <record model="recruit.education.level" id="hbo">
+        <field name="name">HBO</field>
+    </record>
+    <record model="recruit.education.level" id="wo">
+        <field name="name">WO</field>
+    </record>
+    <record model="recruit.education.level" id="mavo">
+        <field name="name">MAVO</field>
+    </record>
+    <record model="recruit.education.level" id="havo">
+        <field name="name">HAVO</field>
+    </record>
+    <record model="recruit.education.level" id="vwo">
+        <field name="name">VWO</field>
+    </record>
+</odoo>

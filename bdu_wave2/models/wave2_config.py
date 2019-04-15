@@ -6,6 +6,7 @@ import xml.etree.ElementTree as et
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 
 _logger = logging.getLogger(__name__)
 
@@ -228,6 +229,11 @@ class Wave2Config(models.Model):
             odoo_orders = self.env['sale.order'].search([('client_order_ref','=',order_header['client_order_ref'])])
             if len(odoo_orders) == 1 :
                 odoo_order=odoo_orders[0]
+                if odoo_order.invoice_status=='invoiced' :
+                    errors += 1
+                    order.state = 'error'
+                    order.remark= 'already invoiced'
+                    continue
                 odoo_order.write(order_header)
             elif len(odoo_orders) > 1 :
                 errors += 1
@@ -298,6 +304,8 @@ class Wave2Config(models.Model):
                     dates = self.env['wave2.alternative.date'].search([('title','=',region_title.title.id),('wave2_date' ,'=', issue_date_w2)])
                     if len(dates)==1 :
                         issue_date = dates[0].issue.issue_date
+                        if type(issue_date) in [unicode, str] :
+                            issue_date = datetime.datetime.strptime(issue_date,DF).date()
                     elif len(dates)>1 :
                         abort(config, order, "Multiple alternative dates for "+region_title.title.name+" on "+issue_date_w2+"."  )
                         return
@@ -525,10 +533,13 @@ class Wave2Config(models.Model):
             region_text = str(region.wave2_id)
             if int(region.wave2_id) < 10 :
                 region_text = "0"+region_text
-                ad_number = odoo_order.client_order_ref+"_"+region_text+title.name+"_"+datetime.datetime.strftime(issue_date, '%Y-%m-%d')
+            ad_number = odoo_order.client_order_ref+"_"+region_text+title.name+"_"+datetime.datetime.strftime(issue_date, '%Y-%m-%d')
         else :
             #old style
             return "No support for legacy style orders"
+
+        #orderline text for online publication in dtp remark field without CDATA
+        rawtext = str(xml.find("RAD_PK").find("RAD_TEKST").findtext("REGEL"))
 
         orderline_details = {
                       'advertising'         : 1,               
@@ -544,7 +555,7 @@ class Wave2Config(models.Model):
                       'ad_number'           : ad_number,
                       'page_reference'      : "Rubriek : "+classified_class.name,
                       'url_to_material'     : material_url,          #ftp location of pdf made by WAV2
-                      'layout_remark'       : str(xml.find("RAD_PK").findtext("RAD_TEKST")),   #raw info into remarks for DTP-er
+                      'layout_remark'       : rawtext,   #raw info into remarks for DTP-er
                       'product_uom'         : config.prod_uom.id,    
                       'product_uom_qty'     : round(float(xml.find("RAD_PK").findtext("RAD_MM")),2),
                       #'discount'           : 0,        

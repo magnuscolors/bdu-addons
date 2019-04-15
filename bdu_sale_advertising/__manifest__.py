@@ -33,9 +33,23 @@ BDU specific modifications:
 
 a) filters and grouping in sale advertising: complete replacement of standard set\n
 b) title grouping by primary salesteam added to facilitate filtering based on titles\n
-c) future edition filter on issues
-d) additional selection "Exception" for invoicing frequency
-The latter based on sales teams to circumvent additional administration\n
+c) future edition filter on issues\n
+d) additional selection "Exception" for invoicing frequency\n
+e) batch invoicing with parsed date arguments\n
+
+Barch invoicing uses an argument in the form : ([domain filter],invoice_date, invoice_type, ou)\n
+Date arguments in filters and invoice date may either be a date or a date keyword like :
+- nearest_tuesday
+- first_this_month (monday afterwards if a sunday)
+- last_day_previous_month (saturday before if a sunday)
+- today
+- yesterday
+- day_before_yesterday
+- last_sunday\n
+Invoice type may be either \'ad\', \'sub\' or \'general\'.\n
+The operating unit parameter (ou) should match an existing operating unit code. See operating unit under settings.
+\n\n
+Filters are a.o. based on sales teams to circumvent additional administration\n
 Note that by using sales teams only direct sales teams should be used (i.e. one channel)\n
 Note that results from title based filtering may differ from salesteam filter as salesperson might sell titles belonging to other teams. 
 

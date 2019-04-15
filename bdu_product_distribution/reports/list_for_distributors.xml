@@ -20,11 +20,11 @@
       <template id="bdu_product_distribution.report_list_for_distributors">
         <t t-foreach="docs" t-as="doc">
           <t t-call="bdu_account.external_layout_bdu">
+            <div class="page">
             <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})"/> 
             <t t-foreach="doc.order_line" t-as="line">
               <span t-if="line.custom_orderline in ['Distribution']">  
-                <t t-set="distributors"  t-value="line.list_for_distributors()"/>
-                <div class="page">
+                <t t-set="distributors" t-value="line.list_for_distributors()"/>
                   <div class="oe_structure"/>
                   <div t-foreach="distributors" t-as="d" style="page-break-before: always;">
                     
@@ -77,10 +77,10 @@
                           </td> 
                           <td class="text-left">
                               <span t-esc="line.distribution_from_date" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
-                              <span t-esc="' (week '+time.strftime('%W', time.strptime(line.distribution_from_date, '%Y-%m-%d'))+')'"/>
+                              <span t-esc="' (week '+time.strftime('%V', time.strptime(line.distribution_from_date, '%Y-%m-%d'))+')'"/>
                               <span t-esc="str(' - ')"/>
                               <span t-esc="line.distribution_to_date" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
-                              <span t-esc="' (week '+time.strftime('%W', time.strptime(line.distribution_to_date, '%Y-%m-%d'))+')'"/>
+                              <span t-esc="' (week '+time.strftime('%V', time.strptime(line.distribution_to_date, '%Y-%m-%d'))+')'"/>
                           </td>   
                         </tr>
                       </t>
@@ -102,9 +102,9 @@
                       </tr>
                     </table>
                   </div>
-                </div>
               </span>
             </t>
+            </div>
           </t>
         </t>
       </template>

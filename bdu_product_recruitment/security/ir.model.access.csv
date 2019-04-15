@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_recruit_education_level,access_recruit_education_level,model_recruit_education_level,recruitment_sales,1,1,1,0
+access_recruit_employment_type,access_recruit_employment_type,model_recruit_employment_type,recruitment_sales,1,1,1,0
+access_recruit_function_group,access_recruit_function_group,model_recruit_function_group,recruitment_sales,1,1,1,0
+access_recruit_industry,access_recruit_industry,model_recruit_industry,recruitment_sales,1,1,1,0

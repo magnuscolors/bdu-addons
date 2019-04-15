@@ -86,6 +86,7 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                         product_id,
                         name,
                         price_unit,
+                        actual_unit_price,
                         subtotal_before_agency_disc,
                         color_surcharge_amount,
                         order_id,
@@ -165,13 +166,19 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 issue.id AS adv_issue, 
                 solip.product_id AS product_id, 
                 so.name AS name,
-                solip.price_unit AS price_unit,
+                solip.price_unit AS price_unit, 
+                CASE
+                    WHEN sol.comb_list_price > 0.0 and sol.product_uom_qty > 0.0
+                    THEN sol.subtotal_before_agency_disc * solip.price_unit / 
+                         sol.comb_list_price / sol.product_uom_qty
+                    ELSE 0.0
+                END AS actual_unit_price,
                 CASE
                     WHEN sol.comb_list_price > 0.0
                     THEN sol.subtotal_before_agency_disc * solip.price_unit / 
                          sol.comb_list_price
                     ELSE 0.0
-                END AS subtotal_before_agency_disc, 
+                END AS subtotal_before_agency_disc,
                 CASE
                     WHEN sol.comb_list_price > 0.0
                     THEN sol.color_surcharge_amount * solip.price_unit / 
@@ -240,7 +247,7 @@ class sale_order_line_create_multi_lines(models.TransientModel):
                 ON (medium.id = issue.medium)
                 WHERE
                 sol.id {2} '{3}'
-                RETURNING id
+                RETURNING id                 
                 ;""".format(
         self._uid,
         "'%s'" % str(fields.Datetime.to_string(fields.datetime.now())),
@@ -249,21 +256,21 @@ class sale_order_line_create_multi_lines(models.TransientModel):
         ))
         self.env.cr.execute(query )
         lines = [r[0] for r in self.env.cr.fetchall()]
+#        lines_old = self.env['sale.order.line'].browse(orderlines)
+#        lines_new = self.env['sale.order.line'].browse(lines)
+#        if orders:
+#            for order in orders:
+#                order.order_line
         del_query = ("""
         DELETE FROM sale_order_line 
-                WHERE id IN (
-                SELECT sol.id 
-                FROM sale_order_line sol
-                JOIN sale_order_line_issues_products solip
-                ON (sol.id = solip.order_line_id)
                 WHERE
-                sol.id {0} '{1}')
+                id {0} '{1}';
                 ;""".format(
         'IN' if len(orderlines) > 1 else '=',
         tuple(orderlines) if len(orderlines) > 1 else orderlines[0]
         ))
-        ## m2m:tax_ids and analytic_tag_ids still to update
-        ## o2m: nothing
+        ## TODO m2m: analytic_tag_ids still to update
+        ## TODO o2m: nothing
         self.env.cr.execute(del_query)
         self.env.invalidate_all()
         if orders:
