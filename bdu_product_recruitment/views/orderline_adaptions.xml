@@ -20,39 +20,41 @@
                             <field name="recruit_education_level"  attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}"/>
                             <field name="recruit_industry"         attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}"/>
 
+                            <field name="recruit_from_date"        attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}"/>
+                            <field name="recruit_until_date"       attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}"/>
+                            
+                            
+                            <!--force bold by using label-->
+                            <label     for="recruit_job_description"   colspan="2"/>
+                            <field     name="recruit_job_description"  colspan="2"   widget="html"  nolabel="1"
+                                       attrs="{'required' : [('custom_orderline','in', 'Recruitment'),('state', 'in', ('sale'))]}"/>
+                        </group>
+
+                        <group name="custom product info right column">
                             <field name="recruit_company_name"     attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}"/>
                             <field name="recruit_company_email"    attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}"
                                    widget="email"/>
                             <field name="recruit_company_website"  attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}"
                                    widget="url"/>
-                            <field name="recruit_company_logo"     attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}" 
-                                   widget="image"/>
                             <field name="recruit_company_street"   attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}"/>
                             <field name="recruit_company_zip"      attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}"/>
                             <field name="recruit_company_city"     attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}"/>
-                            <field name="recruit_company_region"   attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}"/>
+                            <!--field name="recruit_company_region"   attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}"/-->
                             <field name="recruit_company_province" attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}"/>
                             <field name="recruit_company_country"  attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}"/>
 
-                            <field name="recruit_from_date"        attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}"/>
-                            <field name="recruit_until_date"       attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}"/>
-                        </group>
-
                         
-                        <group name="custom product info right column">
-                            <label for="recruit_adv_issue_ids" string="Publiceren op"/> 
+                            <field name="recruit_company_logo"     attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}" 
+                                   widget="image"/>
+                            <!--label for="recruit_adv_issue_ids" string="Publiceren op"/> 
                             <newline/>
                             <field name="recruit_adv_issue_ids" nolabel="1" 
                                    domain="[('parent_id','=', 'Online')]" 
                                    options="{'no_open': True,'no_create': True, 'no_create_edit': True}" 
                                    context="{'search_view_ref':'bdu_product_online.online_view_filter',
-                                             'tree_view_ref':'bdu_product_online.online_tree_view' }"/>
+                                             'tree_view_ref':'bdu_product_online.online_tree_view' }"/-->
+
                         </group>
-                        
-                         <!--force bold by using label-->
-                        <label     for="recruit_job_description" string="Functie beschrijving"/>
-                        <field     name="recruit_job_description"  attrs="{'required' : [('custom_orderline','in', 'Recruitment')]}"
-                                   widget="html"                   nolabel="1"/>
 
                     </group>
                 </xpath>  

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import base64, datetime, ftputil,  ftputil.session, httplib, json, logging, os, requests, urllib, xlrd
+import base64, datetime, ftputil,  ftputil.session, httplib, json, logging, os, re, requests, urllib, xlrd
 from unidecode import unidecode
 from lxml import etree 
 from tempfile import TemporaryFile
@@ -269,7 +269,7 @@ class DeliveryConfig(models.Model):
                 continue
             subscriber = subscription.order_id.partner_shipping_id
             line = str(subscriber.ref)+","+str(subscription.id)
-            line = concat(line, subscription.product_uom_qty)
+            line = concat(line, str(int(subscription.product_uom_qty)))
             line = concat(line, subscriber.lastname)
             line = concat(line, subscriber.parent_id.name)
             line = concat(line, subscriber.parent_id.name)
@@ -360,7 +360,7 @@ class DeliveryConfig(models.Model):
 
         def child(parent, child_tag, text) :
             if not text : text = ""
-            text = unidecode(text)
+            text       = unidecode(text)
             child      = etree.Element(str(child_tag).upper().strip())
             child.text = str(text)
             parent.append(child)
@@ -385,8 +385,9 @@ class DeliveryConfig(models.Model):
             child(klant, "toevoeging1", "")
             child(klant, "toevoeging2 ", "")
             child(klant, "straat", subscriber.street_name)
-            child(klant, "huisnr", subscriber.street_number)
-            child(klant, "huisnrtoev ", "") 
+            street_number = self.split_number_addition(subscriber.street_number)
+            child(klant, "huisnr", street_number[0])
+            child(klant, "huisnrtoev ", street_number[1]) 
             child(klant, "huisnrtoevtm ", "")
             child(klant, "postcode", subscriber.zip)
             child(klant, "plaats   ", subscriber.city)
@@ -397,7 +398,7 @@ class DeliveryConfig(models.Model):
             child(klant, "uitgave  ", subscription.title.name)
             child(klant, "editie", subscription.title.name)
             child(klant, "actie", "")
-            child(klant, "aantal", subscription.product_uom_qty)   #number of copies delivered, not number of issues
+            child(klant, "aantal", str(int(subscription.product_uom_qty)))   #number of copies delivered, not number of issues
             child(klant, "verschwijze", "0200500")
             child(klant, "mutreden", "")
 
@@ -486,4 +487,54 @@ class DeliveryConfig(models.Model):
         delivered.update_delivered_issues()
         _logger.info("orderlines updated")
 
+        return
+
+
+    def split_number_addition(self, number_and_addition) :
+        regex = "^(\d+)\s*([\wäöüß\d\-\/]*)$"
+        if not number_and_addition :
+            number_and_addition = ""
+        if type(number_and_addition) in ('int', 'float') :
+            number_and_addition = str(number_and_addition)
+        match = re.search(regex, number_and_addition)
+        if match :
+            return match.group(1), match.group(2)
+        else :
+            return number_and_addition, ""
+
+    def split_address(self, street) :
+        regex = r"^(\d*[\wäöüß\d '\-\.]+)[,\s]+(\d+)\s*([\wäöüß\d\-\/]*)$"
+        match = re.search(regex, number_and_addition)
+        if match :
+            return match.group(1), match.group(2), match.group(3)
+        else :
+            return street, "", ""
+
+
+    def test (self) :
+        regex = r"^(\d*[\wäöüß\d '\-\.]+)[,\s]+(\d+)\s*([\wäöüß\d\-\/]*)$"
+        adressen = [
+          'Dorpstraat 2',
+          'Dorpstr. 2',
+          'Laan 1933 2',
+          '18 Septemberplein 12',
+          'Kerkstraat 42-f3',
+          'Kerk straat 2b',
+          '42nd street, 1337a',
+          '1e Constantijn Huigensstraat 9b',
+          'Maas-Waalweg 15',
+          'De Dompelaar 1 B',
+          'Kümmersbrucker Straße 2',
+          'Friedrichstädter Straße 42-46',
+          'Höhenstraße 5A',  
+          'Saturnusstraat 60-75',
+          'Saturnusstraat 60 - 75',
+          '1, rue de l\'eglise'
+        ]
+        for adres in adressen : 
+            match = re.search(regex, adres)
+            if match :
+                _logger.info(match.group(0)+'\t : '+match.group(1)+'\t| '+match.group(2)+'\t| '+match.group(3))
+            else :
+                _logger.info("no match for : "+adres)
         return
