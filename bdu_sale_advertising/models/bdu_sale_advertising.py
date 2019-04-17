@@ -80,6 +80,7 @@ class SaleOrder(models.Model):
     # automated call expects domain selections in arguments in form of  (<arguments>,invoice_date, invoice_type, ou)
     #example ([('payment_method_id.name','=','Ideal')], "nearest_tuesday", 'ad', 'LNM')    
     def invoice_filtered_order(self, domain, invoice_date, invoice_type, ou):
+        #sanity check
         if not type(domain) == list :
             _logger.error("Provided domain is not of type list. Program aborted.")
             return False
@@ -90,6 +91,7 @@ class SaleOrder(models.Model):
         if len(ou_objects) != 1 :
             _logger.error("Operating unit ID not found. Check for correct code under settings/operating unit.")
             return False
+
         #init and date parsing
         helper=self.env['argument.helper']
         for num, filter in enumerate(domain) :
@@ -99,38 +101,35 @@ class SaleOrder(models.Model):
                 filter      = tuple(lst)
                 domain[num] = filter
         invoice_date = helper.date_parse(invoice_date)
+
+        #domain additions
         domain.append(('state','in',('sale','done')))
-        #invoice according parms
         if invoice_type=='ad' :
-            result = False
             domain.append(('advertising','=',True))
-            selection = self.search(domain).ids
-            if len(selection)==0:
-                _logger.info("No order in selection.")
-                return False
-            his_obj = self.env['ad.order.line.make.invoice']
-            for order in selection :
-                orderlines = self.env['sale.order.line'].search([('order_id','=', order)])
-                ctx = self._context.copy()
-                ctx['active_ids']   = orderlines.ids
-                ctx['invoice_date'] = invoice_date
-                ctx['posting_date'] = date.today().strftime('%Y-%m-%d')
-                #ctx['chunk_size']   = 100
-                result = his_obj.with_context(ctx).make_invoices_from_lines()
         elif invoice_type=='sub' :
             domain.append(('subscription','=',True))
-            selection = self.search(domain).ids
-            #todo: invoicing subs, for now the same as advertorials
-            self = self.with_context(active_ids=selection, chunk_size=100, invoice_date=invoice_date)
-            result = self.env['ad.order.make.invoice'].make_invoices_from_ad_orders()
         else :
             domain.append(('advertising','=',False))
             domain.append(('subscription','=',False))
-            selection = self.search(domain).ids
-            #todo: invoicing general sales, for now the same as advertorials
-            self = self.with_context(active_ids=selection, chunk_size=100, invoice_date=invoice_date)
-            result = self.env['ad.order.make.invoice'].make_invoices_from_ad_orders()
-        return result
+
+        #invoicing per order
+        selection = self.search(domain)
+        if len(selection)==0:
+            _logger.info("No order in selection.")
+            return False
+        his_obj = self.env['ad.order.line.make.invoice']
+        for order in selection :
+            orderlines = self.env['sale.order.line'].search([('order_id','=', order.id)])
+            ctx = self._context.copy()
+            ctx['active_ids']   = orderlines.ids
+            ctx['invoice_date'] = invoice_date
+            ctx['posting_date'] = date.today().strftime('%Y-%m-%d')
+            ctx['chunk_size']   = 100
+            ctx['job_queue']    = True
+            ctx['execution_datetime'] = fields.Datetime.now()
+            ctx['job_queue_description'] = 'Automated invoice for order '+order.name
+            result = his_obj.with_context(ctx).make_invoices_from_lines()
+        return True
 
 
 
@@ -150,6 +149,7 @@ class SaleOrderLine(models.Model):
     # automated call expects domain selections in arguments in form of  (<arguments>,invoice_date, invoice_type, ou)
     #example ([('advertising','=',True),('state','=','sale'),('adv_issue.name', '=','ESO 2019-01-30')], 'nearest_tuesday', 'ad', 'LNM')        
     def invoice_filtered_orderlines(self, domain, invoice_date, invoice_type, ou):
+        #sanity check
         if not type(domain) == list :
             _logger.error("Provided domain is not of type list. Program aborted.")
             return False
@@ -160,6 +160,7 @@ class SaleOrderLine(models.Model):
         if len(ou_objects) != 1 :
             _logger.error("Operating unit ID not found. Check for correct code under settings/operating unit.")
             return False
+
         #init, parse dates
         ou_id = ou_objects[0].id
         helper=self.env['argument.helper']
@@ -171,32 +172,30 @@ class SaleOrderLine(models.Model):
                 domain[num] = filter
         invoice_date = helper.date_parse(invoice_date)
         domain.append(('state','in',('sale','done')))
-        #invoice according parms
+
+        #invoice
         if invoice_type=='ad' :
             domain.append(('advertising','=',True))
-            orderlines = self.search(domain).ids
-            if len(orderlines)==0:
-                _logger.info("No orderlines in selection.")
-                return False
-            his_obj    = self.env['ad.order.line.make.invoice']
-            ctx = self._context.copy()
-            ctx['active_ids']   = orderlines
-            ctx['invoice_date'] = invoice_date
-            ctx['posting_date'] = date.today().strftime('%Y-%m-%d')
-            ctx['chunk_size']   = 100
-            result = his_obj.with_context(ctx).make_invoices_from_lines()
         elif invoice_type=='sub' :
             domain.append(('subscription','=',True))
-            selection = self.search(domain).ids
-            #todo: invoicing subs, for now the same as advertorials
-            self = self.with_context(active_ids=selection, chunk_size=100, invoice_date=invoice_date)
-            result = self.env['ad.order.line.make.invoice'].make_invoices_from_lines()
         else :
             domain.append(('advertising','=',False))
             domain.append(('subscription','=',False))
-            #todo: invoicing general sales, for now the same as advertorials
-            self = self.with_context(active_ids=selection, chunk_size=100, invoice_date=invoice_date)
-            result = self.env['ad.order.line.make.invoice'].make_invoices_from_lines()
+
+        orderlines = self.search(domain).ids
+        if len(orderlines)==0:
+            _logger.info("No orderlines in selection.")
+            return False
+        his_obj    = self.env['ad.order.line.make.invoice']
+        ctx = self._context.copy()
+        ctx['active_ids']   = orderlines
+        ctx['invoice_date'] = invoice_date
+        ctx['posting_date'] = date.today().strftime('%Y-%m-%d')
+        ctx['chunk_size']   = 100
+        ctx['job_queue']    = True
+        ctx['execution_datetime'] = fields.Datetime.now()
+        ctx['job_queue_description'] = 'Automated invoice for orderlines'
+        result = his_obj.with_context(ctx).make_invoices_from_lines()
         return result
 
 
@@ -251,7 +250,7 @@ class ArgumentHelper(models.Model):
             if weekday in [0,1,2,3,4] :
                 days = +1 -weekday
             else :
-                days= +1 -weekdays +7  #saturday or sunday
+                days= +1 -weekday +7  #saturday or sunday
             nt = now + timedelta(days=days)
             return nt.strftime('%Y-%m-%d')
 

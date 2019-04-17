@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import base64, datetime, ftputil,  ftputil.session, httplib, json, logging, os, requests, urllib, xlrd
+import base64, datetime, ftputil,  ftputil.session, httplib, json, logging, os, re, requests, urllib, xlrd
 from unidecode import unidecode
 from lxml import etree 
 from tempfile import TemporaryFile
@@ -124,6 +124,7 @@ class DeliveryConfig(models.Model):
             ('state', '=', 'sale'),
             ('title.name', 'in', titles),
             ('product_template_id.digital_subscription','=', False), #not digital only subscription, but physical delivery needed
+            ('line_renewed', '=' ,False), 
             ('number_of_issues', '=', 0),                            #period subscriptions
             ('product_uom_qty','>', 0)                               #no canceled orderlines
         ]
@@ -133,6 +134,7 @@ class DeliveryConfig(models.Model):
             ('state', '=', 'sale'),
             ('title.name', 'in', titles),
             ('product_template_id.digital_subscription','=', False),  #not digital only subscription, but physical delivery needed
+            ('line_renewed', '=' ,False), 
             ('number_of_issues', '!=', 0),                            #counted subscriptions
             ('product_uom_qty','>', 0)                                #no canceled orderlines
         ]
@@ -156,13 +158,15 @@ class DeliveryConfig(models.Model):
             return wda
         subscriptions = subscriptions.filtered(lambda r: active_weekday in  list_of_days(r.product_template_id.weekday_ids))
 
-        #todo: filter for temp stop in orderline
+        #filter for temp stop in orderline
         def no_temp_stop(date1, date2):
             if date1<= config.active_date and date2>=config.active_date :
                 return False
             else :
                 return True
         subscriptions = subscriptions.filtered(lambda r: no_temp_stop(r.tmp_start_date, r.tmp_end_date) )
+
+        #filtering for final stop is done at file make level to facilitate start-stop-messages
 
         if len(subscriptions)==0 :
             self.log_exception(msg, "No subscriptions found. Program terminated.")
@@ -244,7 +248,7 @@ class DeliveryConfig(models.Model):
 
     def make_concatenate(self, concat_char) :
         def concat(line, addition) :
-            if addition : return line+concat_char+addition
+            if addition : return line+concat_char+addition.replace(concat_char,"")
             else :        return line+concat_char
         return concat
 
@@ -257,7 +261,7 @@ class DeliveryConfig(models.Model):
         yesterday, day_before_yesterday, three_days_ago = self.init_days(config.active_date)
         concat = self.make_concatenate(",")
 
-        header= "abonnee_nr, abonnement_nr, achternaam, bedrijfsnaam, parent_name, name, street, zip, woonplaats, start_datum, cancel_datum, bij/af\r\n"
+        header= "abonnee_nr, abonnement_nr, aantal, achternaam, bedrijfsnaam, parent_name, name, street, zip, woonplaats, start_datum, cancel_datum, bij/af\r\n"
         delivery_list.write(header)
 
         for subscription in subscriptions :
@@ -265,6 +269,7 @@ class DeliveryConfig(models.Model):
                 continue
             subscriber = subscription.order_id.partner_shipping_id
             line = str(subscriber.ref)+","+str(subscription.id)
+            line = concat(line, str(int(subscription.product_uom_qty)))
             line = concat(line, subscriber.lastname)
             line = concat(line, subscriber.parent_id.name)
             line = concat(line, subscriber.parent_id.name)
@@ -355,7 +360,7 @@ class DeliveryConfig(models.Model):
 
         def child(parent, child_tag, text) :
             if not text : text = ""
-            text = unidecode(text)
+            text       = unidecode(text)
             child      = etree.Element(str(child_tag).upper().strip())
             child.text = str(text)
             parent.append(child)
@@ -380,8 +385,9 @@ class DeliveryConfig(models.Model):
             child(klant, "toevoeging1", "")
             child(klant, "toevoeging2 ", "")
             child(klant, "straat", subscriber.street_name)
-            child(klant, "huisnr", subscriber.street_number)
-            child(klant, "huisnrtoev ", "") 
+            street_number = self.split_number_addition(subscriber.street_number)
+            child(klant, "huisnr", street_number[0])
+            child(klant, "huisnrtoev ", street_number[1]) 
             child(klant, "huisnrtoevtm ", "")
             child(klant, "postcode", subscriber.zip)
             child(klant, "plaats   ", subscriber.city)
@@ -392,7 +398,7 @@ class DeliveryConfig(models.Model):
             child(klant, "uitgave  ", subscription.title.name)
             child(klant, "editie", subscription.title.name)
             child(klant, "actie", "")
-            child(klant, "aantal", "1")
+            child(klant, "aantal", str(int(subscription.product_uom_qty)))   #number of copies delivered, not number of issues
             child(klant, "verschwijze", "0200500")
             child(klant, "mutreden", "")
 
@@ -442,7 +448,8 @@ class DeliveryConfig(models.Model):
                     #update filename and date
                     sdl_rec.write({'name'         : filename,
                                    'delivery_date': now,
-                                   'state'        : 'draft'  #reset possible cancel
+                                   'issue_id'     : issue.id,    #rerun should correct possible wrong issue, e.g. mail issue incorrectly administered as subscription issue
+                                   'state'        : 'draft'      #reset possible cancel
                     })
 
                 #delivery lines
@@ -460,7 +467,7 @@ class DeliveryConfig(models.Model):
                         'sub_order_line'      : subscription.id,
                         'subscription_number' : subscription.order_id.id,
                         'partner_id'          : subscriber.id,
-                        'product_uom_qty'     : subscription.product_uom_qty,
+                        'product_uom_qty'     : 1,                              #is number of issues, not copies !!!
                         'title_id'            : title.id,
                         'issue_id'            : issue.id,
                         'state'               : 'draft'
@@ -480,4 +487,54 @@ class DeliveryConfig(models.Model):
         delivered.update_delivered_issues()
         _logger.info("orderlines updated")
 
+        return
+
+
+    def split_number_addition(self, number_and_addition) :
+        regex = "^(\d+)\s*([\wäöüß\d\-\/]*)$"
+        if not number_and_addition :
+            number_and_addition = ""
+        if type(number_and_addition) in ('int', 'float') :
+            number_and_addition = str(number_and_addition)
+        match = re.search(regex, number_and_addition)
+        if match :
+            return match.group(1), match.group(2)
+        else :
+            return number_and_addition, ""
+
+    def split_address(self, street) :
+        regex = r"^(\d*[\wäöüß\d '\-\.]+)[,\s]+(\d+)\s*([\wäöüß\d\-\/]*)$"
+        match = re.search(regex, number_and_addition)
+        if match :
+            return match.group(1), match.group(2), match.group(3)
+        else :
+            return street, "", ""
+
+
+    def test (self) :
+        regex = r"^(\d*[\wäöüß\d '\-\.]+)[,\s]+(\d+)\s*([\wäöüß\d\-\/]*)$"
+        adressen = [
+          'Dorpstraat 2',
+          'Dorpstr. 2',
+          'Laan 1933 2',
+          '18 Septemberplein 12',
+          'Kerkstraat 42-f3',
+          'Kerk straat 2b',
+          '42nd street, 1337a',
+          '1e Constantijn Huigensstraat 9b',
+          'Maas-Waalweg 15',
+          'De Dompelaar 1 B',
+          'Kümmersbrucker Straße 2',
+          'Friedrichstädter Straße 42-46',
+          'Höhenstraße 5A',  
+          'Saturnusstraat 60-75',
+          'Saturnusstraat 60 - 75',
+          '1, rue de l\'eglise'
+        ]
+        for adres in adressen : 
+            match = re.search(regex, adres)
+            if match :
+                _logger.info(match.group(0)+'\t : '+match.group(1)+'\t| '+match.group(2)+'\t| '+match.group(3))
+            else :
+                _logger.info("no match for : "+adres)
         return

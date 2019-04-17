@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_wave2_class,access_wave2_class,model_wave2_config,wave2_connector,1,1,1,1
+access_wave2_config,access_wave2_config,model_wave2_config,wave2_connector,1,1,1,1
 access_wave2_class,access_wave2_class,model_wave2_class,wave2_connector,1,1,1,1
 access_wave2_order,access_wave2_order,model_wave2_order,wave2_connector,1,1,1,1
 access_wave2_region,access_wave2_region,model_wave2_region,wave2_connector,1,1,1,1
