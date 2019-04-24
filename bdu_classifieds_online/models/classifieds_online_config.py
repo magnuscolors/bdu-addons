@@ -130,7 +130,7 @@ class ClassifiedsOnlineConfig(models.Model):
             if len(unmapped_orderlines)>0 :
                 prologue += "Orderlines not processed / no mapping for titles : "
                 for line in unmapped_orderlines :
-                    prologue += unmapped_orderlines.title.name+", "
+                    prologue += line.title.name+", "
             config.latest_reason  = prologue+result
             config.write({})
             _logger.info("Finished processing with errors. See connector page for details.")

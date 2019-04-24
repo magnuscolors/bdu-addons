@@ -65,6 +65,7 @@ This module adds customization for BDU Media, like :\n
             "views/product_view.xml",
             "views/company_view.xml",
             "wizard/account_invoice_state_view.xml",
+            "views/sql_export_view.xml",
     ],
     'demo' : [],
     'installable': True
