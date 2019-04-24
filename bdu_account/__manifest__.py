@@ -41,7 +41,7 @@ This module adds customization for BDU Media, like :\n
     """,
     'author'  : 'Magnus - Willem Hulshof, D. Prosee',
     'website' : 'http://www.magnus.nl',
-    'depends' : ['account', 'sale_advertising_order', 'account_bank_statement_import_camt',
+    'depends' : ['account', 'publishing_subscription_order', 'account_bank_statement_import_camt',
                  'partner_contact_gender','purchase', 'account_invoice_refund_link',
                  'partner_sector','base_partner_sequence','account_credit_control',
                  'account_analytic_required', 'account_type_inactive', 'account_type_menu',
@@ -65,6 +65,7 @@ This module adds customization for BDU Media, like :\n
             "views/product_view.xml",
             "views/company_view.xml",
             "wizard/account_invoice_state_view.xml",
+            "views/sql_export_view.xml",
     ],
     'demo' : [],
     'installable': True

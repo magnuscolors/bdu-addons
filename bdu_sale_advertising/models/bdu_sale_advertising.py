@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 import logging
 from odoo import api, fields, models, _
+from odoo.addons.queue_job.job import job, related_action
+from odoo.addons.queue_job.exception import FailedJobError
 
 _logger = logging.getLogger(__name__)
 
@@ -79,18 +81,28 @@ class SaleOrder(models.Model):
 
     # automated call expects domain selections in arguments in form of  (<arguments>,invoice_date, invoice_type, ou)
     #example ([('payment_method_id.name','=','Ideal')], "nearest_tuesday", 'ad', 'LNM')    
+    @job
+    @api.multi
     def invoice_filtered_order(self, domain, invoice_date, invoice_type, ou):
         #sanity check
         if not type(domain) == list :
-            _logger.error("Provided domain is not of type list. Program aborted.")
-            return False
+            return "Provided domain is not of type list. Program aborted.\n" + \
+                   "Arguments should e.g. have following format :([('payment_method_id.name','=','Ideal'),'|',('team_id', '=' 'Alkmaar'),('team_id','=','Barneveld')], 'nearest_tuesday', 'ad', 'LNM')"
         if not invoice_type in ('ad', 'sub', 'general') :
-            _logger.error("Allowed invoice types are: ad, sub and general")
-            return False
+            return "Allowed invoice types are: ad, sub and general. Provided invoice type : "+ invoice_type
+        if not invoice_date in ('first_this_month', 
+                                'last_day_previous_month', 
+                                'today',
+                                'yesterday',
+                                'day_before_yesterday',
+                                'last_sunday',
+                                'nearest_tuesday') :
+            return "Wrong invoice date.\n"+\
+                   "Allowed invoice dates are: first_this_month, last_day_previous_month, today, yesterday, " + \
+                   "day_before_yesterday, last_sunday', nearest_tuesday"
         ou_objects = self.env['operating.unit'].search([('code','=',ou)])
         if len(ou_objects) != 1 :
-            _logger.error("Operating unit ID not found. Check for correct code under settings/operating unit.")
-            return False
+            return "Operating unit ID not found. Check for correct code under settings/operating unit."
 
         #init and date parsing
         helper=self.env['argument.helper']
@@ -113,23 +125,33 @@ class SaleOrder(models.Model):
             domain.append(('subscription','=',False))
 
         #invoicing per order
+        result  = "Parsed arguments are :\n"
+        result += "- domain : %s \n" % domain
+        result += "- invoice date : %s \n" % invoice_date
+        result += "- operating unit : %s \n" % ou_objects[0].name
         selection = self.search(domain)
+        
         if len(selection)==0:
             _logger.info("No order in selection.")
-            return False
-        his_obj = self.env['ad.order.line.make.invoice']
+            result += "No order in selection."
+            return result
+        
+        aolmi_obj   = self.env['ad.order.line.make.invoice']
+        result     += "\nOrders selected for invoicing : %s\n" % len(selection)
+        post_date   = date.today().strftime('%Y-%m-%d')
+
         for order in selection :
-            orderlines = self.env['sale.order.line'].search([('order_id','=', order.id)])
-            ctx = self._context.copy()
-            ctx['active_ids']   = orderlines.ids
-            ctx['invoice_date'] = invoice_date
-            ctx['posting_date'] = date.today().strftime('%Y-%m-%d')
-            ctx['chunk_size']   = 100
-            ctx['job_queue']    = True
-            ctx['execution_datetime'] = fields.Datetime.now()
-            ctx['job_queue_description'] = 'Automated invoice for order '+order.name
-            result = his_obj.with_context(ctx).make_invoices_from_lines()
-        return True
+            orderlines = self.env['sale.order.line'].search([('order_id','=', order.id),('state','in',('sale','done'))])
+            if not orderlines :
+                result += "No orderlines for order %s. Order skipped." % order.name
+                continue
+            
+            description = 'Invoice for order '+order.name
+            aolmi_obj.with_delay(description=description).make_invoices_job_queue(invoice_date, post_date, orderlines)
+            result += "Order "+order.name+" dispatched as seperate invoicing job.\n"
+
+        result += "End of dispatching"
+        return result
 
 
 
@@ -151,15 +173,23 @@ class SaleOrderLine(models.Model):
     def invoice_filtered_orderlines(self, domain, invoice_date, invoice_type, ou):
         #sanity check
         if not type(domain) == list :
-            _logger.error("Provided domain is not of type list. Program aborted.")
-            return False
+            return "Provided domain is not of type list. Program aborted.\n" + \
+                   "Arguments should have e.g. following formati : ([('advertising','=',True),('state','=','sale'),('adv_issue.name', '=','ESO 2019-01-30')], 'nearest_tuesday', 'ad', 'LNM')"
         if not invoice_type in ('ad', 'sub', 'general') :
-            _logger.error("Allowed invoice types are: ad, sub and general")
-            return False
+            return "Allowed invoice types are: ad, sub and general. Provided invoice type : "+ invoice_type
+        if not invoice_date in ('first_this_month', 
+                                'last_day_previous_month', 
+                                'today',
+                                'yesterday',
+                                'day_before_yesterday',
+                                'last_sunday',
+                                'nearest_tuesday') :
+            return "Wrong invoice date.\n"+\
+                   "Allowed invoice dates are: first_this_month, last_day_previous_month, today, yesterday, " + \
+                   "day_before_yesterday, last_sunday', nearest_tuesday"
         ou_objects = self.env['operating.unit'].search([('code','=',ou)])
         if len(ou_objects) != 1 :
-            _logger.error("Operating unit ID not found. Check for correct code under settings/operating unit.")
-            return False
+            return "Operating unit ID not found. Check for correct code under settings/operating unit."
 
         #init, parse dates
         ou_id = ou_objects[0].id
@@ -171,9 +201,9 @@ class SaleOrderLine(models.Model):
                 filter      = tuple(lst)
                 domain[num] = filter
         invoice_date = helper.date_parse(invoice_date)
-        domain.append(('state','in',('sale','done')))
 
         #invoice
+        domain.append(('state','in',('sale','done')))
         if invoice_type=='ad' :
             domain.append(('advertising','=',True))
         elif invoice_type=='sub' :
@@ -182,20 +212,25 @@ class SaleOrderLine(models.Model):
             domain.append(('advertising','=',False))
             domain.append(('subscription','=',False))
 
-        orderlines = self.search(domain).ids
+
+        result  = "Parsed arguments are :\n"
+        result += "- domain : %s \n" % domain
+        result += "- invoice date : %s \n" % invoice_date
+        result += "- operating unit : %s \n" % ou_objects[0].name
+        orderlines = self.search(domain)
+
         if len(orderlines)==0:
-            _logger.info("No orderlines in selection.")
-            return False
-        his_obj    = self.env['ad.order.line.make.invoice']
-        ctx = self._context.copy()
-        ctx['active_ids']   = orderlines
-        ctx['invoice_date'] = invoice_date
-        ctx['posting_date'] = date.today().strftime('%Y-%m-%d')
-        ctx['chunk_size']   = 100
-        ctx['job_queue']    = True
-        ctx['execution_datetime'] = fields.Datetime.now()
-        ctx['job_queue_description'] = 'Automated invoice for orderlines'
-        result = his_obj.with_context(ctx).make_invoices_from_lines()
+            result += "No orderlines in selection."
+            return result
+
+
+        result     += "\nOrderlines selected for invoicing : %s\n" % len(orderlines)
+        aolmi_obj  = self.env['ad.order.line.make.invoice']
+        post_date  = date.today().strftime('%Y-%m-%d')
+        eta        = datetime.now()
+        size       = 100
+        chop_res   = aolmi_obj.make_invoices_split_lines_jq(invoice_date, post_date, orderlines, eta, size)
+        result    += chop_res + "\n"
         return result
 
 
