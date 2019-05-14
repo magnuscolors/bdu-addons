@@ -42,7 +42,7 @@ class ProductDistributionOrderLine(models.Model):
     recruit_company_email   = fields.Char('Email/contact')
     recruit_company_website = fields.Char('Website')
     recruit_company_logo    = fields.Binary('Bedrijfslogo')
-    recruit_company_street  = fields.Char('Street + nr')
+    recruit_company_street  = fields.Char('Straat + nr')
     recruit_company_zip     = fields.Char('Postcode')
     recruit_company_city    = fields.Char('Plaats')
     #recruit_company_region  = fields.Char('Regio',                 size=50)   #obsolete

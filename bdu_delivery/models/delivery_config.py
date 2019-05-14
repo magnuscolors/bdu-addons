@@ -269,7 +269,7 @@ class DeliveryConfig(models.Model):
                 continue
             subscriber = subscription.order_id.partner_shipping_id
             line = str(subscriber.ref)+","+str(subscription.id)
-            line = concat(line, subscription.product_uom_qty)
+            line = concat(line, str(int(subscription.product_uom_qty)))
             line = concat(line, subscriber.lastname)
             line = concat(line, subscriber.parent_id.name)
             line = concat(line, subscriber.parent_id.name)
@@ -394,7 +394,8 @@ class DeliveryConfig(models.Model):
             child(klant, "land   ", subscriber.country_id.name)
             child(klant, "netnr   ", subscriber.phone)
             child(klant, "telnr  ", subscriber.phone)
-            child(klant, "bezinfo  ", "")
+            child(klant, "bezinfo", subscription.subscription_delivery_info)
+            child(klant, "bezwijze", "NORM")
             child(klant, "uitgave  ", subscription.title.name)
             child(klant, "editie", subscription.title.name)
             child(klant, "actie", "")

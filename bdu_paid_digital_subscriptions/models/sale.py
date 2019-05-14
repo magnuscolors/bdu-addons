@@ -14,7 +14,6 @@ _logger = logging.getLogger(__name__)
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    @job
     @api.multi
     def write(self, vals):
         result   = super(SaleOrder, self).write(vals)
@@ -33,7 +32,7 @@ class SaleOrder(models.Model):
         #return if api interface not activated
         if not config.api_active :
             config.api_last_msg = "API not active"
-            return "ok"
+            return "Realtime API marked inactive, action to update Drupal is skipped."
         url         = config.api_server.strip()+config.api_method.strip()
         b_auth      = bytes(config.api_user+":"+config.api_password)
         headers     = {'authorization': "Basic " + base64.b64encode( b_auth),
@@ -90,20 +89,20 @@ class SaleOrder(models.Model):
         except :            
             config.api_last_msg = "No connection"
             _logger.error("No connection error on Drupal update for order "+order.name)
-            return
+            return "No connection error on Drupal update for order "+order.name
         if response.status_code == requests.codes.ok :  # equal 200 ok
             config.api_last_msg = prefix+"ok"
             _logger.info("Successful Drupal update for order "+order.name)
-            return
+            return "Successful Drupal update for order "+order.name
         elif response.status_code in list(range(100, 600)) :
             config.api_last_msg = prefix + "bad response,"+str(response.status_code)+", "+response.content
             _logger.error("Bad response,"+str(response.status_code)+", "+response.content+ " on Drupal update for order "+order.name)
-            return
+            return "Bad response,"+str(response.status_code)+", "+response.content+ " on Drupal update for order "+order.name
         else:
             msg=str(response.json()['message'])
             config.api_last_msg = prefix + "bad response,"+str(response.status_code)+", "+msg
             _logger.error("Bad response,"+str(response.status_code)+", "+ msg+" on Drupal update for order "+order.name)
-            return 
+            return "Bad response,"+str(response.status_code)+", "+ msg+" on Drupal update for order "+order.name
 
 
 
