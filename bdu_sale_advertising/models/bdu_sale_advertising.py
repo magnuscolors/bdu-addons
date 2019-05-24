@@ -170,6 +170,8 @@ class SaleOrderLine(models.Model):
     
     # automated call expects domain selections in arguments in form of  (<arguments>,invoice_date, invoice_type, ou)
     #example ([('advertising','=',True),('state','=','sale'),('adv_issue.name', '=','ESO 2019-01-30')], 'nearest_tuesday', 'ad', 'LNM')        
+    @job
+    @api.multi
     def invoice_filtered_orderlines(self, domain, invoice_date, invoice_type, ou):
         #sanity check
         if not type(domain) == list :
