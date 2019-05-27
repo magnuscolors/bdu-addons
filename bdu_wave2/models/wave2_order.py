@@ -17,6 +17,8 @@ class Wave2Order(models.Model):
     filename  = fields.Char(string='Wave2 filename',  required=True)
     excerpt   = fields.Char(string="Excerpt", size=128)
     content   = fields.Char(string="File content", required=True)
+
+    order_id  = fields.Many2one('sale.order', string="Order")
     remark    = fields.Char(string="Reason for status", size=50)
     state     = fields.Selection([
 							        ('collected', 'Collected'),
