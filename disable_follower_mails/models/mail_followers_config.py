@@ -10,6 +10,8 @@ class MailFollowersConfig(models.Model):
     company_id = fields.Many2one('res.company', 'Company', index=True)
     model_id = fields.Many2one('ir.model', string='Model', ondelete='cascade', help='Domain applied for selected model')
     value = fields.Boolean('Is customer?', help="Customer to notify mail.")
+    complete_stop = fields.Boolean('Do not send any mails?', help="If true mail would not trigger")
+    stop_track_visibility = fields.Boolean('Stop Track Visibility?', help="If true field onchange tracking would not be notified to customer via mail")
 
     @api.model
     def create(self, vals):
@@ -34,19 +36,36 @@ class MailFollowersConfig(models.Model):
                     raise UserError(_("Followers configuration already exists for same company"))
         return super(MailFollowersConfig, self).write(vals)
 
-    def followers_domain(self, model, res_id):
-        domain = [('user_ids','!=',False)]
+    def followers_config(self, model, res_id):
         company = self.env.user.company_id.id
-        cmpy_field = self.env['ir.model.fields'].search([('model_id.model','=',model),('ttype','=','many2one'),('relation','=','res.company')], limit=1)
+        cmpy_field = self.env['ir.model.fields'].search(
+            [('model_id.model', '=', model), ('ttype', '=', 'many2one'), ('relation', '=', 'res.company')], limit=1)
         if cmpy_field:
             company = self.env[model].browse(res_id)[cmpy_field.name].id
         if company:
-            config_model_obj = self.search([('model_id.model','=',model),('company_id','=',company)], limit=1)
+            config_model_obj = self.search([('model_id.model', '=', model), ('company_id', '=', company)], limit=1)
             if not config_model_obj:
-                config_model_obj = self.search([('model_id', '=', False),('company_id','=',company)], limit=1)
-            if config_model_obj:
-                domain += [('customer', '=', config_model_obj.value)]
+                config_model_obj = self.search([('model_id', '=', False), ('company_id', '=', company)], limit=1)
+            return config_model_obj
+        return self
+
+    def followers_domain(self, model, res_id):
+        domain = [('user_ids','!=',False)]
+        # company = self.env.user.company_id.id
+        # cmpy_field = self.env['ir.model.fields'].search([('model_id.model','=',model),('ttype','=','many2one'),('relation','=','res.company')], limit=1)
+        # if cmpy_field:
+        #     company = self.env[model].browse(res_id)[cmpy_field.name].id
+        # if company:
+        #     config_model_obj = self.search([('model_id.model','=',model),('company_id','=',company)], limit=1)
+        #     if not config_model_obj:
+        #         config_model_obj = self.search([('model_id', '=', False),('company_id','=',company)], limit=1)
+        config_model_obj = self.followers_config(model, res_id)
+        if config_model_obj:
+            domain += [('customer', '=', config_model_obj.value)]
         return domain
+
+
+
 
 
 
