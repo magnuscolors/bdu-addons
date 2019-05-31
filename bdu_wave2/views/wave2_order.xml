@@ -11,6 +11,7 @@
           <field name="excerpt"/>
           <field name="state"/>
           <field name="remark"/>
+          <field name="order_id" readonly="1"/>
       </tree> 
     </field> 
   </record> 
