@@ -80,7 +80,7 @@ class Partner(models.Model):
         for partner in self :
             if not partner.country_id or partner.country_id.id==default_country_id :
                 if not re.match(zip_format, partner.zip) :
-                    raise exceptions.ValidationError('ZIP format (numbers, letters) not correct. Please correct ZIP and/or country.')
+                    raise exceptions.ValidationError(_('ZIP format (numbers, letters) not correct. Please correct ZIP and/or country.'))
                     #return False
         return True
 
