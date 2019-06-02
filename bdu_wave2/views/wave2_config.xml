@@ -47,7 +47,7 @@
             <field name="one_column_prod"/>  
             <field name="two_column_prod"/>  
             <field name="prod_uom"/> 
-            <field name="payment_method_id"/> 
+            <field name="payment_mode_id"/>
             <field name="payment_term_id"/> 
           </group>
           <group name="defaults_partner" string="Default values for new web customer">
@@ -55,7 +55,7 @@
             <field name="sector_id"/> 
             <field name="country_id"/> 
             <field name="zip_format"/> 
-            <field name="partner_payment_method_id"/> 
+            <field name="partner_payment_mode_id"/>
             <field name="partner_payment_term_id"/> 
             <field name="transmit_method_id"/> 
           </group>

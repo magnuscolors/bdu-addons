@@ -33,7 +33,7 @@ class Wave2Config(models.Model):
     sector_id        = fields.Many2one('res.partner.sector', ondelete='set null', string="Sector")  
     country_id       = fields.Many2one('res.country', ondelete='set null', string="Country") 
     zip_format       = fields.Char(string="Zip format", help="Use regular expression syntax")
-    partner_payment_method_id = fields.Many2one('account.payment.mode', string="Payment method")
+    partner_payment_mode_id = fields.Many2one('account.payment.mode', string="Payment Mode")
     partner_payment_term_id   = fields.Many2one('account.payment.term', string="Payment terms")
     transmit_method_id        = fields.Many2one('transmit.method', string="Invoice transmission method")
 
@@ -45,7 +45,7 @@ class Wave2Config(models.Model):
     one_column_prod  = fields.Many2one('product.template', ondelete="set null", string="One column product")
     two_column_prod  = fields.Many2one('product.template', ondelete="set null", string="Two column product")
     prod_uom         = fields.Many2one('product.uom', ondelete="set null", string="Selling unit")
-    payment_method_id= fields.Many2one('account.payment.mode', string="Method for Ideal")
+    payment_mode_id= fields.Many2one('account.payment.mode', string="Mode for Ideal")
     payment_term_id  = fields.Many2one('account.payment.term', string="Terms for Ideal")
 
     status2          = fields.Char(string="Status order processing")
@@ -391,7 +391,7 @@ class Wave2Config(models.Model):
                     'is_ad_agency'  : False,  
                     'trust'         : "normal",
                     'comment'       : "Partner geregistreerd/bijgewerkt door Wave2",
-                    'customer_payment_mode_id' : self.search([])[0].partner_payment_method_id.id,
+                    'customer_payment_mode_id' : self.search([])[0].partner_payment_mode_id.id,
                     'property_payment_term_id' : self.search([])[0].partner_payment_term_id.id,
                     'customer_invoice_transmit_method_id' : self.search([])[0].transmit_method_id.id,
                     }
@@ -485,7 +485,7 @@ class Wave2Config(models.Model):
                         }
         payment_according_wave2 = int(xml.find("RAD_PK").findtext("RAD_BETALING"))
         if payment_according_wave2 == 6 :
-            order_header['payment_mode_id'] = config.payment_method_id.id
+            order_header['payment_mode_id'] = config.payment_mode_id.id
             order_header['payment_term_id'] = config.payment_term_id.id
         else :
             order_header['payment_mode_id'] = ""
