@@ -114,7 +114,7 @@ class Wave2Config(models.Model):
         if not server_dir.endswith("/") :
             server_dir += "/"
         if config.done_dir :
-            done_dir=config.dond_dir.strip()
+            done_dir=config.done_dir.strip()
         else :
             done_dir=""
         if not done_dir.endswith("/") :
