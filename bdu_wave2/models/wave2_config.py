@@ -221,7 +221,7 @@ class Wave2Config(models.Model):
             #search by email, skip order if error
             if customer['email'] :
                 partner = self.search_update_by_email(customer)
-                if type(partner)==unicode :
+                if type(partner) in [unicode, str] :
                     errors += 1
                     order.state='error'
                     order.remark='Error searching email, '+ partner
@@ -231,7 +231,7 @@ class Wave2Config(models.Model):
             #if not found, search by name, skip order if error
             if not partner :
                 partner = self.search_update_by_name(customer)
-                if type(partner)==unicode :
+                if type(partner) in [unicode, str] :
                     errors += 1
                     order.state = 'error'
                     order.remark='Error searching by name, ' + partner
@@ -240,7 +240,7 @@ class Wave2Config(models.Model):
             #make partner if not found
             if not partner :
                 partner = self.env['res.partner'].create(customer)
-                if not partner or type(partner)==unicode :
+                if not partner or type(partner) in [unicode, str] :
                     errors += 1
                     order.state = 'error'
                     order.remark="Error creating partner " + (str(partner) or "")
@@ -335,7 +335,7 @@ class Wave2Config(models.Model):
                     
                     #prep orderline
                     orderline_to_upsert= self.parse_into_orderline_details(xml_root, odoo_order, region_title.title, issue_date, region, net, listprice)
-                    if type(orderline_to_upsert)==unicode :
+                    if type(orderline_to_upsert) in [unicode, str] :
                         abort(config, order, orderline_to_upsert)
                         return
 
@@ -442,7 +442,7 @@ class Wave2Config(models.Model):
         elif len(ids) == 0 :
             return False
         else :
-            return "Multiple email addresses found."
+            return u"Multiple email addresses found."
 
     def search_update_by_name(self, customer) :
 
@@ -463,7 +463,7 @@ class Wave2Config(models.Model):
         elif len(ids) == 0 :
             return False
         else :
-            return "Multiple addresses found. Make unique by email or name, zip and street number."
+            return u"Multiple addresses found. Make unique by email or name, zip and street number."
 
     def parse_into_header_details(self, xml, partner) :
         config  = self.search([])[0]
@@ -501,9 +501,9 @@ class Wave2Config(models.Model):
         if len(issues) == 1 :
             issue = issues[0]
         elif len(issues) == 0 :
-            return  "No issue for "+title.name+" on "+datetime.datetime.strftime(issue_date,"%Y-%m-%d")+"."
+            return  u"No issue for "+title.name+" on "+datetime.datetime.strftime(issue_date,"%Y-%m-%d")+"."
         else :
-            return  "Multiple issues for "+title.name+" on "+datetime.datetime.strftime(issue_date,"%Y-%m-%d")+"."
+            return  u"Multiple issues for "+title.name+" on "+datetime.datetime.strftime(issue_date,"%Y-%m-%d")+"."
 
         #product, template, ad class, medium
         width = int(xml.find("RAD_PK").findtext("RAD_BREEDTE"))
@@ -518,20 +518,20 @@ class Wave2Config(models.Model):
         
         #prod_category   = product.categ_id
         if not product.categ_id :
-            return "Missing product category for product "+product.name
+            return u"Missing product category for product "+product.name
 
         #master_category = prod_category.parent_id 
         if not product.categ_id.parent_id :
-            return "Missing master category (medium) for category "+product.categ_id.name
+            return u"Missing master category (medium) for category "+product.categ_id.name
 
         #pricelist
         price_lists = self.env['product.category'].search([('type', '!=', 'view'),('name','like', title.name)])
         if len(price_lists)==1 :
             price_list = price_lists[0]
         elif len(price_lists)==0:
-            return "Missing product/pricelist category for title "+title.name+"."
+            return u"Missing product/pricelist category for title "+title.name+"."
         else :
-            return "Multiple product/pricelist categories for title "+title.name+"."
+            return u"Multiple product/pricelist categories for title "+title.name+"."
 
         #product variant
         product_variants = self.env['product.product'].search([('categ_id', '=', price_list.id),
@@ -540,9 +540,9 @@ class Wave2Config(models.Model):
         if len(product_variants)==1 :
             product_variant = product_variants[0]; 
         elif len(product_variants)==0 : 
-            return "No  product variant found for product template \""+product.name+"\" with pricelist (category) name holding \""+title.name+"\" in its name. Check for variant existance and/or right category for product variant, i.e. pricelist."
+            return u"No  product variant found for product template \""+product.name+"\" with pricelist (category) name holding \""+title.name+"\" in its name. Check for variant existance and/or right category for product variant, i.e. pricelist."
         else :
-            return "Multiple product variants found for product template \""+product.name+"\" and pricelist (category) name holding "+title.name+" in its name."
+            return u"Multiple product variants found for product template \""+product.name+"\" and pricelist (category) name holding "+title.name+" in its name."
 
         #link to material
         wav2_order_id = str(xml.find("RAD_PK").findtext("RAD_PK"))
@@ -555,18 +555,18 @@ class Wave2Config(models.Model):
         if len(classified_classes) == 1 :
             classified_class = classified_classes[0]
         elif len(classified_classes) == 0 :
-            return "No classified class for "+classified_id+"."
+            return u"No classified class for "+classified_id+"."
         else :
-            return "Multiple classified classes for "+classified_id+"."
+            return u"Multiple classified classes for "+classified_id+"."
 
         #analytic tag
         tag_ids = self.env['account.analytic.tag'].search([('name', '=', classified_class.name)]) #todo: add domain page_class_domain
         if len(tag_ids) == 1 :
             analytic_tag = tag_ids[0]
         elif len(tag_ids) == 0 :
-            return "No analytic tag for classified ad class "+classified_class.name+"."
+            return u"No analytic tag for classified ad class "+classified_class.name+"."
         else :
-            return "Multiple analytic tags for classified ad class "+classified_class.name+"."
+            return u"Multiple analytic tags for classified ad class "+classified_class.name+"."
 
         #unique orderline reference
         if wav2_order_id>2100013050 : 
@@ -576,7 +576,7 @@ class Wave2Config(models.Model):
             ad_number = odoo_order.client_order_ref+"_"+region_text+title.name+"_"+datetime.datetime.strftime(issue_date, '%Y-%m-%d')
         else :
             #old style
-            return "No support for legacy style orders"
+            return u"No support for legacy style orders"
 
         #orderline text for online publication in dtp remark field without CDATA
         rawtext = str(xml.find("RAD_PK").find("RAD_TEKST").findtext("REGEL"))

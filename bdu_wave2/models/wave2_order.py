@@ -19,7 +19,7 @@ class Wave2Order(models.Model):
     content   = fields.Char(string="File content", required=True)
 
     order_id  = fields.Many2one('sale.order', string="Order")
-    remark    = fields.Char(string="Reason for status", size=50)
+    remark    = fields.Char(string="Reason for status", size=128)
     state     = fields.Selection([
 							        ('collected', 'Collected'),
 							        ('done','Done'),
