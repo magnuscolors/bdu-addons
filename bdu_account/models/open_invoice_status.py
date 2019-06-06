@@ -35,7 +35,6 @@ class CreditControlStatus(models.TransientModel):
     def accept(self) :
         self.processed = True
         self.latest_credit_control_line_id.state='sent'   #i.e. Done
-        #self.cc_state = self.latest_credit_control_line_id.state #related field now
         return
 
     #show records selected by sql query
@@ -55,7 +54,6 @@ class CreditControlStatus(models.TransientModel):
                     'operating_unit_id'    : invoice.operating_unit_id.id,
                     'invoice_id'           : invoice.id,
                     'partner_id'           : invoice.partner_id.id,
-                    #'phone'                : invoice.partner_id.phone,
                     'account_manager'      : invoice.partner_id.user_id.id or invoice.partner_id.parent_id.user_id.id,
                     'processed'            : processed,
                     'currency_id'          : invoice.currency_id.id,
@@ -65,9 +63,7 @@ class CreditControlStatus(models.TransientModel):
                     'payment_mode'         : invoice.payment_mode_id.id,
                     'date_latest_cc'       : last_cc_action.date,
                     'invoice_state'        : invoice.state,
-                    #'cc_channel'           : last_cc_action.id,
                     'cc_policy_level'      : last_cc_action.policy_level_id.name,
-                    #'cc_state'             : last_cc_action.id,
                     'latest_credit_control_line_id' : last_cc_action.id,
                     'credit_control_line_ids' : [(6,0,cc_actions.ids)]
                    }
