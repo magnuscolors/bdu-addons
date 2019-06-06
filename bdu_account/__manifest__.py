@@ -37,6 +37,7 @@ This module adds customization for BDU Media, like :\n
 - partner attributes (like social media id's)\n
 - custom invoice per OU\n
 - custom credit control per company, including invoices in appendix\n
+- open invoice status, showing latest status per open invoice for manual follow up\n
 - reverse billing logo\n
 - zip format checking\n
   As this is made for BDU in NL the standard zip format is r'^[1-9]{1}[0-9]{3}[A-Z]{2}$'
@@ -69,6 +70,7 @@ This module adds customization for BDU Media, like :\n
             "views/res_partner_view.xml",
             "views/product_view.xml",
             "views/company_view.xml",
+            "views/open_invoice_status_view.xml",
             "wizard/account_invoice_state_view.xml",
             "views/sql_export_view.xml",
     ],

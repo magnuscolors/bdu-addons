@@ -7,3 +7,4 @@ import res_company
 import res_partner
 import product
 import credit_control_policy
+import open_invoice_status
