@@ -74,6 +74,9 @@ class Partner(models.Model):
     status = fields.Many2one('partner.status','Status')
     newsletter_opt_out = fields.Boolean('Newsletter opt-out')
 
+    #default value for country
+    country_id = fields.Many2one(default=166)
+
     @api.constrains('zip')
     def _check_zip_format(self):
         default_country_id = int(self.env['ir.config_parameter'].search([('key','=','default_country')]).value) or 166 
@@ -101,6 +104,14 @@ class Partner(models.Model):
                 max = 0
             if len(addresses)>max :
                 raise exceptions.ValidationError('Not a unique email address')
+
+    @api.onchange('email')
+    def _set_invoice_transmit_method(self):
+        if self.email :
+            self.customer_invoice_transmit_method_id = 1 # "E-mail"
+        else :
+            self.customer_invoice_transmit_method_id = 2 # "Post"
+
 
 class Users(models.Model):
     _inherit = 'res.users'
