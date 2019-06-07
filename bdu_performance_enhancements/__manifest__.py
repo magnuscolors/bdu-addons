@@ -20,6 +20,7 @@
     'depends': [
                 'base', 
                 'contacts',
+                'publishing_subscription_order'
                 ],
 
     # always loaded
