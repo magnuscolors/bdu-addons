@@ -18,6 +18,7 @@
 #
 ##############################################################################
 
+import re
 from odoo import api, fields, exceptions, models, _
 
 class DeliveryTerms(models.Model):
@@ -71,6 +72,17 @@ class Partner(models.Model):
     delievery_terms = fields.Many2one('delivery.terms','Terms of delivery')
     status = fields.Many2one('partner.status','Status')
     newsletter_opt_out = fields.Boolean('Newsletter opt-out')
+
+    @api.constrains('zip')
+    def _check_zip_format(self):
+        default_country_id = int(self.env['ir.config_parameter'].search([('key','=','default_country')]).value) or 166 
+        zip_format = int(self.env['ir.config_parameter'].search([('key','=','default_zip_format')]).value) or r'^[1-9]{1}[0-9]{3}[A-Z]{2}$' 
+        for partner in self :
+            if not partner.country_id or partner.country_id.id==default_country_id :
+                if not re.match(zip_format, partner.zip) :
+                    raise exceptions.ValidationError(_('ZIP format (numbers, letters) not correct. Please correct ZIP and/or country.'))
+                    #return False
+        return True
 
 class Users(models.Model):
     _inherit = 'res.users'

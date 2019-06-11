@@ -10,13 +10,20 @@
                     <group>
                         <group>
                             <label string="Notify following customers by e-mail?"/>
-                            <field name="value" nolabel="1"/>
+                            <field name="value" nolabel="1" attrs="{'readonly':[('complete_stop', '=', True)]}"/>
                         </group>
-                        <group>
+                         <group>
                             <field name="model_id"/>
                             <field name="company_id" required="1"/>
                         </group>
-
+                        <group>
+                            <label string="Disable all emails notifications?"/>
+                            <field name="complete_stop"  nolabel="1"/>
+                        </group>
+                        <group>
+                            <label string="Disable emails including tracking visibiltiy?"/>
+                            <field name="stop_track_visibility" nolabel="1"/>
+                        </group>
                     </group>
                     <div>
                         <strong> Note:</strong>
@@ -31,6 +38,15 @@
                     <br/>
                     <div>
                         <strong>3. </strong>In case both [('customer',=,TRUE)] and [('customer',=,FALSE)] should receive follower mail messages when tagged or added as recipients, please do not create any configuration.
+                    </div>
+                    <br/>
+                    <div>
+                        <strong>4. </strong>Disable all emails notifications: If True, both [('customer',=,TRUE)] and [('customer',=,FALSE)]
+                        won't be getting any mails.
+                    </div>
+                    <br/>
+                    <div>
+                        <strong>5. </strong>Disable emails including tracking visibility: If True, disables all emails to followers of an object and disables emails generated via the 'Track Visibility' functionality.
                     </div>
                 </sheet>
             </form>

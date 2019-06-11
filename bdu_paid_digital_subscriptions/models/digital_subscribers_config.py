@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import datetime, ftputil,  ftputil.session, httplib, json, logging, pdb, requests, urllib
+import datetime, ftplib, json, logging, os, requests, urllib
+
 from lxml import etree 
 from tempfile import TemporaryFile
 from odoo import models, fields, api
@@ -13,7 +14,7 @@ _logger = logging.getLogger(__name__)
 class DigitalSubscribersConfig(models.Model):
     _name          = 'digital.subscribers.config'
     _description   = 'Connection info for communicating digital subscribers'
-    server  	   = fields.Char(string='Server',         help="FTP server" )
+    server  	   = fields.Char(string='Server',         help="FTPs server" )
     directory	   = fields.Char(string='Server subdir',  help="Directory starting with slash, e.g. /api/v1, or empty")
     tempdir        = fields.Char(string='Local temp dir', help="Local temporary directory. e.g. /home/odoo")
     user           = fields.Char(string='User')
@@ -78,7 +79,7 @@ class DigitalSubscribersConfig(models.Model):
             else :
                 target = '/' + filename
             source = config.tempdir + '/' + filename
-            conn.upload(source, target)
+            conn.storbinary('STOR '+target, open(source, 'rb'))
             return True
         except Exception, e:
             self.log_exception(msg,"Transfer failed, quiting...., error"+str(e))
@@ -171,10 +172,11 @@ class DigitalSubscribersConfig(models.Model):
 
         # Initiate File Transfer Connection
         try:
-            port_session_factory = ftputil.session.session_factory(port=21, use_passive_mode=True)
-            ftp = ftputil.FTPHost(config.server, config.user, config.password, session_factory = port_session_factory)
+            ftps = ftplib.FTP_TLS(config.server)
+            ftps.login(user=config.user, passwd=config.password)
+            ftps.prot_p() #switch to secure data connection
         except Exception, e:
-            self.log_exception(msg, "Invalid FTP configuration")
+            self.log_exception(msg, "Invalid FTPs configuration/credentials")
             return False
         
         #chop into 10k records max and ship
@@ -189,18 +191,19 @@ class DigitalSubscribersConfig(models.Model):
                 f_out.write(line)
             else :
                 f_out.close()
-                if not self.ship_file(msg, "digital_subscribers_part"+str(f_nr)+".csv", ftp) :
+                if not self.ship_file(msg, "digital_subscribers_part"+str(f_nr)+".csv", ftps) :
                     return False
                 f_nr += 1
                 n     = 1
+                os.unlink(out)
                 out   = config.tempdir+"/digital_subscribers_part"+str(f_nr)+".csv"
                 f_out = open(out,"w")
                 f_out.write(line)
         f_out.close()
-        if not self.ship_file(msg, "digital_subscribers_part"+str(f_nr)+".csv", ftp) :
+        if not self.ship_file(msg, "digital_subscribers_part"+str(f_nr)+".csv", ftps) :
             return False
-        ftp.close()
-        #todo: remove main file(s)
+        ftps.quit()
+        os.unlink(out)
 
         #report and exit positively
         final_msg = "File transfer for digital subscribers succesfull"

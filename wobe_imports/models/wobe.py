@@ -1345,7 +1345,7 @@ class Job(models.Model):
             paperAmount += (NetQty + WasteQty) * roll.product_id.standard_price
 
         #get paper amount conversion
-        paperAmount = paperAmount
+        paperAmount = -paperAmount if paperAmount > 0 else paperAmount
 
         # Paper Unit Amount : (in Kg), Ink Unit Amount : (in Kg)
         paperUnitAmt, InkUnitAmt, totBookletInk = 0.0, 0.0, 0.0
@@ -1363,6 +1363,7 @@ class Job(models.Model):
 
         totBookletHours = round(bookletCalHrs, 4)
         hoursAmount = totBookletHours * 1200
+        hoursAmount = -hoursAmount if hoursAmount > 0 else hoursAmount
 
         hoursUnitAmt = totBookletHours
 
@@ -1390,6 +1391,7 @@ class Job(models.Model):
         plateUnitAmt = totBookletPlates
         for p in Plates_prods:
             platesAmount = totBookletPlates * p.standard_price
+            platesAmount = -platesAmount if platesAmount > 0 else platesAmount
             lines.append({'name': 'Pre-calculation : Plates', 'amount': platesAmount, 'unit_amount':plateUnitAmt, 'product_uom_id':uomUnits})
 
         # Ink :
@@ -1397,6 +1399,7 @@ class Job(models.Model):
         for p in Ink_prods:
             InkAmount += totBookletInk * p.standard_price
         if Ink_prods:
+            InkAmount = -InkAmount if InkAmount > 0 else InkAmount
             lines.append({'name': 'Pre-calculation : Ink', 'amount': InkAmount, 'unit_amount':InkUnitAmt, 'product_uom_id':uomKG})
         return lines
 

@@ -5,7 +5,7 @@ from odoo import api, fields, exceptions, models, _
 class Partner(models.Model):
     _inherit = 'res.partner'
     
-    
+    #partner linked with users should be marked as customer
     @api.model
     def create(self, values):
         res = super(Partner, self).create(values)
