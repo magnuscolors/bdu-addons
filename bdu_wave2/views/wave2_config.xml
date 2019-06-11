@@ -18,6 +18,7 @@
             <field name="user"/> 
             <field name="password"/> 
             <field name="done_dir"/> 
+            <field name="done_dir_active"/> 
             <field name="work_dir"/> 
             <field name="status" readonly="1" widget="html"/> 
           </group>
@@ -40,23 +41,26 @@
         
         <group>
           <group name="defaults_order" string="Default order values">
-            <field name="partner" string="Sales person"/> 
+            <field name="user_id" string="Sales person"/> 
             <field name="discount_reason"/> 
             <field name="order_prefix"/>   
             <field name="one_column_prod"/>  
             <field name="two_column_prod"/>  
             <field name="prod_uom"/> 
-            <field name="payment_method_id"/> 
+            <field name="payment_mode_id"/>
             <field name="payment_term_id"/> 
-            <field name="status2" readonly="1" widget="html"/> 
           </group>
-          <group name="defaults_partner" string="Default partner values">
+          <group name="defaults_partner" string="Default values for new web customer">
             <field name="partner_am" string="Account manager"/> 
             <field name="sector_id"/> 
             <field name="country_id"/> 
+            <field name="zip_format"/> 
+            <field name="partner_payment_mode_id"/>
+            <field name="partner_payment_term_id"/> 
+            <field name="transmit_method_id"/> 
           </group>
         </group>
-        
+
         <group col="8">
             <group col="1">
               <button name="save_config" type="object" string="Save" class="oe_highlight"/> 
@@ -67,7 +71,11 @@
           <group col="6"></group>
         </group>
 
-        <group name="documentation" string="Toelichting">
+        <group col="8" string="Status last action">
+            <field name="status2" readonly="1" widget="html" nolabel="1"/> 
+        </group>
+
+        <group name="documentation" string="Comment">
           <div colspan="4">
             <p>Wave2 orders are collected from the given FTP site, processed and moved to the given 'done' directory. Processing of files is done locally in the configured work directory where Odoo should have full CRUD authorisation.</p>
             <p>Customers are identified by their email address. Hence they should be unique, otherwise associated order is skipped and an error is logged in the given channel.</p>

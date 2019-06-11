@@ -4,6 +4,8 @@ import base64, datetime, httplib, json, logging, pdb, requests, urllib
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo.addons.queue_job.job import job, related_action
+from odoo.addons.queue_job.exception import FailedJobError
 
 _logger = logging.getLogger(__name__)
 
@@ -57,6 +59,7 @@ class AnnouncementConfig(models.Model):
             return 0
 
     #hook for automated actions
+    @job
     @api.multi
     def automated_run(self):
         configurations = self.search([])

@@ -215,6 +215,12 @@ msgid "Additional Information"
 msgstr "Aanvullende informatie"
 
 #. module: bdu_account
+#: code:addons/bdu_account/models/res_partner.py:83
+#, python-format
+msgid "ZIP format (numbers, letters) not correct. Please correct ZIP and/or country."
+msgstr "Postcode formaat niet juist. Corrigeer postcode (1234AB voor NL) en/of landcode."
+
+#. module: bdu_account
 #: model:ir.model.fields,field_description:bdu_account.field_account_invoice_published_customer
 msgid "Advertiser"
 msgstr "Adverteerder"

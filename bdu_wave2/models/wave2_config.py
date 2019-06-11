@@ -19,27 +19,33 @@ class Wave2Config(models.Model):
     password         = fields.Char(string="Password", copy=False)
     status           = fields.Char(string="Status file collect", copy=False) 
     done_dir         = fields.Char(string="Server done directory", copy=False, help="Directory to move order to after completion, e.g. /done")
-    
+    done_dir_active  = fields.Boolean(string="Activate done directory", help="Files are only moved when activated")
+
     matserver        = fields.Char(string="Mat. server", copy=False, help="URL excluding protocol. E.g. ftp.mycompany.com")
     matserver_dir    = fields.Char(string="Mat. server dir.", help="Directory on server where material resides")
     
     work_dir         = fields.Char(string="Local work directory", copy=False, help="Local temporary directory. Files are removed after completion.")
     
     #channel          = fields.Many2one('mail.channel', ondelete='set null', string="Channel")
+
+    #defaults for new partner
     partner_am       = fields.Many2one('res.partner', ondelete='set null', string="Account manager")
-    partner          = fields.Many2one('res.partner', ondelete='set null', string="Partner")
+    sector_id        = fields.Many2one('res.partner.sector', ondelete='set null', string="Sector")  
+    country_id       = fields.Many2one('res.country', ondelete='set null', string="Country") 
+    zip_format       = fields.Char(string="Zip format", help="Use regular expression syntax")
+    partner_payment_mode_id = fields.Many2one('account.payment.mode', string="Payment Mode")
+    partner_payment_term_id   = fields.Many2one('account.payment.term', string="Payment terms")
+    transmit_method_id        = fields.Many2one('transmit.method', string="Invoice transmission method")
 
-    discount_reason  = fields.Many2one('discount.reason', ondelete='set null', string="Discount_reason")  
-    sector_id        = fields.Many2one('res.partner.sector', ondelete='set null', string="Default sector")  
-    country_id       = fields.Many2one('res.country', ondelete='set null', string="Default country") 
 
+    #defaults for order
+    user_id          = fields.Many2one('res.users', ondelete='set null', string="Sales person") 
+    discount_reason  = fields.Many2one('discount.reason', ondelete='set null', string="Discount_reason") 
     order_prefix     = fields.Char(string="Order prefix", copy=False)
-    #orderline_prefix = fields.Char(string="Orderline prefix", copy=False)
-
     one_column_prod  = fields.Many2one('product.template', ondelete="set null", string="One column product")
     two_column_prod  = fields.Many2one('product.template', ondelete="set null", string="Two column product")
     prod_uom         = fields.Many2one('product.uom', ondelete="set null", string="Selling unit")
-    payment_method_id= fields.Many2one('account.payment.mode', string="Method for Ideal")
+    payment_mode_id= fields.Many2one('account.payment.mode', string="Mode for Ideal")
     payment_term_id  = fields.Many2one('account.payment.term', string="Terms for Ideal")
 
     status2          = fields.Char(string="Status order processing")
@@ -88,6 +94,7 @@ class Wave2Config(models.Model):
             _logger.exception(msg)
             config.write({'status' : msg})
             return msg
+        
         # Initiate File Transfer Connection
         try:
             psf = ftputil.session.session_factory(port=21)
@@ -98,16 +105,25 @@ class Wave2Config(models.Model):
             _logger.exception(msg)
             config.write({'status' : msg})
             return msg
-        #Transfer files
+        
+        #Transfer files, init dirs
         if config.server_dir :
             server_dir=config.server_dir.strip()
         else :
             server_dir=""
         if not server_dir.endswith("/") :
             server_dir += "/"
+        if config.done_dir :
+            done_dir=config.done_dir.strip()
+        else :
+            done_dir=""
+        if not done_dir.endswith("/") :
+            done_dir += "/"
         work_dir=config.work_dir.strip()
         if not work_dir.endswith("/") :
             work_dir += "/"
+        
+        #Transfer files, actual move
         n=0
         errors = 0
         try:
@@ -118,8 +134,9 @@ class Wave2Config(models.Model):
                     rc = self.store_wave2_order(work_dir, file)
                     if rc :
                         n += 1
-                        #_logger.info("Removing file : " + target)
-                        #ftp.remove(serverdir+file) 
+                        #move order on ftp server if activated
+                        if config.done_dir_active :
+                            ftp.rename(server_dir+file, done_dir+File)
                     else :
                         errors +=1
                 else :
@@ -193,34 +210,40 @@ class Wave2Config(models.Model):
         for order in orders :
             xml_root = et.fromstring(order.content.strip())
             customer = self.parse_into_partner_details(xml_root)
+
+            #process only when zip is correct
+            if not re.match(config.zip_format, customer['zip']) :
+                errors += 1
+                order.state = 'error'
+                order.remark='Zip format not correct : ' + customer['zip']
+                continue
             
             #search by email, skip order if error
             if customer['email'] :
                 partner = self.search_update_by_email(customer)
-                if type(partner)==unicode :
+                if type(partner) in [unicode, str] :
                     errors += 1
                     order.state='error'
-                    order.remark=partner
+                    order.remark='Error searching email, '+ partner
                     continue
 
 
             #if not found, search by name, skip order if error
             if not partner :
                 partner = self.search_update_by_name(customer)
-                if type(partner)==unicode :
+                if type(partner) in [unicode, str] :
                     errors += 1
                     order.state = 'error'
-                    order.remark=partner
+                    order.remark='Error searching by name, ' + partner
                     continue
-
 
             #make partner if not found
             if not partner :
                 partner = self.env['res.partner'].create(customer)
-                if not partner or type(partner==unicode) :
+                if not partner or type(partner) in [unicode, str] :
                     errors += 1
                     order.state = 'error'
-                    order.remark=partner or "Error creating partner"
+                    order.remark="Error creating partner " + (str(partner) or "")
                     continue
 
 
@@ -312,7 +335,7 @@ class Wave2Config(models.Model):
                     
                     #prep orderline
                     orderline_to_upsert= self.parse_into_orderline_details(xml_root, odoo_order, region_title.title, issue_date, region, net, listprice)
-                    if type(orderline_to_upsert)==unicode :
+                    if type(orderline_to_upsert) in [unicode, str] :
                         abort(config, order, orderline_to_upsert)
                         return
 
@@ -328,7 +351,7 @@ class Wave2Config(models.Model):
 
             #set orderstatus and reset possible remark
             odoo_order.write({'state':'sale'})
-            order.write({'state':'done', 'remark': 'Order '+odoo_order.name})
+            order.write({'state':'done', 'remark': 'Order '+odoo_order.name, 'order_id':odoo_order.id})
 
         #report stats
         msg= datetime.datetime.strftime(datetime.datetime.now(),"%Y-%m-%d %H:%M:%S" )+" "+str(len(orders))+" Wave2 orders processed."
@@ -346,12 +369,14 @@ class Wave2Config(models.Model):
             is_company = False
         else :
             is_company = True;
+        zip       = str(xml.find("RAD_PK").find("RAD_SRE_PK").findtext("SRE_C_PC")).replace(" ","")
+        zip       = zip.replace(" ","").upper()
         customer  = {
                     'is_company'    : is_company,
                     'street_name'   : str(xml.find("RAD_PK").find("RAD_SRE_PK").findtext("SRE_C_AD")),
                     'street_number' : str(xml.find("RAD_PK").find("RAD_SRE_PK").findtext("SRE_C_HNR1")),
                     'street2'       : str(xml.find("RAD_PK").find("RAD_SRE_PK").findtext("SRE_HNR2")),
-                    'zip'           : str(xml.find("RAD_PK").find("RAD_SRE_PK").findtext("SRE_C_PC")).replace(" ",""),
+                    'zip'           : zip,
                     'city'          : str(xml.find("RAD_PK").find("RAD_SRE_PK").findtext("SRE_C_PL")),
                     'country_id'    : self.search([])[0].country_id.id,
                     'website'       : str(xml.find("RAD_PK").find("RAD_SRE_PK").findtext("SRE_WEBSITE")),
@@ -364,13 +389,11 @@ class Wave2Config(models.Model):
                     'message_is_follower' : 0, 
                     'customer'      : True,
                     'is_ad_agency'  : False,  
-                    'property_payment_term_id' : 0, 
-                    # 0=leeg=default,
-                    # 1=direct betalen
-                    # ? = standard 15 days
-                    # ? = standard 30 days
-                    'trust' : "normal",
-                    'comment' : "Partner geregistreerd/bijgewerkt door Wave2"
+                    'trust'         : "normal",
+                    'comment'       : "Partner geregistreerd/bijgewerkt door Wave2",
+                    'customer_payment_mode_id' : self.search([])[0].partner_payment_mode_id.id,
+                    'property_payment_term_id' : self.search([])[0].partner_payment_term_id.id,
+                    'customer_invoice_transmit_method_id' : self.search([])[0].transmit_method_id.id,
                     }
         if is_company :
             customer['name'] = str(xml.find("RAD_PK").find("RAD_SRE_PK").findtext("SRE_NM"))
@@ -380,6 +403,22 @@ class Wave2Config(models.Model):
         return customer
 
         
+    def update_found_partner(self, customer, partner) :
+        fields_to_update = {
+                    'street_name'   : customer['street_name'],
+                    'street_number' : customer['street_number'],
+                    'street2'       : customer['street2'],
+                    'zip'           : customer['zip'],
+                    'city'          : customer['city'],
+                    'country_id'    : customer['country_id'],
+                    'email'         : customer['email'],
+                    'customer'      : True,
+                    'customer_invoice_transmit_method_id' : self.search([])[0].transmit_method_id.id,
+
+        }
+        partner.write(fields_to_update)
+        return
+
     def search_update_by_email(self, customer) :
 
         if  len(customer['email']) == 0 :
@@ -391,19 +430,19 @@ class Wave2Config(models.Model):
                 #update invoice address and return company address to link order to
                 customer.pop('is_company', None)
                 customer.pop('name', None)  #not allowed
-                partner.write(customer)
+                self.update_found_partner(customer, partner)
                 return partner.parent_id
             elif partner.type == 'contact':
                 customer.pop('is_company', None)
-                partner.write(customer)
+                self.update_found_partner(customer, partner)
                 return partner
             else :
-                partner.write(customer)
+                self.update_found_partner(customer, partner)
                 return partner
         elif len(ids) == 0 :
             return False
         else :
-            return "Multiple email addresses found."
+            return u"Multiple email addresses found."
 
     def search_update_by_name(self, customer) :
 
@@ -419,12 +458,12 @@ class Wave2Config(models.Model):
                                             ])
         if len(ids)==1 :
             partner=ids[0]
-            partner.write(customer)
+            self.update_found_partner(customer, partner)
             return partner
         elif len(ids) == 0 :
             return False
         else :
-            return "Multiple addresses found. Make unique by email or name, zip and street number."
+            return u"Multiple addresses found. Make unique by email or name, zip and street number."
 
     def parse_into_header_details(self, xml, partner) :
         config  = self.search([])[0]
@@ -441,15 +480,16 @@ class Wave2Config(models.Model):
                           'partner_shipping_id' : partner.id,  
                           'partner_invoice_id'  : partner.id,  
                           'opportunity_subject' : subject,
-                          'nett_nett'           : 1,
+                          'nett_nett'           : partner.is_ad_agency,
                           'confirmation_date'   : confirmation_date
                         }
         payment_according_wave2 = int(xml.find("RAD_PK").findtext("RAD_BETALING"))
         if payment_according_wave2 == 6 :
-            order_header['payment_mode_id'] = config.payment_method_id.id
+            order_header['payment_mode_id'] = config.payment_mode_id.id
             order_header['payment_term_id'] = config.payment_term_id.id
         else :
             order_header['payment_mode_id'] = ""
+            order_header['payment_term_id'] = partner.property_payment_term_id.id
         return order_header
 
 
@@ -461,9 +501,9 @@ class Wave2Config(models.Model):
         if len(issues) == 1 :
             issue = issues[0]
         elif len(issues) == 0 :
-            return  "No issue for "+title.name+" on "+datetime.datetime.strftime(issue_date,"%Y-%m-%d")+"."
+            return  u"No issue for "+title.name+" on "+datetime.datetime.strftime(issue_date,"%Y-%m-%d")+"."
         else :
-            return  "Multiple issues for "+title.name+" on "+datetime.datetime.strftime(issue_date,"%Y-%m-%d")+"."
+            return  u"Multiple issues for "+title.name+" on "+datetime.datetime.strftime(issue_date,"%Y-%m-%d")+"."
 
         #product, template, ad class, medium
         width = int(xml.find("RAD_PK").findtext("RAD_BREEDTE"))
@@ -478,20 +518,20 @@ class Wave2Config(models.Model):
         
         #prod_category   = product.categ_id
         if not product.categ_id :
-            return "Missing product category for product "+product.name
+            return u"Missing product category for product "+product.name
 
         #master_category = prod_category.parent_id 
         if not product.categ_id.parent_id :
-            return "Missing master category (medium) for category "+product.categ_id.name
+            return u"Missing master category (medium) for category "+product.categ_id.name
 
         #pricelist
         price_lists = self.env['product.category'].search([('type', '!=', 'view'),('name','like', title.name)])
         if len(price_lists)==1 :
             price_list = price_lists[0]
         elif len(price_lists)==0:
-            return "Missing product/pricelist category for title "+title.name+"."
+            return u"Missing product/pricelist category for title "+title.name+"."
         else :
-            return "Multiple product/pricelist categories for title "+title.name+"."
+            return u"Multiple product/pricelist categories for title "+title.name+"."
 
         #product variant
         product_variants = self.env['product.product'].search([('categ_id', '=', price_list.id),
@@ -500,9 +540,9 @@ class Wave2Config(models.Model):
         if len(product_variants)==1 :
             product_variant = product_variants[0]; 
         elif len(product_variants)==0 : 
-            return "No  product variant found for product template \""+product.name+"\" with pricelist (category) name holding \""+title.name+"\" in its name. Check for variant existance and/or right category for product variant, i.e. pricelist."
+            return u"No  product variant found for product template \""+product.name+"\" with pricelist (category) name holding \""+title.name+"\" in its name. Check for variant existance and/or right category for product variant, i.e. pricelist."
         else :
-            return "Multiple product variants found for product template \""+product.name+"\" and pricelist (category) name holding "+title.name+" in its name."
+            return u"Multiple product variants found for product template \""+product.name+"\" and pricelist (category) name holding "+title.name+" in its name."
 
         #link to material
         wav2_order_id = str(xml.find("RAD_PK").findtext("RAD_PK"))
@@ -515,18 +555,18 @@ class Wave2Config(models.Model):
         if len(classified_classes) == 1 :
             classified_class = classified_classes[0]
         elif len(classified_classes) == 0 :
-            return "No classified class for "+classified_id+"."
+            return u"No classified class for "+classified_id+"."
         else :
-            return "Multiple classified classes for "+classified_id+"."
+            return u"Multiple classified classes for "+classified_id+"."
 
         #analytic tag
         tag_ids = self.env['account.analytic.tag'].search([('name', '=', classified_class.name)]) #todo: add domain page_class_domain
         if len(tag_ids) == 1 :
             analytic_tag = tag_ids[0]
         elif len(tag_ids) == 0 :
-            return "No analytic tag for classified ad class "+classified_class.name+"."
+            return u"No analytic tag for classified ad class "+classified_class.name+"."
         else :
-            return "Multiple analytic tags for classified ad class "+classified_class.name+"."
+            return u"Multiple analytic tags for classified ad class "+classified_class.name+"."
 
         #unique orderline reference
         if wav2_order_id>2100013050 : 
@@ -536,7 +576,7 @@ class Wave2Config(models.Model):
             ad_number = odoo_order.client_order_ref+"_"+region_text+title.name+"_"+datetime.datetime.strftime(issue_date, '%Y-%m-%d')
         else :
             #old style
-            return "No support for legacy style orders"
+            return u"No support for legacy style orders"
 
         #orderline text for online publication in dtp remark field without CDATA
         rawtext = str(xml.find("RAD_PK").find("RAD_TEKST").findtext("REGEL"))
