@@ -511,10 +511,10 @@ class Wave2Config(models.Model):
         heigth= int(xml.find("RAD_PK").findtext("RAD_MM"))
         if width>80 :
             #columns = 2
-            product = config.one_column_prod
+            product = config.two_column_prod
         else :
             #columns = 1
-            product = config.two_column_prod
+            product = config.one_column_prod
         
         #prod_category   = product.categ_id
         if not product.categ_id :
