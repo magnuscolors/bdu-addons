@@ -205,7 +205,7 @@ class SaleOrderLine(models.Model):
         invoice_date = helper.date_parse(invoice_date)
 
         #invoice
-        domain.append(('state','in',('sale','done')))
+        domain.append(('order_id.state','in',('sale','done')))
         if invoice_type=='ad' :
             domain.append(('advertising','=',True))
         elif invoice_type=='sub' :
