@@ -372,6 +372,7 @@ class Wave2Config(models.Model):
         zip       = str(xml.find("RAD_PK").find("RAD_SRE_PK").findtext("SRE_C_PC")).replace(" ","")
         zip       = zip.replace(" ","").upper()
         customer  = {
+                    'user_id'       : self.search([])[0].partner_am.id,
                     'is_company'    : is_company,
                     'street_name'   : str(xml.find("RAD_PK").find("RAD_SRE_PK").findtext("SRE_C_AD")),
                     'street_number' : str(xml.find("RAD_PK").find("RAD_SRE_PK").findtext("SRE_C_HNR1")),
@@ -472,7 +473,7 @@ class Wave2Config(models.Model):
         confirmation_date = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
         order_ref = str(xml.find("RAD_PK").findtext("RAD_PK") ) [3:9999] #NB cut 210 in front off client order ref, this used to be used for old administrative system
         order_header = {
-                          #'state'              : "sale",       
+                          'user_id'             : config.user_id.id,       
                           'advertising'         : 1,        
                           'client_order_ref'    : config.order_prefix+order_ref,
                           'published_customer'  : partner.id, 
