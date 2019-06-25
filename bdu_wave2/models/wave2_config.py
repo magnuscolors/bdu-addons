@@ -136,7 +136,7 @@ class Wave2Config(models.Model):
                         n += 1
                         #move order on ftp server if activated
                         if config.done_dir_active :
-                            ftp.rename(server_dir+file, done_dir+File)
+                            ftp.rename(server_dir+file, done_dir+file)
                     else :
                         errors +=1
                 else :
