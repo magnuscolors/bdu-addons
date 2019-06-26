@@ -1095,7 +1095,7 @@ class Job(models.Model):
     @api.multi
     def write(self, vals):
         res = super(Job, self).write(vals)
-        if 'jobUpdates' in self.env.context or 'edition_ids' not in vals:
+        if 'jobUpdates' in self.env.context and 'edition_ids' not in vals:
             return res
         for job in self:
             edPapers = {}
