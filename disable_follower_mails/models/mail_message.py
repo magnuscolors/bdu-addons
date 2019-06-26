@@ -13,10 +13,11 @@ class MailMessage(models.Model):
         """
         self_sudo = self.sudo()
 
-
         if not self_sudo.subtype_id:
             return super(MailMessage, self)._notify(force_send, send_after_commit, user_signature)
-        domain = self.env['mail.followers.config'].followers_domain(self.model, self.res_id)
+        fol_config = self.env['mail.followers.config']
+        follower_config = fol_config.followers_config(self._name, self.ids[0])
+        domain = fol_config.followers_domain(self.model, self.res_id)
         group_user = self.env.ref('base.group_user')
         # have a sudoed copy to manipulate partners (public can go here with
         # website modules like forum / blog / ...
@@ -38,11 +39,14 @@ class MailMessage(models.Model):
             if self_sudo.subtype_id.internal:
                 followers = followers.filtered(lambda fol: fol.channel_id or (
                         fol.partner_id.user_ids and group_user in fol.partner_id.user_ids[0].mapped('groups_id')))
+            
             #send mail to users type partners
-            fol_partners = followers.mapped('partner_id').filtered('user_ids')
-
-            dm1 = domain+[('id','in',fol_partners.ids)]
-            filter_partners = fol_partners.search(dm1)
+            if follower_config.complete_stop:
+                filter_partners = self_sudo.partner_ids
+            else:
+                fol_partners = followers.mapped('partner_id').filtered('user_ids')
+                dm1 = domain+[('id','in',fol_partners.ids)]
+                filter_partners = fol_partners.search(dm1)
 
             channels = self_sudo.channel_ids | followers.mapped('channel_id')
             partners = self_sudo.partner_ids | filter_partners

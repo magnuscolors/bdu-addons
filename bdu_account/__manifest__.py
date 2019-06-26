@@ -38,6 +38,11 @@ This module adds customization for BDU Media, like :\n
 - custom invoice per OU\n
 - custom credit control per company, including invoices in appendix\n
 - reverse billing logo\n
+- zip format checking\n
+  As this is made for BDU in NL the standard zip format is r'^[1-9]{1}[0-9]{3}[A-Z]{2}$'
+  The format is checked when country is empty or equal to the default_country configuration parameter.
+  The ZIP format can be changed by defining the default_zip_format configuration parameter.
+  Hence for use in other countries both of these configuration parameters must be defined.
     """,
     'author'  : 'Magnus - Willem Hulshof, D. Prosee',
     'website' : 'http://www.magnus.nl',
