@@ -201,5 +201,64 @@
         </record>
 
 
+
+        <!--  Form view for Pubble connector settings and operation --> 
+        <record id="view_form_pubble_kpi_data_connector" model="ir.ui.view">
+            <field name="name">Pubble order interface</field>
+            <field name="model">pubble.order.interface.config</field> 
+            <field name="arch" type="xml">
+                <form string="Pubble order interface" 
+                      create="false" edit="false" action="false" 
+                      class="oe_form_configuration">
+                    
+                    <header> 
+                    </header>
+                    <br/>
+
+                    <group name="api_config" string="Pubble order API">
+                        <field name="endpoint" placeholder="Protocol, domain and method, e.g. https://ws.pubble.nl/Sales.svc?singleWsdl"/> 
+                        <field name="namespace" placeholder="Namespace tag and name, e.g. ns1:salesOrder"/> 
+                        <field name="publisher" placeholder="Publisher's database, e.g. testbdudata"/>
+                        <field name="api_key" placeholder="API key, e.g. 9tituo3t2qo4zk7emvlb"/>
+                    </group>
+                    <button name="save_config" type="object" 
+                        string="Save" class="oe_highlight" /> 
+                    <br/>
+                    <br/>
+
+                    <group name="documentation" string="Summary" col="1">
+                        <p>Pubble provides an API by which Odoo orders can be created and updated into Pubble. </p>
+                        <p>Normal operation will ship any created or amended sales order after saving it the order to Odoo.  </p> 
+                        <p>Forwarding will only occur when the following is true:</p>
+                        <p>1 - it is an advertising product</p>
+                        <p>2 - product category of ordered product has Pubble boolean active</p>
+                        <p>3 - advertising issue has a medium with Pubble boolean active</p>
+                        <p/>              
+                        <p/>
+                        <p/>
+                        <a href="https://www.pubble.nl/" target="_blank"> More about Pubble</a>
+                    </group>
+
+                </form>
+            </field>
+        </record> 
+
+        <!-- Connection info via server action and submenu-->
+        <record id="config_pubble_kpi_connector" model="ir.actions.server"> 
+            <field name="name">Pubble order interface </field> 
+            <field name="model_id" ref="model_pubble_order_interface_config"/> 
+            <field name="code">
+              action = model.default_view()
+            </field>
+        </record> 
+
+        <!-- menu entry to pubble order interface -->
+        <menuitem id="menu_action_pubble_interface_configuration" 
+                  name="Interface configuration" 
+                  parent="menu_pubble" 
+                  action="config_pubble_kpi_connector"
+                  sequence="2"/>
+
+
     </data>
 </odoo>
