@@ -350,7 +350,7 @@ class Wave2Config(models.Model):
                         return
 
             #set orderstatus and reset possible remark
-            odoo_order.write({'state':'sale'})
+            odoo_order.action_confirm()
             order.write({'state':'done', 'remark': 'Order '+odoo_order.name, 'order_id':odoo_order.id})
 
         #report stats
