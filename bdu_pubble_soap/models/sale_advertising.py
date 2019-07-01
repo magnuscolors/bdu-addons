@@ -279,7 +279,7 @@ class SofromOdootoPubble(models.Model):
         config = self.env['pubble.order.interface.config'].search([])[0]
         if not config :
             return "No Pubble order interface configuration record found"
-        if not config.client or not config.namespace or not config.publisher or not config.api_key :
+        if not config.endpoint or not config.namespace or not config.publisher or not config.api_key :
             return "Incomplete Pubble order interface configuration. Need input on client, namespace, publisher and api_key."
         client = Client(config.client, plugins=[plugin])
         SalesOrder = client.factory.create(config.namespace)
