@@ -1,4 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_telecats_config,access_telecats_config,model_telecats_config,telecats_connector,1,1,1,1
 access_telecats_ticket,access_telecats_ticket,model_telecats_ticket,telecats_connector,1,1,1,1
-access_telecats_title,access_telecats_title,model_telecats_title,telecats_connector,1,1,1,1
