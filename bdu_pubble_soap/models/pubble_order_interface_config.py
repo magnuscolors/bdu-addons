@@ -9,8 +9,8 @@ class PubbleOrderInterfaceConfig(models.Model):
     _description = 'Pubble order interface'
     endpoint = fields.Char(string='Endpoint', help="Protocol, domain and method, e.g. https://ws.pubble.nl/Sales.svc?singleWsdl" )
     namespace = fields.Char(string='Namespace', help="Namespace tag and name, e.g. ns1:salesOrder")
-    publisher = fields.Char(string='Publisher', help="Publisher's database, e.g. testbdudata")
-    api_key = fields.Char(string='API key',  help="API key, e.g. 9tituo3t2qo4zk7emvlb")
+    publisher = fields.Char(string='Publisher', help="Publisher's database, e.g. database01")
+    api_key = fields.Char(string='API key',  help="API key")
      
     #show only first record to configure, no options to create an additional one
     @api.multi
