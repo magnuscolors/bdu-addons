@@ -1,0 +1,887 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_DST"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_DST</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_DSB"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_DSB</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_WNO"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_WNO</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_online"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_Online</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_AVN"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_AVN</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_BKD"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_BKD</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_BKO"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_BKO</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_DBO"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_DBO</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_DKD"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_DKD</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_DPO"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_DPO</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_DKO"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_DKO</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_ESO"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ESO</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_HCO"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_HCO</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_HEC"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_HEC</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_HHB"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_HHB</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_HHS"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_HHS</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_HLO"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_HLO</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_HLW"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_HLW</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_LKO"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_LKO</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_SAN"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_SAN</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_SAO"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_SAO</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_SCO"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_SCO</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_SKO"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_SKO</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_SNO"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_SNO</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_VEE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_VEE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_VEL"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_VEL</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_VNE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_VNE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_VNH"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_VNH</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_WAR"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_WAR</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_WBO"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_WBO</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_WNK"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_WNK</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_WKB"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_WKB</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_WOA"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_WOA</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_WWA"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_WWA</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_WWN"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_WWN</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_WWR"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_WWR</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_WWU"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_WWU</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_SPO"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_SPO</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_SPH"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_SPH</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_VVV"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_VVV</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_SPN"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_SPN</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_BUNE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_BUNE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_KEAE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_KEAE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_KEHE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_KEHE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_KELE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_KELE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_KEOE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_KEOE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_KEVE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_KEVE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_KEWE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_KEWE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_HEW"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_HEW</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_WIC"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_WIC</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_GPB"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_GPB</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_AWB"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_AWB</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_ADS"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ADS</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_ADK"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ADK</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_KNC"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_KNC</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_KNK"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_KNK</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_NBY"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_NBY</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_SWE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_SWE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_CKA"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_CKA</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_CKN"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_CKN</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_WFO"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_WFO</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_WFW"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_WFW</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_ZZS"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ZZS</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_ZZD"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ZZD</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_ZKR"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ZKR</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_KEBE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_KEBE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_KLAE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_KLAE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_STI"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_STI</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_BCO"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_BCO</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_BWB"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_BWB</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant1"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_DPLE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant2"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_SCH</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant3"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ALPE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant4"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_RKU</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant5"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_Krant5</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant6"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_Krant6</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant7"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_Krant7</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant8"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_Krant8</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant9"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ Krant9</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant10"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_Krant10</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant11"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ Krant11</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant12"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ Krant12</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant13"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ Krant13</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant14"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ Krant14</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant15"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ Krant15</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant16"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ Krant16</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant17"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ Krant17</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant18"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ Krant18</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant19"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ Krant19</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant20"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ Krant20</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant21"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ Krant21</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant22"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ Krant22</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant23"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ Krant23</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant24"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ Krant24</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_Krant25"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ Krant25</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_DMWE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_DMWE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_LDNE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_LDNE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_LDVE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_LDVE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_TEVE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_TEVE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_KSVE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_KSVE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_KPVE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_KPVE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_LIVE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_LIVE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_HIVE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_HIVE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_RYVE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_RYVE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_VOVE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_VOVE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_OEVE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_OEVE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_NWVE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_NWVE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_NHVE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_NHVE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_ANWE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ANWE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_ANOE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ANOE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_ANBE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ANBE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_ANAE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ANAE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_ADNE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ADNE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_GPOE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_GPOE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_GPDE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_GPDE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_MONE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_MONE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_CONE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_CONE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_COME"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_COME</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_COZE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_COZE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_CZWE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_CZWE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_ELIE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_ELIE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_GRGE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_GRGE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_BNEE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_BNEE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_DNEE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_DNEE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_GEBE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_GEBE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_IJNE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_IJNE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_LCBE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_LCBE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_MUNE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_MUNE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_NANE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_NANE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_NVHE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_NVHE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="bdumedia.bdumedia_sale_advertising_issue_WENE"></field>
+<field name="title">bdumedia.bdumedia_sale_advertising_issue_WENE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_VAK1"></field>
+<field name="title">vakmedia.sale_advertising_issue_VAK1</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_VAK2"></field>
+<field name="title">vakmedia.sale_advertising_issue_VAK2</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_VAK3"></field>
+<field name="title">vakmedia.sale_advertising_issue_VAK3</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_ALG"></field>
+<field name="title">vakmedia.sale_advertising_issue_ALG</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_BAP"></field>
+<field name="title">vakmedia.sale_advertising_issue_BAP</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_BEM"></field>
+<field name="title">vakmedia.sale_advertising_issue_BEM</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_BEA"></field>
+<field name="title">vakmedia.sale_advertising_issue_BEA</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_BEW"></field>
+<field name="title">vakmedia.sale_advertising_issue_BEW</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_CON"></field>
+<field name="title">vakmedia.sale_advertising_issue_CON</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_EOM"></field>
+<field name="title">vakmedia.sale_advertising_issue_EOM</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_EST"></field>
+<field name="title">vakmedia.sale_advertising_issue_EST</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_EVA"></field>
+<field name="title">vakmedia.sale_advertising_issue_EVA</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_GKB"></field>
+<field name="title">vakmedia.sale_advertising_issue_GKB</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_HAS"></field>
+<field name="title">vakmedia.sale_advertising_issue_HAS</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_HOV"></field>
+<field name="title">vakmedia.sale_advertising_issue_HOV</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_HWC"></field>
+<field name="title">vakmedia.sale_advertising_issue_HWC</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_ISR"></field>
+<field name="title">vakmedia.sale_advertising_issue_ISR</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_KLU"></field>
+<field name="title">vakmedia.sale_advertising_issue_KLU</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_LEW"></field>
+<field name="title">vakmedia.sale_advertising_issue_LEW</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_MAS"></field>
+<field name="title">vakmedia.sale_advertising_issue_MAS</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_MED"></field>
+<field name="title">vakmedia.sale_advertising_issue_MED</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_MOB"></field>
+<field name="title">vakmedia.sale_advertising_issue_MOB</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_NAT"></field>
+<field name="title">vakmedia.sale_advertising_issue_NAT</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_NEL"></field>
+<field name="title">vakmedia.sale_advertising_issue_NEL</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_OPW"></field>
+<field name="title">vakmedia.sale_advertising_issue_OPW</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_PIP"></field>
+<field name="title">vakmedia.sale_advertising_issue_PIP</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_PEW"></field>
+<field name="title">vakmedia.sale_advertising_issue_PEW</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_PRN"></field>
+<field name="title">vakmedia.sale_advertising_issue_PRN</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_REU"></field>
+<field name="title">vakmedia.sale_advertising_issue_REU</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_ROU"></field>
+<field name="title">vakmedia.sale_advertising_issue_ROU</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_STY"></field>
+<field name="title">vakmedia.sale_advertising_issue_STY</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_TIM"></field>
+<field name="title">vakmedia.sale_advertising_issue_TIM</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_TNB"></field>
+<field name="title">vakmedia.sale_advertising_issue_TNB</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_TEL"></field>
+<field name="title">vakmedia.sale_advertising_issue_TEL</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_TLN"></field>
+<field name="title">vakmedia.sale_advertising_issue_TLN</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_TSP"></field>
+<field name="title">vakmedia.sale_advertising_issue_TSP</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_VER"></field>
+<field name="title">vakmedia.sale_advertising_issue_VER</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_VIS"></field>
+<field name="title">vakmedia.sale_advertising_issue_VIS</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_VTM"></field>
+<field name="title">vakmedia.sale_advertising_issue_VTM</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_VOE"></field>
+<field name="title">vakmedia.sale_advertising_issue_VOE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_VOL"></field>
+<field name="title">vakmedia.sale_advertising_issue_VOL</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_WER"></field>
+<field name="title">vakmedia.sale_advertising_issue_WER</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_ZOE"></field>
+<field name="title">vakmedia.sale_advertising_issue_ZOE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_ZIZ"></field>
+<field name="title">vakmedia.sale_advertising_issue_ZIZ</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_ZUI"></field>
+<field name="title">vakmedia.sale_advertising_issue_ZUI</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</record>
+<record model="telecats.title" id="vakmedia.sale_advertising_issue_VAKONLINE"></field>
+<field name="title">vakmedia.sale_advertising_issue_VAKONLINE</field>
+<field name="active">False</field>
+<field name="remark"></field>
+</odoo>
