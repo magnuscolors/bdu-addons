@@ -274,11 +274,17 @@ class SofromOdootoPubble(models.Model):
         if self.pubble_response and self.pubble_response == 'True':
             raise UserError(_('This Sale Order already has been succesfully sent to Pubble.'))
         transmissionID = int(float(self.transmission_id))
-        client = Client("https://ws.pubble.nl/Sales.svc?singleWsdl", plugins=[plugin])
-        SalesOrder = client.factory.create('ns1:salesOrder')
-        publisher = "testbdudata"
-        apiKey = "9tituo3t2qo4zk7emvlb"
 
+        #get api config, if incomplete then exit with a message to the job queue job
+        config = self.env['pubble.order.interface.config'].search([])[0]
+        if not config :
+            return "No Pubble order interface configuration record found"
+        if not config.client or not config.namespace or not config.publisher or not config.api_key :
+            return "Incomplete Pubble order interface configuration. Need input on client, namespace, publisher and api_key."
+        client = Client(config.client, plugins=[plugin])
+        SalesOrder = client.factory.create(config.namespace)
+        publisher = config.publisher
+        apiKey = config.api_key
 
         SalesOrder.extOrderID = int(float(self.salesorder_extorderid))
         SalesOrder.reference = self.salesorder_reference

@@ -136,7 +136,7 @@ class Wave2Config(models.Model):
                         n += 1
                         #move order on ftp server if activated
                         if config.done_dir_active :
-                            ftp.rename(server_dir+file, done_dir+File)
+                            ftp.rename(server_dir+file, done_dir+file)
                     else :
                         errors +=1
                 else :
@@ -350,7 +350,7 @@ class Wave2Config(models.Model):
                         return
 
             #set orderstatus and reset possible remark
-            odoo_order.write({'state':'sale'})
+            odoo_order.action_confirm()
             order.write({'state':'done', 'remark': 'Order '+odoo_order.name, 'order_id':odoo_order.id})
 
         #report stats
@@ -372,6 +372,7 @@ class Wave2Config(models.Model):
         zip       = str(xml.find("RAD_PK").find("RAD_SRE_PK").findtext("SRE_C_PC")).replace(" ","")
         zip       = zip.replace(" ","").upper()
         customer  = {
+                    'user_id'       : self.search([])[0].partner_am.id,
                     'is_company'    : is_company,
                     'street_name'   : str(xml.find("RAD_PK").find("RAD_SRE_PK").findtext("SRE_C_AD")),
                     'street_number' : str(xml.find("RAD_PK").find("RAD_SRE_PK").findtext("SRE_C_HNR1")),
@@ -472,7 +473,7 @@ class Wave2Config(models.Model):
         confirmation_date = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
         order_ref = str(xml.find("RAD_PK").findtext("RAD_PK") ) [3:9999] #NB cut 210 in front off client order ref, this used to be used for old administrative system
         order_header = {
-                          #'state'              : "sale",       
+                          'user_id'             : config.user_id.id,       
                           'advertising'         : 1,        
                           'client_order_ref'    : config.order_prefix+order_ref,
                           'published_customer'  : partner.id, 
@@ -511,10 +512,10 @@ class Wave2Config(models.Model):
         heigth= int(xml.find("RAD_PK").findtext("RAD_MM"))
         if width>80 :
             #columns = 2
-            product = config.one_column_prod
+            product = config.two_column_prod
         else :
             #columns = 1
-            product = config.two_column_prod
+            product = config.one_column_prod
         
         #prod_category   = product.categ_id
         if not product.categ_id :

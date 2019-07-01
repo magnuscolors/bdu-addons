@@ -1,0 +1,40 @@
+<?xml version="1.0"?> 
+<odoo>
+
+  <!-- List view  --> 
+  <record id="view_tree_titles_to_process" model="ir.ui.view"> 
+    <field name="name">Titles to process</field> 
+    <field name="model">sale.advertising.issue</field> 
+    <field name="arch" type="xml"> 
+      <tree string="Titles to process" editable="true" create="false"> 
+          <field name="code" />
+          <field name="default_note" string="Naam"/>
+          <field name="import_service_requests"/>
+          <field name="import_service_requests_remark"/>
+      </tree> 
+    </field> 
+  </record> 
+
+  <!-- No Form view because of editable tree view -->
+
+  <!-- No Search filter -->
+ 
+  <!-- Action  --> 
+  <act_window id="telecats_select_titles" 
+              name="Telecats titles" 
+              res_model="sale.advertising.issue" 
+              view_mode="tree" 
+              domain="[('parent_id','=',False)]"
+              view_id="view_tree_titles_to_process"
+  /> 
+  
+  <!-- Menu item --> 
+  <menuitem id="telecats_titles_menuitem" 
+            name="Titles to import" 
+            action="telecats_select_titles"
+            sequence="238"
+            parent="telecats_menu" 
+  /> 
+
+
+</odoo>

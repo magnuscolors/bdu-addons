@@ -18,6 +18,7 @@
             documents, etc.
           </p>
         </field>
+        <field name="context">{'search_default_customer': 1, 'default_lang':'nl_NL'}</field>
     </record>
 
     <!-- inherit with different view sequence (kanban last)  
@@ -29,7 +30,6 @@
         <field name="act_window_id" ref="base.action_partner_form"/>
     </record>
     -->
-
 
 
 </odoo>

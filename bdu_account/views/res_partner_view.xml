@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <!-- after searching on zip, check on zip en selecting record by street number should be immediatly possible  -->
+    <record id="bdu_account.res_partner_customer_tree_view_for_bdu" model="ir.ui.view">
+        <field name="view_mode">tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="display_name" position="after">
+                <field name="zip"/>
+                <field name="street_number"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- same for customers under subscription sales  -->
+    <record id="bdu_account.view_partner_tree_for_bdu" model="ir.ui.view">
+        <field name="view_mode">tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="sale_advertising_order.view_partner_tree_nsm_crm"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="zip"/>
+                <field name="street_number"/>
+            </field>
+        </field>
+    </record>
+
     <record id="view_partners_form_bdu_account" model="ir.ui.view">
         <field name="name">Partner BDU Account</field>
         <field name="model">res.partner</field>
@@ -134,6 +161,5 @@
     </record>
 
     <menuitem id="partner_status" action="action_partner_status" parent="partner_custom_settings" sequence="2"/>
-
 
 </odoo>

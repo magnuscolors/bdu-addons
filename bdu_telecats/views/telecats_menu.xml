@@ -1,0 +1,12 @@
+<?xml version="1.0"?> 
+<odoo>
+ 
+
+  <!-- Telecats  menu--> 
+  <menuitem id="telecats_menu" 
+    name="Telecats interface" 
+    sequence="240"
+    parent="sales_team.menu_sale_config" 
+     /> 
+
+</odoo>

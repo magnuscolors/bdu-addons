@@ -1,0 +1,64 @@
+<?xml version="1.0"?> 
+<odoo>
+
+  <!-- List view  --> 
+  <record id="view_tree_telecats_tickets" model="ir.ui.view"> 
+    <field name="name">Customer service request</field> 
+    <field name="model">telecats.ticket</field> 
+    <field name="arch" type="xml"> 
+      <tree string="Imported tickets" edit="false" create="false"> 
+          <field name="source" />
+          <field name="filename" /> 
+          <field name="excerpt"/>
+          <field name="state"/>
+          <field name="write_date" string="Last update"/>
+          <field name="remark"/>
+          <field name="ticket_id" readonly="1"/>
+      </tree> 
+    </field> 
+  </record> 
+
+  <!-- Form view to show XML -->
+  <record id="view_form_telecats_ticket" model="ir.ui.view">
+    <field name="name">Customer service request</field>
+    <field name="model">telecats.ticket</field>
+    <field name="arch" type="xml">
+      <form string="Imported ticket" create="false" action="false" class="oe_form_configuration">
+          <group>
+              <group> 
+                <field name="excerpt"/>
+              </group>  
+              <group>
+                <field name="state"/>
+              </group>
+          </group>
+
+        <notebook>
+            <page string="File content">
+                <field name="content" widget="ace" options="{'mode': 'xml'}"/> 
+            </page>
+        </notebook>
+
+      </form>
+    </field>
+  </record> 
+
+  <!-- No Search filter -->
+ 
+  <!-- Action  --> 
+  <act_window id="telecats_tickets" 
+              name="Imported service requests" 
+              res_model="telecats.ticket" 
+              view_mode="tree,form" 
+  /> 
+  
+  <!-- Menu item --> 
+  <menuitem id="telecats_tickets_menuitem" 
+            name="telecats tickets" 
+            action="telecats_tickets"
+            sequence="233"
+            parent="telecats_menu" 
+  /> 
+
+
+</odoo>

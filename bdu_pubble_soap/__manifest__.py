@@ -31,18 +31,17 @@ Installation
 
 To install this module, you need to:
 
-#. Do this ...
+#. Nothing special, just install the module
 
 Configuration
 =============
 
 To configure this module, you need to:
 
-#. Go to ...
+#. Add users to sales_team.group_sale_salesman authorization role to see the status
+#. Give application manager(s) pubble_order_interface_config autorization
+#. Provide the necessary endpoint, namespace, publisher database en api key in the config screen
 
-.. figure:: path/to/local/image.png
-   :alt: alternative description
-   :width: 600 px
 
 Usage
 =====
@@ -124,6 +123,7 @@ To contribute to this module, please visit https://odoo-community.org.
 
     # always loaded
     'data': ['data/transmission_sequence.xml',
+             'security/security.xml',
              'security/ir.model.access.csv',
              'views/sale_advertising_order.xml',
              'views/product_view.xml',

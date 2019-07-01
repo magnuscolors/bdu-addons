@@ -1,0 +1,131 @@
+<?xml version="1.0"?> 
+<odoo>
+
+
+  <!--  Form view for config settings --> 
+  <record id="view_telecats_connection_config" model="ir.ui.view">
+    <field name="name">Telecats interface settings</field>
+    <field name="model">telecats.config</field>
+    <field name="arch" type="xml">
+      <form string="Configure Telecats interface" create="false" edit="false" action="false" class="oe_form_configuration">
+        <header >
+        </header>
+
+        <group>
+          <group name="source_1" string="FTP server 1">
+            <field name="server1"/> 
+            <field name="server_dir1"/>
+            <field name="user1"/> 
+            <field name="password1"/> 
+            <field name="done_dir1"/> 
+            <field name="done_dir_active1"/> 
+            <field name="work_dir1"/> 
+            <field name="source1"/>
+            <field name="status1" readonly="1" widget="html"/> 
+          </group>
+           <group name="source_2" string="FTP server 2">
+            <field name="server2"/> 
+            <field name="server_dir2"/>
+            <field name="user2"/> 
+            <field name="password2"/> 
+            <field name="done_dir2"/> 
+            <field name="done_dir_active2"/> 
+            <field name="work_dir2"/> 
+            <field name="source2"/>
+            <field name="status2" readonly="1" widget="html"/> 
+          </group>
+        </group>
+
+        <group col="8">
+            <group col="1">           
+              <button name="save_config" type="object" string="Save" class="oe_highlight"/> 
+            </group>
+            <group col="1">
+              <button name="get_files" type="object" string="Get orders" class="oe_highlight"/> 
+            </group>
+            <group col="6">
+            </group>
+        </group>
+        
+        <group>
+          <group name="ticket_defaults" string="Defaults for new">
+            <field name="default_project"/>
+            <field name="default_issue_type"/>
+            <field name="default_stage"/>
+            <field name="default_assignee"/> 
+            <field name="default_tag"/> 
+            <field name="default_priority"/> 
+            <field name="sla"/>
+            <!--field name="days_for_prio3"/>   
+            <field name="days_for_prio2"/-->
+            <field name="priority_period"/> 
+            <!--field name="default_kanban_state"/-->
+            <field name="check_titles"/> 
+          </group>
+          <group name="new_customer_defaults" string="Defaults for new customer">
+            <field name="account_manager"/>
+            <field name="sector_id"/> 
+            <field name="country_id"/> 
+            <field name="zip_format"/>
+            <field name="partner_payment_mode_id"/>
+            <field name="partner_payment_term_id"/>
+            <field name="transmit_method_id"/>
+          </group>
+        </group>
+
+        <group col="8">
+            <group col="1">
+              <button name="save_config" type="object" string="Save" class="oe_highlight"/> 
+            </group>
+            <group col="1">
+              <button name="process_tickets" type="object" string="Process tickets" class="oe_highlight"/> 
+            </group>
+          <group col="6"></group>
+        </group>
+
+        <group col="8" string="Status last action">
+            <field name="status" readonly="1" widget="html" nolabel="1"/> 
+        </group>
+
+        <group name="documentation" string="Comment">
+          <div colspan="4">
+            <p>Delivery complaints can be made by IVR (interactive voice response) and by filling a website form. Both methods result in an XML document containing, amongst others, the address, title, date and customer. This interface collects the XML files first so the may be adjusted in case of an error. Consecutively the XML's are processed into service tickets, applying first line business rules and assigning the right responsible.</p>
+            <p></p><p></p>
+            <p>The business rules encompass: </p>
+            <p>- whether tickets should be processed for this title (to support migration and sale of titles)</p>
+            <p>- assessing if delivery complaint is valid according edition, subscription and delivery address</p>
+            <p>- computing the priority according recent history</p>
+            <p>- acquiring the assignee based on the distribution list</p>
+            <p>- assigning the default assignee if the above and/or xml do not cater for a clear answer.</p>
+            <p></p><p></p>
+            <p>XML's may be fetched manually or by configuring a scheduled task calling the automated_run method of the telecats.config module. </p>
+            <p>The interface caters for two sources to collect data from. The names for these sources are provided by the project module. </p>
+            <p>The result of the latest run is shown on the interface page. The interface may be run any time, over and over. When "Done dir active" is checked the XML files are moved to that directory on the host that provided the documents.</p>
+          </div>
+        </group>
+      </form>
+    </field>
+  </record> 
+
+
+
+ 
+
+
+  <!-- Connection info via server action and submenu-->
+  <record id="config_telecats_interface" model="ir.actions.server"> 
+    <field name="name">telecats system configuration</field> 
+    <field name="model_id" ref="model_telecats_config"/> 
+    <field name="code">
+      action = model.default_view()
+    </field>
+  </record> 
+
+  <menuitem id="telecats_config_menuitemn" 
+    name="Connector" 
+    action="config_telecats_interface"
+    sequence="232"
+    parent="telecats_menu" 
+     /> 
+
+</odoo>
