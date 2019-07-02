@@ -13,42 +13,39 @@ _logger = logging.getLogger(__name__)
 class Wave2Config(models.Model):
     _name = 'wave2.config'
 
-    server           = fields.Char(string="Server", copy=False, help="URL excluding protocol. E.g. ftp.mycompany.com")
-    server_dir       = fields.Char(string="Server dir.", help="A server directory to work from or empty")
-    user             = fields.Char(string="Login", copy=False)
-    password         = fields.Char(string="Password", copy=False)
-    status           = fields.Char(string="Status file collect", copy=False) 
-    done_dir         = fields.Char(string="Server done directory", copy=False, help="Directory to move order to after completion, e.g. /done")
-    done_dir_active  = fields.Boolean(string="Activate done directory", help="Files are only moved when activated")
-
-    matserver        = fields.Char(string="Mat. server", copy=False, help="URL excluding protocol. E.g. ftp.mycompany.com")
-    matserver_dir    = fields.Char(string="Mat. server dir.", help="Directory on server where material resides")
-    
-    work_dir         = fields.Char(string="Local work directory", copy=False, help="Local temporary directory. Files are removed after completion.")
-    
+    server = fields.Char(string="Server", copy=False, help="URL excluding protocol. E.g. ftp.mycompany.com")
+    server_dir = fields.Char(string="Server dir.", help="A server directory to work from or empty")
+    user = fields.Char(string="Login", copy=False)
+    password = fields.Char(string="Password", copy=False)
+    status = fields.Char(string="Status file collect", copy=False) 
+    done_dir = fields.Char(string="Server done directory", copy=False, help="Directory to move order to after completion, e.g. /done")
+    done_dir_active = fields.Boolean(string="Activate done directory", help="Files are only moved when activated")
+    matserver = fields.Char(string="Mat. server", copy=False, help="URL excluding protocol. E.g. ftp.mycompany.com")
+    matserver_dir = fields.Char(string="Mat. server dir.", help="Directory on server where material resides")
+    work_dir = fields.Char(string="Local work directory", copy=False, help="Local temporary directory. Files are removed after completion.")
     #channel          = fields.Many2one('mail.channel', ondelete='set null', string="Channel")
 
     #defaults for new partner
-    partner_am       = fields.Many2one('res.partner', ondelete='set null', string="Account manager")
-    sector_id        = fields.Many2one('res.partner.sector', ondelete='set null', string="Sector")  
-    country_id       = fields.Many2one('res.country', ondelete='set null', string="Country") 
-    zip_format       = fields.Char(string="Zip format", help="Use regular expression syntax")
+    partner_am = fields.Many2one('res.users', ondelete='set null', string="Account manager")
+    sector_id = fields.Many2one('res.partner.sector', ondelete='set null', string="Sector")  
+    country_id = fields.Many2one('res.country', ondelete='set null', string="Country") 
+    zip_format = fields.Char(string="Zip format", help="Use regular expression syntax")
     partner_payment_mode_id = fields.Many2one('account.payment.mode', string="Payment Mode")
-    partner_payment_term_id   = fields.Many2one('account.payment.term', string="Payment terms")
-    transmit_method_id        = fields.Many2one('transmit.method', string="Invoice transmission method")
+    partner_payment_term_id = fields.Many2one('account.payment.term', string="Payment terms")
+    transmit_method_id = fields.Many2one('transmit.method', string="Invoice transmission method")
 
 
     #defaults for order
-    user_id          = fields.Many2one('res.users', ondelete='set null', string="Sales person") 
-    discount_reason  = fields.Many2one('discount.reason', ondelete='set null', string="Discount_reason") 
-    order_prefix     = fields.Char(string="Order prefix", copy=False)
-    one_column_prod  = fields.Many2one('product.template', ondelete="set null", string="One column product")
-    two_column_prod  = fields.Many2one('product.template', ondelete="set null", string="Two column product")
-    prod_uom         = fields.Many2one('product.uom', ondelete="set null", string="Selling unit")
-    payment_mode_id= fields.Many2one('account.payment.mode', string="Mode for Ideal")
-    payment_term_id  = fields.Many2one('account.payment.term', string="Terms for Ideal")
+    user_id = fields.Many2one('res.users', ondelete='set null', string="Sales person") 
+    discount_reason = fields.Many2one('discount.reason', ondelete='set null', string="Discount_reason") 
+    order_prefix = fields.Char(string="Order prefix", copy=False)
+    one_column_prod = fields.Many2one('product.template', ondelete="set null", string="One column product")
+    two_column_prod = fields.Many2one('product.template', ondelete="set null", string="Two column product")
+    prod_uom = fields.Many2one('product.uom', ondelete="set null", string="Selling unit")
+    payment_mode_id = fields.Many2one('account.payment.mode', string="Mode for Ideal")
+    payment_term_id = fields.Many2one('account.payment.term', string="Terms for Ideal")
 
-    status2          = fields.Char(string="Status order processing")
+    status2 = fields.Char(string="Status order processing")
 
     #show only first record to configure, no options to create an additional one
     @api.multi
