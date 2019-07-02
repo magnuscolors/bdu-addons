@@ -281,7 +281,7 @@ class SofromOdootoPubble(models.Model):
             return "No Pubble order interface configuration record found"
         if not config.endpoint or not config.namespace or not config.publisher or not config.api_key :
             return "Incomplete Pubble order interface configuration. Need input on client, namespace, publisher and api_key."
-        client = Client(config.client, plugins=[plugin])
+        client = Client(config.endpoint, plugins=[plugin])
         SalesOrder = client.factory.create(config.namespace)
         publisher = config.publisher
         apiKey = config.api_key
