@@ -88,22 +88,24 @@ class Partner(models.Model):
                     #return False
         return True
 
+    # introduction of unique and rightly formatted email address needs some other changes first
+    # so for now no constraints
     email = fields.Char(copy=False) #prevent double emailaddress
     @api.constrains('email')
-    def _check_email_format_and_uniqueness(self):
-        #check format 
-        if self.email:
-            match = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', self.email)
-            if match == None:
-                raise exceptions.ValidationError('Not a valid email address format')
-            #check if it is unique
-            addresses = self.search([('email','=',self.email)])
-            if self.id in addresses.ids :
-                max = 1
-            else :
-                max = 0
-            if len(addresses)>max :
-                raise exceptions.ValidationError('Not a unique email address')
+    #def _check_email_format_and_uniqueness(self):
+    #    #check format 
+    #    if self.email:
+    #        match = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', self.email)
+    #        if match == None:
+    #            raise exceptions.ValidationError('Not a valid email address format')
+    #        #check if it is unique
+    #        addresses = self.search([('email','=',self.email)])
+    #        if self.id in addresses.ids :
+    #            max = 1
+    #        else :
+    #            max = 0
+    #        if len(addresses)>max :
+    #            raise exceptions.ValidationError('Not a unique email address')
 
     @api.onchange('email')
     def _set_invoice_transmit_method(self):
