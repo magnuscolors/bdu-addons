@@ -205,7 +205,14 @@ class Wave2Config(models.Model):
         errors = 0
 
         for order in orders :
-            xml_root = et.fromstring(order.content.strip())
+            try :
+                stringinbytes=order.content.encode('utf-8')
+                xml_root = et.fromstring(stringinbytes.strip())
+            except Exception, e :
+                errors += 1
+                order.state = 'error'
+                order.remark='XML could not be decoded. Check XML format and e.g. non ASCII characters. \nError : ' + str(e)
+                continue
             customer = self.parse_into_partner_details(xml_root)
 
             #process only when zip is correct
@@ -465,7 +472,7 @@ class Wave2Config(models.Model):
 
     def parse_into_header_details(self, xml, partner) :
         config  = self.search([])[0]
-        subject = str(xml.find("RAD_PK").find("RAD_TEKST").findtext("REGEL").strip().replace("<![CDATA", ""))
+        subject = xml.find("RAD_PK").find("RAD_TEKST").findtext("REGEL").strip().replace("<![CDATA", "")
         first_line = subject.split("\n")[0][0:28]
         confirmation_date = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
         order_ref = str(xml.find("RAD_PK").findtext("RAD_PK") ) [3:9999] #NB cut 210 in front off client order ref, this used to be used for old administrative system
@@ -577,7 +584,7 @@ class Wave2Config(models.Model):
             return u"No support for legacy style orders"
 
         #orderline text for online publication in dtp remark field without CDATA
-        rawtext = str(xml.find("RAD_PK").find("RAD_TEKST").findtext("REGEL"))
+        rawtext = xml.find("RAD_PK").find("RAD_TEKST").findtext("REGEL").strip().replace("<![CDATA", "")
 
         orderline_details = {
                       'advertising'         : 1,               
