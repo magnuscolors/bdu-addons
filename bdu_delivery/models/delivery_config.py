@@ -331,6 +331,7 @@ class DeliveryConfig(models.Model):
 
     def content_for_spreadit(self, config, subscriptions, delivery_list) :
         yesterday, day_before_yesterday, three_days_ago = self.init_days(config.active_date)
+        mut_date = datetime.datetime.strptime(config.active_date, DEFAULT_SERVER_DATE_FORMAT).strftime('%d%m%Y')
         
         root = etree.Element('GBABO')
         tree = etree.ElementTree(root)   
@@ -376,7 +377,7 @@ class DeliveryConfig(models.Model):
             distributie.append(klant)
 
             child(klant, "mutsrt ", "START")
-            child(klant, "mutdatum", datetime.date.today().strftime("%d%m%Y") )
+            child(klant, "mutdatum", mut_date )
             child(klant, "uitgever", "BDU")
             child(klant, "klantnr ", subscriber.ref)
             child(klant, "naam", subscriber.lastname)
