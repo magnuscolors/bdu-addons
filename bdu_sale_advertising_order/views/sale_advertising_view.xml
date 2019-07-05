@@ -16,5 +16,17 @@
       </field>
     </record>
 
+    <!-- confirmation date added next to create date (orderdate) in tree view -->
+    <record id="sale_order_advertising_tree_inherited" model="ir.ui.view">
+          <field name="name">sale.order.advertising.tree.inherited</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale_advertising_order.view_order_advertising_tree"/>
+          <field name="arch" type="xml">
+              <xpath expr="//field[@name='date_order']" position="after">
+                  <field name="confirmation_date"/>
+              </xpath>
+          </field>
+      </record>
+
   </data>
 </odoo>
