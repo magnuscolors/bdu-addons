@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<!-- team dashboard Alkmaar -->
+    <record id="team_dashboard_alkmaar" model="ir.ui.view">
+        <field name="name">Team dashboard Alkmaar</field>
+        <field name="model">board.board</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+        	<form string="Team dashboard Alkmaar">
+              <h2>Team dashboard Alkmaar</h2>
+            	<board style="2-1">
+                        <column>
+                        </column>
+            	</board>
+        	</form>
+        </field>
+    </record>
+
+    <!-- Action  --> 
+  	<act_window id="team_dashboard_alkmaar_action" 
+              name="Team dashboard Alkmaar" 
+              res_model="board.board" 
+              view_mode="form" 
+              view_id="team_dashboard_alkmaar"
+    /> 
+
+    <!-- menuitem -->
+    <menuitem 
+    	id="team_dashboard_alkmaar_menuitem" 
+     	name="Team dashboard Alkmaar"
+        parent="base.menu_board_root" 
+        sequence="6"
+        action="team_dashboard_alkmaar_action"
+        groups="team_alkmaar" 
+    />
+
+
+
+
+  <!-- team dashboard Haarlem -->
+    <record id="team_dashboard_haarlem" model="ir.ui.view">
+        <field name="name">Team dashboard Haarlem</field>
+        <field name="model">board.board</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+          <form string="Team dashboard Haarlem">
+              <h2>Team dashboard Haarlem</h2>
+              <board style="2-1">
+                        <column>
+                        </column>
+              </board>
+          </form>
+        </field>
+    </record>
+
+    <!-- Action  --> 
+    <act_window id="team_dashboard_haarlem_action" 
+              name="Team dashboard Haarlem" 
+              res_model="board.board" 
+              view_mode="form" 
+              view_id="team_dashboard_haarlem"
+    /> 
+
+    <!-- menuitem under my dashboard -->
+    <menuitem 
+      id="team_dashboard_haarlem_menuitem" 
+      name="Team dashboard Haarlem"
+        parent="base.menu_board_root" 
+        sequence="6"
+        action="team_dashboard_haarlem_action"
+        groups="team_haarlem" 
+    />
+
+
+
+
+  <!-- team dashboard Barneveld -->
+    <record id="team_dashboard_barneveld" model="ir.ui.view">
+        <field name="name">Team dashboard Barneveld</field>
+        <field name="model">board.board</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+          <form string="Team dashboard Barneveld">
+              <h2>Team dashboard Barneveld</h2>
+              <board style="2-1">
+                        <column>
+                        </column>
+              </board>
+          </form>
+        </field>
+    </record>
+
+    <!-- Action  --> 
+    <act_window id="team_dashboard_barneveld_action" 
+              name="Team dashboard Barneveld" 
+              res_model="board.board" 
+              view_mode="form" 
+              view_id="team_dashboard_barneveld"
+    /> 
+
+    <!-- menuitem under my dashboard -->
+    <menuitem 
+      id="team_dashboard_barneveld_menuitem" 
+      name="Team dashboard Barneveld"
+        parent="base.menu_board_root" 
+        sequence="6"
+        action="team_dashboard_barneveld_action"
+        groups="team_barneveld" 
+    />
+
+
+
+
+  <!-- team dashboard Online -->
+    <record id="team_dashboard_online" model="ir.ui.view">
+        <field name="name">Team dashboard Online</field>
+        <field name="model">board.board</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+          <form string="Team dashboard Online">
+              <h2>Team dashboard Online</h2>
+              <board style="2-1">
+                        <column>
+                        </column>
+              </board>
+          </form>
+        </field>
+    </record>
+
+    <!-- Action  --> 
+    <act_window id="team_dashboard_online_action" 
+              name="Team dashboard Online" 
+              res_model="board.board" 
+              view_mode="form" 
+              view_id="team_dashboard_online"
+    /> 
+
+    <!-- menuitem under my dashboard -->
+    <menuitem 
+      id="team_dashboard_online_menuitem" 
+      name="Team dashboard Online"
+        parent="base.menu_board_root" 
+        sequence="6"
+        action="team_dashboard_online_action"
+        groups="team_online" 
+    />
+
+
+
+
+  <!-- team dashboard Vakmedia -->
+    <record id="team_dashboard_vakmedia" model="ir.ui.view">
+        <field name="name">Team dashboard Vakmedia</field>
+        <field name="model">board.board</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+          <form string="Team dashboard Vakmedia">
+              <h2>Team dashboard Vakmedia</h2>
+              <board style="2-1">
+                        <column>
+                        </column>
+              </board>
+          </form>
+        </field>
+    </record>
+
+    <!-- Action  --> 
+    <act_window id="team_dashboard_vakmedia_action" 
+              name="Team dashboard Vakmedia" 
+              res_model="board.board" 
+              view_mode="form" 
+              view_id="team_dashboard_vakmedia"
+    /> 
+
+    <!-- menuitem under my dashboard -->
+    <menuitem 
+      id="team_dashboard_vakmedia_menuitem" 
+      name="Team dashboard Vakmedia"
+        parent="base.menu_board_root" 
+        sequence="6"
+        action="team_dashboard_vakmedia_action"
+        groups="team_vakmedia" 
+    />
+
+
+
+
+  <!-- team dashboard BDUprint -->
+    <record id="team_dashboard_bduprint" model="ir.ui.view">
+        <field name="name">Team dashboard BDUprint</field>
+        <field name="model">board.board</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+          <form string="Team dashboard BDUprint">
+              <h2>Team dashboard BDUprint</h2>
+              <board style="2-1">
+                        <column>
+                        </column>
+              </board>
+          </form>
+        </field>
+    </record>
+
+    <!-- Action  --> 
+    <act_window id="team_dashboard_bduprint_action" 
+              name="Team dashboard BDUprint" 
+              res_model="board.board" 
+              view_mode="form" 
+              view_id="team_dashboard_bduprint"
+    /> 
+
+    <!-- menuitem under my dashboard -->
+    <menuitem 
+      id="team_dashboard_bduprint_menuitem" 
+      name="Team dashboard BDUprint"
+        parent="base.menu_board_root" 
+        sequence="6"
+        action="team_dashboard_bduprint_action"
+        groups="team_bduprint" 
+    />
+
+
+
+	<!-- Directors dashboard -->
+    <record id="directors_dashboard" model="ir.ui.view">
+        <field name="name">Directors dashboard</field>
+        <field name="model">board.board</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+        	<form string="Directors dashboard">
+              <h2>Directors dashboard</h2>
+            	<board style="2-1">
+                        <column>
+                        </column>
+            	</board>
+        	</form>
+        </field>
+    </record>
+
+    <!-- Action  --> 
+  	<act_window id="directors_dashboard_action" 
+              name="Directors dashboard" 
+              res_model="board.board" 
+              view_mode="form" 
+              view_id="directors_dashboard"
+    /> 
+
+    <!-- menuitem -->
+    <menuitem 
+    	id="directors_dashboard_menuitem" 
+     	name="Directors dashboard"
+        parent="base.menu_board_root" 
+        sequence="7"
+        action="directors_dashboard_action"
+        groups="team_directors" 
+    />
+
+
+</odoo>
