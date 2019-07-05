@@ -77,6 +77,13 @@ class Partner(models.Model):
     #default value for country
     country_id = fields.Many2one(default=166)
 
+    #default credit policy
+    def _default_credit_control_policy_id(self):
+        return self.env.user.company_id.default_credit_control_policy.id
+
+    credit_policy_id = fields.Many2one(default=_default_credit_control_policy_id)
+
+
     @api.constrains('zip')
     def _check_zip_format(self):
         default_country_id = int(self.env['ir.config_parameter'].search([('key','=','default_country')]).value) or 166 

@@ -12,6 +12,7 @@
                         <group string="Credit control" cols="2" >
                             <field name="credit_control_logo" no_label="1" widget="image" class="oe_avatar oe_left"/>
                             <field name="credit_control_footer"    widget="html"/>
+                            <field name="default_credit_control_policy" domain="[('company_id','=', id)]"/>
                         </group>
                     </page>
                 </xpath>
