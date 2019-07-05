@@ -44,6 +44,7 @@ This module adds enhancement to project issue module
               "security/ir.model.access.csv",
               "views/project_issue_view.xml",
               "views/project_view.xml",
+              "views/crm_next_activities_view.xml",
     ],
     'demo' : [],
     'installable': True
