@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<!-- Pivot for advertising history orderlines -->
+	<record id="advertising_history_pivot" model="ir.ui.view"> 
+	    <field name="name">Advertising history</field>
+	    <field name="model">sale.order.line</field>
+		<field name="arch" type="xml"> 
+			<pivot> 
+			  <field name="title"               type="col"/> 
+			  <field name="issue_date"          type="row" interval="month"  /> 
+			  <field name="product_template_id" type="row"/> 
+			  <field name="price_subtotal"      type="measure" />
+			  <field name="product_uom_qty"     type="measure" /> 
+			</pivot> 
+		</field> 
+	</record>
+
+	<!-- graph for advertising history orderlines -->
+	<record id="advertising_history_graph" model="ir.ui.view">
+	<field name="name">Advertising history</field>
+	<field name="model">sale.order.line</field>
+	<field name="arch" type="xml">
+	    <graph string="Order history"         type="bar" stacked="True">
+	        <field name="issue_date"          type="row" interval="month" />
+	        <field name="product_template_id" type="col"/>
+	        <field name="product_uom_qty"     type="measure"/>
+	    </graph>
+	</field>
+	</record> 
+
+	<!-- Tree for advertising history orderlines -->
+	<record id="advertising_history_tree" model="ir.ui.view">
+    <field name="name">Advertising history</field>
+    <field name="model">sale.order.line</field>
+    <field name="arch" type="xml">
+      <tree>
+          <field name="id"/>
+          <field name="salesman_id"/>
+          <field name="issue_date"/>
+          <field name="title"/>
+          <field name="ad_class"/>
+          <field name="product_template_id"/>
+          <field name="product_uom_qty"/>
+          <field name="price_unit"/>
+          <field name="price_subtotal" />
+          <field name="invoice_status" />
+      </tree>
+    </field>
+  </record> 
+
+
+ <!--Action for directly showing advertising orderlines -->
+    <record model="ir.actions.act_window" id="act_res_partner_2_advertising_history" >
+        <field name="name"     >Advertising history</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_mode">pivot,tree,graph</field>
+        <field name="domain"   >[('advertising','=',True), 
+        	                     ('state','in',('sale','done')), 
+        	                     ('order_id.partner_id','child_of',active_id)]</field>
+        <field name="context"  >{'default_partner_id':active_id}</field>
+        <field name="view_ids" 
+        	   eval="[(5, 0, 0), 
+        	          (0, 0, {'view_mode': 'pivot', 'view_id': ref('advertising_history_pivot')}),
+        	          (0, 0, {'view_mode': 'graph', 'view_id': ref('advertising_history_graph')}),
+        	          (0, 0, {'view_mode': 'tree',  'view_id': ref('advertising_history_tree')})   ]"/>
+    </record>
+
+    <!-- Advertising sales frequently acts according historical transactions
+         They prefer to see historical pricing per title, edition, product, placement 
+         Hence a direct link to advertising orderlines in pivot layout with a default filter
+     -->
+    <record id="res_partner_view_buttons_advertising_history" model="ir.ui.view">
+        <field name="name">res.partner.advertising.history</field>
+        <field name="inherit_id" ref="project_issue.res_partner_issues_button_view"/>
+        <field name="model">res.partner</field>
+        <field type="xml" name="arch">
+            <xpath expr="//button[@name='%(sale_advertising_order.action_orders_advertising_smart_button)d']" position="after">
+                <button class="oe_stat_button" 
+                	    type="action" 
+                	    name="%(act_res_partner_2_advertising_history)d"
+                        icon="fa-stethoscope"
+                        string="Advertising history">
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

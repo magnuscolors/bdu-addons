@@ -40,6 +40,7 @@ This module adds customization for BDU Media, like :\n
 - open invoice status, showing latest status per open invoice for manual follow up\n
 - reverse billing logo\n
 - zip and street number in partner tree list to support customer search by zip and house number\n
+- default credit management policy for new partners, according company default\n
 - zip format checking\n
   As this is made for BDU in NL the standard zip format is r'^[1-9]{1}[0-9]{3}[A-Z]{2}$'
   The format is checked when country is empty or equal to the default_country configuration parameter.

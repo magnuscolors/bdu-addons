@@ -1,6 +1,4 @@
 # -*- encoding: utf-8 -*-
-
-import pdb
 import base64, json, logging, requests
 from datetime import datetime, timedelta
 from odoo.addons.queue_job.job import job, related_action
@@ -71,7 +69,7 @@ class SaleOrder(models.Model):
             right['previous_orderline_nr']  = orderline.subscription_origin
             
             if orderline.title.name in td :
-                right['subscription'] = orderline.title.name
+                right['subscription'] = orderline.title.name+(orderline.product_template_id.subscription_suffix or "")
             else :
                 right['subscription'] = ""
             
@@ -81,7 +79,7 @@ class SaleOrder(models.Model):
             rights.append(right)
         
         payload['rights'] =  rights
-        
+
         #send it, give answer as triplet or plain ok
         prefix = datetime.now().strftime("UTC %Y-%m-%d %H:%M:%S")+" order "+order.name+" "
         try :

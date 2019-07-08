@@ -165,11 +165,11 @@ class DigitalSubscribersConfig(models.Model):
             #add authorization if subcriber already available, else make new subscriber entry with this authorization
             if s_nr in subscribers_list :
                 if subscribers_list[s_nr]['titles'].find(str(dc.title.name)) == -1 :
-                    subscribers_list[s_nr]['titles'] += ', '+str(dc.title.name)
+                    subscribers_list[s_nr]['titles'] += ', '+str(dc.title.name+(dc.product_template_id.subscription_suffix or ""))
                 #else double entry, no need to add
             else :
-                subscribers_list[s_nr] = {'zip':str(dc.order_id.partner_shipping_id.zip), 'titles':str(dc.title.name)}
-
+                subscribers_list[s_nr] = {'zip':str(dc.order_id.partner_shipping_id.zip), 'titles':str(dc.title.name+(dc.product_template_id.subscription_suffix or ""))}
+        import pdb;pdb.set_trace()
         # Initiate File Transfer Connection
         try:
             ftps = ftplib.FTP_TLS(config.server)

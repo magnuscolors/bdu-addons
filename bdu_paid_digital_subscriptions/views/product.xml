@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- suffix to title/domain to distinguish products and keep backward compatibility in rights excnange -->
+        <record model="ir.ui.view" id="product_template_form_product_base">
+            <field name="name">product.template.form.product.base.view</field>
+            <field name="model">product.template</field>
+            <field name="priority">14</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+
+                <!-- custom handling selection per product template on sales tab -->
+                <field name="weekday_ids" position="after">
+                    <field name="subscription_suffix"/>
+                </field>
+
+            </field>                               
+        </record>
+
+       
+
+
+    </data>
+</odoo>       
+                        

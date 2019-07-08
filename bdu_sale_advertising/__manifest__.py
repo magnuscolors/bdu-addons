@@ -36,8 +36,9 @@ b) title grouping by primary salesteam added to facilitate filtering based on ti
 c) future edition filter on issues\n
 d) additional selection "Exception" for invoicing frequency\n
 e) batch invoicing with parsed date arguments\n
+f) advertising order history directly available from partner form\n
 
-Barch invoicing uses an argument in the form : ([domain filter],invoice_date, invoice_type, ou)\n
+Batch invoicing uses an argument in the form : ([domain filter],invoice_date, invoice_type, ou)\n
 Date arguments in filters and invoice date may either be a date or a date keyword like :
 - nearest_tuesday
 - first_this_month (monday afterwards if a sunday)
@@ -66,6 +67,7 @@ Note that results from title based filtering may differ from salesteam filter as
 		            "views/sale_advertising_order_line_filter_view.xml",
                     "views/sale_advertising_issue_form_view.xml",
                     "views/orderline_issue_filter.xml",
+                    "views/advertising_history.xml"
     			   ],
     'demo'    	 : [
     			   ],

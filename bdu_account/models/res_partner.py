@@ -77,6 +77,13 @@ class Partner(models.Model):
     #default value for country
     country_id = fields.Many2one(default=166)
 
+    #default credit policy
+    def _default_credit_control_policy_id(self):
+        return self.env.user.company_id.default_credit_control_policy.id
+
+    credit_policy_id = fields.Many2one(default=_default_credit_control_policy_id)
+
+
     @api.constrains('zip')
     def _check_zip_format(self):
         default_country_id = int(self.env['ir.config_parameter'].search([('key','=','default_country')]).value) or 166 
@@ -88,22 +95,24 @@ class Partner(models.Model):
                     #return False
         return True
 
+    # introduction of unique and rightly formatted email address needs some other changes first
+    # so for now no constraints
     email = fields.Char(copy=False) #prevent double emailaddress
     @api.constrains('email')
-    def _check_email_format_and_uniqueness(self):
-        #check format 
-        if self.email:
-            match = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', self.email)
-            if match == None:
-                raise exceptions.ValidationError('Not a valid email address format')
-            #check if it is unique
-            addresses = self.search([('email','=',self.email)])
-            if self.id in addresses.ids :
-                max = 1
-            else :
-                max = 0
-            if len(addresses)>max :
-                raise exceptions.ValidationError('Not a unique email address')
+    #def _check_email_format_and_uniqueness(self):
+    #    #check format 
+    #    if self.email:
+    #        match = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', self.email)
+    #        if match == None:
+    #            raise exceptions.ValidationError('Not a valid email address format')
+    #        #check if it is unique
+    #        addresses = self.search([('email','=',self.email)])
+    #        if self.id in addresses.ids :
+    #            max = 1
+    #        else :
+    #            max = 0
+    #        if len(addresses)>max :
+    #            raise exceptions.ValidationError('Not a unique email address')
 
     @api.onchange('email')
     def _set_invoice_transmit_method(self):

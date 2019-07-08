@@ -1,0 +1,40 @@
+<openerp>
+    <data>
+
+        <record id="team_alkmaar" model="res.groups">
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="name">Team Alkmaar</field>
+        </record>
+
+        <record id="team_haarlem" model="res.groups">
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="name">Team Haarlem</field>
+        </record>
+
+        <record id="team_barneveld" model="res.groups">
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="name">Team Barneveld</field>
+        </record>
+
+        <record id="team_online" model="res.groups">
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="name">Team Online</field>
+        </record>
+
+        <record id="team_vakmedia" model="res.groups">
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="name">Team Vakmedia</field>
+        </record>
+
+        <record id="team_bduprint" model="res.groups">
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="name">Team BDUprint</field>
+        </record>
+
+        <record id="team_directors" model="res.groups">
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="name">Team Directors</field>
+        </record>
+
+    </data>
+</openerp>
