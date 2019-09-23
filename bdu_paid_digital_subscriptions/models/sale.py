@@ -64,12 +64,14 @@ class SaleOrder(models.Model):
         now=datetime.now().strftime("%Y-%m-%d")
         rights=[]
         for orderline in order.order_line:
+            if not orderline.product_template_id.subscription_suffix:
+                continue
             right={}
             right['orderline_nr']           = orderline.id
             right['previous_orderline_nr']  = orderline.subscription_origin
             
             if orderline.title.name in td :
-                right['subscription'] = orderline.title.name+(orderline.product_template_id.subscription_suffix or "")
+                right['subscription'] = orderline.title.name+(orderline.product_template_id.subscription_suffix)
             else :
                 right['subscription'] = ""
             
