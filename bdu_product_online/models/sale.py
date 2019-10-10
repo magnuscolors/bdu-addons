@@ -29,12 +29,14 @@ class ProductOnlineOrderLine(models.Model):
     @api.multi
     def write(self, vals):
         result = super(ProductOnlineOrderLine, self).write(vals)
-        if self.custom_orderline==u'Online' and self.order_id.state ==u'sale' :
-            self.update_project_task()
+        for line in self:
+            if line.custom_orderline==u'Online' and line.order_id.state ==u'sale' :
+                line.update_project_task()
         return result
 
     @api.multi
     def update_project_task(self) :
+        self.ensure_one()
         task_name    = self.order_id.name+'-'+str(self.id)
         project_id   = self.env['project.project'].search([('name','=','Online')])
         if not project_id :
