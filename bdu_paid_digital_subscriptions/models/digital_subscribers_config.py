@@ -169,7 +169,6 @@ class DigitalSubscribersConfig(models.Model):
                 #else double entry, no need to add
             else :
                 subscribers_list[s_nr] = {'zip':str(dc.order_id.partner_shipping_id.zip), 'titles':str(dc.title.name+(dc.product_template_id.subscription_suffix or ""))}
-        import pdb;pdb.set_trace()
         # Initiate File Transfer Connection
         try:
             ftps = ftplib.FTP_TLS(config.server)
