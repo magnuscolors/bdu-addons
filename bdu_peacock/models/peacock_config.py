@@ -183,10 +183,10 @@ class PeacockConfig(models.Model):
                                             LEFT JOIN res_partner as creator2 ON creator2.id = creators.partner_id                   \
                                             LEFT JOIN res_partner  as partner  ON partner.id = account_move_line.partner_id          \
                                             LEFT JOIN res_users    as changers ON changers.id = account_move_line.write_uid           \
-                                            INNER JOIN res_partner as changer2 ON changer2.id = changers.partner_id                   \
+                                            LEFT JOIN res_partner as changer2 ON changer2.id = changers.partner_id                   \
                                             LEFT JOIN res_company              ON res_company.id = account_move_line.company_id          \
                                             LEFT JOIN operating_unit           ON operating_unit.id = account_move_line.operating_unit_id   \
-                                            LEFT JOIN product_product          ON product_product.idb = account_move_line.product_id           \
+                                            LEFT JOIN product_product          ON product_product.id = account_move_line.product_id           \
                                             LEFT JOIN product_template        ON product_template.id = product_product.product_tmpl_id       \
                                             LEFT JOIN account_invoice          ON account_invoice.id = account_move_line.invoice_id           \
                                             WHERE account_move_line.write_date>=$$' + period_begin + '$$ AND account_move_line.write_date<=$$' + period_end + '$$\',true,false,\'\')'
